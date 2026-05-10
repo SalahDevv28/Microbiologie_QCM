@@ -1,0 +1,24 @@
+{
+  "name": "lectures_02_11",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalahDevv28/Microbiologie_QCM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SalahDevv28/Microbiologie_QCM/issues"
+  },
+  "homepage": "https://github.com/SalahDevv28/Microbiologie_QCM#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
