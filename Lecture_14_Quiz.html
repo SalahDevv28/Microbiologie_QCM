@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 14 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 14 - Structure Virale</h1>
+            <p>QCM Interactif - Collection MDM</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">Les enveloppes des virus sont des structures périphériques facultatives recouvrant la nucléocapside :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Elles ont la même origine</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Sont thermorésistante</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Sont thermosensibles et confère une faible persistance dans l'environnement</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Résistant aux solvants des lipides</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Peuvent être complexes</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question2" data-question="2">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">Chez les virus enveloppés, le péplos :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(2, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est d'origine cellulaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(2, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Peut-être d'origine nucléaire</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(2, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est une membrane ayant subi des modifications par addition de glycoprotéines</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(2, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est codé par le génome viral</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(2, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est issu exclusivement du réticulum endoplasmique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected2">Sélection: <span id="selectionText2">Aucune</span></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="controls">
+                    <button class="btn" id="prev2" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(2)">Vérifier</button>
+                    <button class="btn" id="next2" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question3" data-question="3">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">Le genre Entérovirus fait partie des Picornaviridae :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(3, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Ce sont des virus enveloppés à ARN monocaténaire (simple brin)</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(3, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La réplication est intranucléaire</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(3, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ils peuvent être responsables de méningites lymphocytaires</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(3, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Coxsackie virus A est responsable du syndrome mains-pieds-bouche</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(3, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La poliomyélite est toujours paralytique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected3">Sélection: <span id="selectionText3">Aucune</span></div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="controls">
+                    <button class="btn" id="prev3" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(3)">Vérifier</button>
+                    <button class="btn" id="next3" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question4" data-question="4">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">Parmi les virus à ADN, on distingue les Herpesviridae :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(4, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La synthèse des protéines se fait en 3 phases : très précoces, précoces et tardives</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(4, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Après une primo-infection, le virus persiste toute la vie chez, l'hôte infecté</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(4, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">CMV donne le bouton de fièvre après récurrence</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(4, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'infection par HSV2 est une IST</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(4, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">HSV1 donne zona après récurrence</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected4">Sélection: <span id="selectionText4">Aucune</span></div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="controls">
+                    <button class="btn" id="prev4" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(4)">Vérifier</button>
+                    <button class="btn" id="next4" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question5" data-question="5">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">Le virus EBV (Epstein Barr Virus) :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(5, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La transmission est féco-orale</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(5, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est un virus oncogène</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(5, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'Ag EA intervient dans la réplication du génome</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(5, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'Ag VCA de l'enveloppe présent dans le cytoplasme et le noyau</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(5, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La mise en évidence des anti-VCA et EBNA permet de poser le diagnostic d'une infection ancienne</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected5">Sélection: <span id="selectionText5">Aucune</span></div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="controls">
+                    <button class="btn" id="prev5" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(5)">Vérifier</button>
+                    <button class="btn" id="next5" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question6" data-question="6">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">La particule virale se distingue par :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(6, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La présence d'un seul type d'acide nucléique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(6, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le mode de vie parasite obligatoire</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(6, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le comportement vis-à-vis de l'oxygène.</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(6, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le comportement vis-à-vis de la température</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(6, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le type de cellule hôte</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected6">Sélection: <span id="selectionText6">Aucune</span></div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="controls">
+                    <button class="btn" id="prev6" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(6)">Vérifier</button>
+                    <button class="btn" id="next6" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question7" data-question="7">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">La classification des virus se base :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(7, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le pouvoir pathogène</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(7, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les cibles</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(7, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le type d'infection</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(7, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La structure propre,</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(7, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le mode de transmission</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected7">Sélection: <span id="selectionText7">Aucune</span></div>
+                <div class="feedback" id="feedback7"></div>
+                <div class="controls">
+                    <button class="btn" id="prev7" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(7)">Vérifier</button>
+                    <button class="btn" id="next7" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question8" data-question="8">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">Le virus de l'hépatite B :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(8, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Transmis par voie fécale orale</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(8, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est un virus à ADN simple brin</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(8, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est transmis par voie parentérale</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(8, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Entraine toujours une infection chronique</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(8, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Présente 8 génotypes</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected8">Sélection: <span id="selectionText8">Aucune</span></div>
+                <div class="feedback" id="feedback8"></div>
+                <div class="controls">
+                    <button class="btn" id="prev8" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(8)">Vérifier</button>
+                    <button class="btn" id="next8" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question9" data-question="9">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">Le marqueur biologique qui signe la guérison d'une hépatite B est :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(9, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">L'Ag HBs</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(9, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'Ac HBC</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(9, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'Ac HBs</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(9, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'Ag Hbe</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(9, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">L'Ac HBC</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected9">Sélection: <span id="selectionText9">Aucune</span></div>
+                <div class="feedback" id="feedback9"></div>
+                <div class="controls">
+                    <button class="btn" id="prev9" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(9)">Vérifier</button>
+                    <button class="btn" id="next9" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question10" data-question="10">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">L'Orthomyxovirus influenzae :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(10, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Virus à ADN segmenté</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(10, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Virus à ARN bicaténaire segmenté</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(10, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Virus non enveloppé</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(10, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Virus à ARN segmenté</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(10, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Virus enveloppé</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected10">Sélection: <span id="selectionText10">Aucune</span></div>
+                <div class="feedback" id="feedback10"></div>
+                <div class="controls">
+                    <button class="btn" id="prev10" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(10)">Vérifier</button>
+                    <button class="btn" id="next10" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question11" data-question="11">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">Les virus sont des organismes microscopiques :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(11, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Filtrants</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(11, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Acellulaires</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(11, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Parasites obligatoire</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(11, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Parasite facultatif</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(11, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Vivant à l'état libre</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected11">Sélection: <span id="selectionText11">Aucune</span></div>
+                <div class="feedback" id="feedback11"></div>
+                <div class="controls">
+                    <button class="btn" id="prev11" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(11)">Vérifier</button>
+                    <button class="btn" id="next11" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question12" data-question="12">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">Les bactériophages sont des virus à structure binaire :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(12, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Parasite facultatif</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(12, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Tête cylindrique est une queue hexagonale uniquement</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(12, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Virus possédant l'ADN et L'ARN</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(12, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Se multiplient indépendamment de cellules hôtes</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(12, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Tête hexagonale et une queue cylindrique qui se termine par la plaque basale</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected12">Sélection: <span id="selectionText12">Aucune</span></div>
+                <div class="feedback" id="feedback12"></div>
+                <div class="controls">
+                    <button class="btn" id="prev12" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(12)">Vérifier</button>
+                    <button class="btn" id="next12" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question13" data-question="13">
+                <div class="question-number">Question 13</div>
+                <div class="question-text">Les virus sont des organismes acellulaires parasites obligatoires :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(13, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Cultivant sur milieux bactériologiques usuels</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(13, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Filtrants</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(13, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ayant un seul type d'acide nucléique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(13, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sporulés</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(13, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Aérobies</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected13">Sélection: <span id="selectionText13">Aucune</span></div>
+                <div class="feedback" id="feedback13"></div>
+                <div class="controls">
+                    <button class="btn" id="prev13" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(13)">Vérifier</button>
+                    <button class="btn" id="next13" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question14" data-question="14">
+                <div class="question-number">Question 14</div>
+                <div class="question-text">L'enveloppe des virus est d'origine cellulaire avec des glycoprotéines spécifiques :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(14, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Elle rend le virus résistant</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(14, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Elle rend le virus vulnérable</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(14, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Permettant la coloration de Gram</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(14, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Joue un rôle dans le diagnostic</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(14, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Joue un rôle dans la fixation sur les cellules cibles</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected14">Sélection: <span id="selectionText14">Aucune</span></div>
+                <div class="feedback" id="feedback14"></div>
+                <div class="controls">
+                    <button class="btn" id="prev14" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(14)">Vérifier</button>
+                    <button class="btn" id="next14" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question15" data-question="15">
+                <div class="question-number">Question 15</div>
+                <div class="question-text">La classification des virus se base :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(15, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le pouvoir pathogène</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(15, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les cibles</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(15, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le type d'infection</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(15, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La structure propre</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(15, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le mode de transmission</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected15">Sélection: <span id="selectionText15">Aucune</span></div>
+                <div class="feedback" id="feedback15"></div>
+                <div class="controls">
+                    <button class="btn" id="prev15" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(15)">Vérifier</button>
+                    <button class="btn" id="next15" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question16" data-question="16">
+                <div class="question-number">Question 16</div>
+                <div class="question-text">Les bactériophages ont une structure complexe faite d'une :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(16, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Tête hexagonale et d'une queue cylindrique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(16, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Tête hexagonale et d'une queue hexagonale</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(16, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Tête cylindrique et d'une queue cylindrique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(16, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Tête cylindrique et d'une queue cylindrique</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(16, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une seule entité fusiforme</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected16">Sélection: <span id="selectionText16">Aucune</span></div>
+                <div class="feedback" id="feedback16"></div>
+                <div class="controls">
+                    <button class="btn" id="prev16" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(16)">Vérifier</button>
+                    <button class="btn" id="next16" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question17" data-question="17">
+                <div class="question-number">Question 17</div>
+                <div class="question-text">Le HBV :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(17, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le HBV est un virus à ADN double brin partiellement monocaténaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(17, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le HBV utilise pour sa réplication une polymérase à activité de transcription inverse</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(17, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'HBV se caractérise par un intermédiaire de réplication</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(17, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'ARN pré-génomique est encapsulé pour former un nouveau virion</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(17, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected17">Sélection: <span id="selectionText17">Aucune</span></div>
+                <div class="feedback" id="feedback17"></div>
+                <div class="controls">
+                    <button class="btn" id="prev17" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(17)">Vérifier</button>
+                    <button class="btn" id="next17" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question18" data-question="18">
+                <div class="question-number">Question 18</div>
+                <div class="question-text">La nucléocapside :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(18, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est un élément facultatif de la structure virale</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(18, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est composée d'acide nucléique entouré de protéines</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(18, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est constituée d'un acide nucléique et du peplos</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(18, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est composée d'une molécule d'ADN et d'une molécule d'ARN</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(18, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est composée d'une molécule d'ADN et d'une molécule d'ARN entourées de protéines de capsides</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected18">Sélection: <span id="selectionText18">Aucune</span></div>
+                <div class="feedback" id="feedback18"></div>
+                <div class="controls">
+                    <button class="btn" id="prev18" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(18)">Vérifier</button>
+                    <button class="btn" id="next18" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question19" data-question="19">
+                <div class="question-number">Question 19</div>
+                <div class="question-text">La classification des virus :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(19, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est basée uniquement sur la composition de l'acide nucléique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(19, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les virus nus sont dépourvus de peplos et sont fragiles dans le milieu extérieur</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(19, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les virus à ADN bicaténaires ont tous une capside à symétrie complexe</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(19, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les virus à ADN diploïdes ont un génome constitué d'ARN bicaténaire</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(19, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le virus de la grippe est un virus à ARN segmenté</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected19">Sélection: <span id="selectionText19">Aucune</span></div>
+                <div class="feedback" id="feedback19"></div>
+                <div class="controls">
+                    <button class="btn" id="prev19" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(19)">Vérifier</button>
+                    <button class="btn" id="next19" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question20" data-question="20">
+                <div class="question-number">Question 20</div>
+                <div class="question-text">Le virion : quelles sont les propositions justes ?</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(20, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est une particule virale mature et non infectieuse</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(20, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Un seul type d'acide nucléique (ADN ou ARN) qui constitue le génome viral</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(20, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Contiens un cytoplasme et une membrane cytoplasmique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(20, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Un parasitisme extracellulaire absolu</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(20, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une structure particulaire</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected20">Sélection: <span id="selectionText20">Aucune</span></div>
+                <div class="feedback" id="feedback20"></div>
+                <div class="controls">
+                    <button class="btn" id="prev20" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(20)">Vérifier</button>
+                    <button class="btn" id="next20" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question21" data-question="21">
+                <div class="question-number">Question 21</div>
+                <div class="question-text">Structure des virus :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(21, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Certains virus sont constitués uniquement d'une nucléocapside</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(21, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les capsides icosaédriques ont toutes la même taille</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(21, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'enveloppe virale est indispensable à la multiplication de certains virus</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(21, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les virus possédant des capsides hélicoïdales n'infectent que les plantes</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(21, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les virus possédant des symétries complexes n'infectent pas l'homme</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected21">Sélection: <span id="selectionText21">Aucune</span></div>
+                <div class="feedback" id="feedback21"></div>
+                <div class="controls">
+                    <button class="btn" id="prev21" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(21)">Vérifier</button>
+                    <button class="btn" id="next21" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question22" data-question="22">
+                <div class="question-number">Question 22</div>
+                <div class="question-text">Les enveloppes virales :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(22, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Peuvent être doublées à leur face externe par une matrice protéique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(22, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Sont générées uniquement par bourgeonnement de la membrane cytoplasmique cellulaire</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(22, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ne contiennent pas de protéines cellulaires</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(22, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sont généralement un facteur de fragilité pour le virus</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(22, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sont généralement dégradées par les détergents</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected22">Sélection: <span id="selectionText22">Aucune</span></div>
+                <div class="feedback" id="feedback22"></div>
+                <div class="controls">
+                    <button class="btn" id="prev22" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(22)">Vérifier</button>
+                    <button class="btn" id="next22" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question23" data-question="23">
+                <div class="question-number">Question 23</div>
+                <div class="question-text">Le HBV :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(23, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le HBV est un virus à ADN double brin partiellement monocaténaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(23, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le HBV utilise pour sa réplication une polymérase d'origine cellulaire</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(23, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'HBV se caractérise par un intermédiaire de réplication</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(23, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'ARN pré-génomique est dégradé grâce à une protéase cellulaire</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(23, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected23">Sélection: <span id="selectionText23">Aucune</span></div>
+                <div class="feedback" id="feedback23"></div>
+                <div class="controls">
+                    <button class="btn" id="prev23" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(23)">Vérifier</button>
+                    <button class="btn" id="next23" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question24" data-question="24">
+                <div class="question-number">Question 24</div>
+                <div class="question-text">Le HIV :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(24, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le génome est rétro-transcrit par une transcriptase inverse en ARN</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(24, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'ADN viral rétro-transcrit peut s'intégrer à l'ADN chromosomique de la cellule infectée.</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(24, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La traduction des ARNm donne naissance à 03 polyprotéines distinctes : gag, pol, env</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(24, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La polyprotéine Env est clivée par une protéase virale au moment du bourgeonnement du virus</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(24, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les protéines Env sont glycosilées</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected24">Sélection: <span id="selectionText24">Aucune</span></div>
+                <div class="feedback" id="feedback24"></div>
+                <div class="controls">
+                    <button class="btn" id="prev24" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(24)">Vérifier</button>
+                    <button class="btn" id="next24" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question25" data-question="25">
+                <div class="question-number">Question 25</div>
+                <div class="question-text">Les virus transmissibles lors d'un accident d'exposition au sang sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(25, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le virus de l'hépatite A</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(25, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le virus de l'hépatite B</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(25, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le virus de la grippe</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(25, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le virus de la rage</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(25, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le virus de la rubéole</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected25">Sélection: <span id="selectionText25">Aucune</span></div>
+                <div class="feedback" id="feedback25"></div>
+                <div class="controls">
+                    <button class="btn" id="prev25" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(25)">Vérifier</button>
+                    <button class="btn" id="next25" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question26" data-question="26">
+                <div class="question-number">Question 26</div>
+                <div class="question-text">Les virus transmissibles lors d'un accident d'exposition au sang sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(26, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le virus de l'hépatite A</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(26, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le virus de l'hépatite B</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(26, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le virus de la grippe</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(26, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le virus de la rage</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(26, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le virus de la rubéole</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected26">Sélection: <span id="selectionText26">Aucune</span></div>
+                <div class="feedback" id="feedback26"></div>
+                <div class="controls">
+                    <button class="btn" id="prev26" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(26)">Vérifier</button>
+                    <button class="btn" id="next26" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question27" data-question="27">
+                <div class="question-number">Question 27</div>
+                <div class="question-text">Les micro-organismes pouvant être transmis lors d'un accident d'exposition au sang sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(27, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Les bactéries essentiellement les bacilles à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(27, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les virus</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(27, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les prions</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(27, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les champignons</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(27, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les levures</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected27">Sélection: <span id="selectionText27">Aucune</span></div>
+                <div class="feedback" id="feedback27"></div>
+                <div class="controls">
+                    <button class="btn" id="prev27" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(27)">Vérifier</button>
+                    <button class="btn" id="next27" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question28" data-question="28">
+                <div class="question-number">Question 28</div>
+                <div class="question-text">Les virus sont des microorganismes :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(28, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Possédant un appareil de Golgi</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(28, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Contenant un noyau et des ribosomes</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(28, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Entourés d'une membrane cytoplasmique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(28, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Protégés par le peptidoglycane</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(28, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toutes les réponses sont fausses</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected28">Sélection: <span id="selectionText28">Aucune</span></div>
+                <div class="feedback" id="feedback28"></div>
+                <div class="controls">
+                    <button class="btn" id="prev28" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(28)">Vérifier</button>
+                    <button class="btn" id="next28" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question29" data-question="29">
+                <div class="question-number">Question 29</div>
+                <div class="question-text">L'acide nucléique d'un virus :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(29, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est un ARN bicaténaire hélicoïdal</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(29, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est soit un ADN soit un ARN</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(29, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est un ADN monocaténaire poly segmenté</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(29, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est toujours à double brins</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(29, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toutes les réponses sont fausses</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected29">Sélection: <span id="selectionText29">Aucune</span></div>
+                <div class="feedback" id="feedback29"></div>
+                <div class="controls">
+                    <button class="btn" id="prev29" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(29)">Vérifier</button>
+                    <button class="btn" id="next29" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question30" data-question="30">
+                <div class="question-number">Question 30</div>
+                <div class="question-text">Les virus pouvant être transmis lors d'un accident d'exposition au sang sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(30, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le virus de l'hépatite A.</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(30, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Entérovirus.</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(30, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le virus de la grippe.</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(30, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Virus de la rage.</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(30, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Virus de l'hépatite B.</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected30">Sélection: <span id="selectionText30">Aucune</span></div>
+                <div class="feedback" id="feedback30"></div>
+                <div class="controls">
+                    <button class="btn" id="prev30" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(30)">Vérifier</button>
+                    <button class="btn" id="next30" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question31" data-question="31">
+                <div class="question-number">Question 31</div>
+                <div class="question-text">Les virus pouvant être transmis lors d'un accident d'exposition au sang sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(31, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le virus de l'hépatite E.</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(31, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Virus polio.</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(31, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Virus de l'hépatite C.</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(31, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Virus de la rage.</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(31, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Virus de la grippe.</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected31">Sélection: <span id="selectionText31">Aucune</span></div>
+                <div class="feedback" id="feedback31"></div>
+                <div class="controls">
+                    <button class="btn" id="prev31" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(31)">Vérifier</button>
+                    <button class="btn" id="next31" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question32" data-question="32">
+                <div class="question-number">Question 32</div>
+                <div class="question-text">Le HBV :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(32, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le HBV est un virus à ADN simple brin partiellement circulaire.</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(32, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le HBV utilise pour sa réplication une polymérase à activité de transcription inverse. L'HBV se caractérise par un intermédiaire de réplication. | . L'ARN pré génomique est dégradé grâce à une protéase virale. | L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à | des récepteurs spécifiques. ] FINÛD</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(32, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le HBV est un virus à ADN double brin partiellement monocaténaire</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(32, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'ARN pré-génomique est encapsulé pour former un nouveau virion</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(32, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected32">Sélection: <span id="selectionText32">Aucune</span></div>
+                <div class="feedback" id="feedback32"></div>
+                <div class="controls">
+                    <button class="btn" id="prev32" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(32)">Vérifier</button>
+                    <button class="btn" id="next32" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question33" data-question="33">
+                <div class="question-number">Question 33</div>
+                <div class="question-text">Le HIV :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(33, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le génome est rétro-transcrit par une transcriptase inverse en ADN.</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(33, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'ADN viral rétro-transcrit peut s'intégrer à l'ADN chromosomique de la cellule infectée.</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(33, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La traduction des ARNm donne naissance à trois polyprotéines distinctes : gag, pol, env.</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(33, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La polyprotéine Env est clivée par une protéase virale au moment du bourgeonnement du virus.</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(33, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les protéines Env ne sont pas glycosilées</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected33">Sélection: <span id="selectionText33">Aucune</span></div>
+                <div class="feedback" id="feedback33"></div>
+                <div class="controls">
+                    <button class="btn" id="prev33" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(33)">Vérifier</button>
+                    <button class="btn" id="next33" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question34" data-question="34">
+                <div class="question-number">Question 34</div>
+                <div class="question-text">Un virus est caractérisée par la présence de :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(34, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Plusieurs types d'acide nucléique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(34, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Une reproduction par réplication du génome</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(34, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Un système enzymatique et énergétique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(34, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Une capside</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(34, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une paroi rigide</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected34">Sélection: <span id="selectionText34">Aucune</span></div>
+                <div class="feedback" id="feedback34"></div>
+                <div class="controls">
+                    <button class="btn" id="prev34" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(34)">Vérifier</button>
+                    <button class="btn" id="next34" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question35" data-question="35">
+                <div class="question-number">Question 35</div>
+                <div class="question-text">Les particules virales se distinguent par :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(35, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Leur divisons cellulaire par mitose</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(35, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Leur parasitisme intracellulaire strict</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(35, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Leur structure qui s'apparente aux protozoaires</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(35, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Leurs incapacité de se multiplier sur les milieux de culture</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(35, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Leur sensibilité aux antibiotiques</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected35">Sélection: <span id="selectionText35">Aucune</span></div>
+                <div class="feedback" id="feedback35"></div>
+                <div class="controls">
+                    <button class="btn" id="prev35" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(35)">Vérifier</button>
+                    <button class="btn" id="next35" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question36" data-question="36">
+                <div class="question-number">Question 36</div>
+                <div class="question-text">La difficulté de mise au point d'une chimiothérapie antivirale est due :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(36, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">A la structure compliquée d'un virus</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(36, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Au risque de contamination des manipulateurs</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(36, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Aux conditions de mise en culture du virus</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(36, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Aux interactions et relations étroites cellule hôte-virus.</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(36, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Aux effets secondaires des médicaments antiviraux</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected36">Sélection: <span id="selectionText36">Aucune</span></div>
+                <div class="feedback" id="feedback36"></div>
+                <div class="controls">
+                    <button class="btn" id="prev36" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(36)">Vérifier</button>
+                    <button class="btn" id="next36" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question37" data-question="37">
+                <div class="question-number">Question 37</div>
+                <div class="question-text">Le virus du Sida (HIV) se distingue par :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(37, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La présence de deux molécules d'ARN monocaténaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(37, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La présence d'une transcriptase</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(37, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Un cycle de multiplication intra cytoplasmique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(37, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La présence d'enveloppe</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(37, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une capside a symétrie cubique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected37">Sélection: <span id="selectionText37">Aucune</span></div>
+                <div class="feedback" id="feedback37"></div>
+                <div class="controls">
+                    <button class="btn" id="prev37" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(37)">Vérifier</button>
+                    <button class="btn" id="next37" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question38" data-question="38">
+                <div class="question-number">Question 38</div>
+                <div class="question-text">Les enveloppes virales :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(38, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Présentent une structure complexe de nature protéique.</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(38, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Confèrent aux virus enveloppés une certaine fragilité, dans le milieu extérieur</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(38, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Rendent les virus très résistants aux détergents</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(38, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Confèrent aux virions une thermo-sensibilité.</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(38, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Protègent les virus des agents physicochimiques</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected38">Sélection: <span id="selectionText38">Aucune</span></div>
+                <div class="feedback" id="feedback38"></div>
+                <div class="controls">
+                    <button class="btn" id="prev38" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(38)">Vérifier</button>
+                    <button class="btn" id="next38" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-card" id="resultCard">
+            <div class="result-icon">🎉</div>
+            <div class="result-title">Quiz Terminé!</div>
+            <div class="result-score">
+                Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+            </div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "Les enveloppes des virus sont des structures périphériques facultatives recouvrant la nucléocapside :", "options": {"A": "Elles ont la même origine", "B": "Sont thermorésistante", "C": "Sont thermosensibles et confère une faible persistance dans l'environnement", "D": "Résistant aux solvants des lipides", "E": "Peuvent être complexes"}, "correct": "CE"}, {"id": 2, "text": "Chez les virus enveloppés, le péplos :", "options": {"A": "Est d'origine cellulaire", "B": "Peut-être d'origine nucléaire", "C": "Est une membrane ayant subi des modifications par addition de glycoprotéines", "D": "Est codé par le génome viral", "E": "Est issu exclusivement du réticulum endoplasmique"}, "correct": "ABC"}, {"id": 3, "text": "Le genre Entérovirus fait partie des Picornaviridae :", "options": {"A": "Ce sont des virus enveloppés à ARN monocaténaire (simple brin)", "B": "La réplication est intranucléaire", "C": "Ils peuvent être responsables de méningites lymphocytaires", "D": "Coxsackie virus A est responsable du syndrome mains-pieds-bouche", "E": "La poliomyélite est toujours paralytique"}, "correct": "ACD"}, {"id": 4, "text": "Parmi les virus à ADN, on distingue les Herpesviridae :", "options": {"A": "La synthèse des protéines se fait en 3 phases : très précoces, précoces et tardives", "B": "Après une primo-infection, le virus persiste toute la vie chez, l'hôte infecté", "C": "CMV donne le bouton de fièvre après récurrence", "D": "L'infection par HSV2 est une IST", "E": "HSV1 donne zona après récurrence"}, "correct": "ABD"}, {"id": 5, "text": "Le virus EBV (Epstein Barr Virus) :", "options": {"A": "La transmission est féco-orale", "B": "Est un virus oncogène", "C": "L'Ag EA intervient dans la réplication du génome", "D": "L'Ag VCA de l'enveloppe présent dans le cytoplasme et le noyau", "E": "La mise en évidence des anti-VCA et EBNA permet de poser le diagnostic d'une infection ancienne"}, "correct": "BCE"}, {"id": 6, "text": "La particule virale se distingue par :", "options": {"A": "La présence d'un seul type d'acide nucléique", "B": "Le mode de vie parasite obligatoire", "C": "Le comportement vis-à-vis de l'oxygène.", "D": "Le comportement vis-à-vis de la température", "E": "Le type de cellule hôte"}, "correct": "AB"}, {"id": 7, "text": "La classification des virus se base :", "options": {"A": "Le pouvoir pathogène", "B": "Les cibles", "C": "Le type d'infection", "D": "La structure propre,", "E": "Le mode de transmission"}, "correct": "D"}, {"id": 8, "text": "Le virus de l'hépatite B :", "options": {"A": "Transmis par voie fécale orale", "B": "Est un virus à ADN simple brin", "C": "Est transmis par voie parentérale", "D": "Entraine toujours une infection chronique", "E": "Présente 8 génotypes"}, "correct": "CE"}, {"id": 9, "text": "Le marqueur biologique qui signe la guérison d'une hépatite B est :", "options": {"A": "L'Ag HBs", "B": "L'Ac HBC", "C": "L'Ac HBs", "D": "L'Ag Hbe", "E": "L'Ac HBC"}, "correct": "C"}, {"id": 10, "text": "L'Orthomyxovirus influenzae :", "options": {"A": "Virus à ADN segmenté", "B": "Virus à ARN bicaténaire segmenté", "C": "Virus non enveloppé", "D": "Virus à ARN segmenté", "E": "Virus enveloppé"}, "correct": "DE"}, {"id": 11, "text": "Les virus sont des organismes microscopiques :", "options": {"A": "Filtrants", "B": "Acellulaires", "C": "Parasites obligatoire", "D": "Parasite facultatif", "E": "Vivant à l'état libre"}, "correct": "ABC"}, {"id": 12, "text": "Les bactériophages sont des virus à structure binaire :", "options": {"A": "Parasite facultatif", "B": "Tête cylindrique est une queue hexagonale uniquement", "C": "Virus possédant l'ADN et L'ARN", "D": "Se multiplient indépendamment de cellules hôtes", "E": "Tête hexagonale et une queue cylindrique qui se termine par la plaque basale"}, "correct": "E"}, {"id": 13, "text": "Les virus sont des organismes acellulaires parasites obligatoires :", "options": {"A": "Cultivant sur milieux bactériologiques usuels", "B": "Filtrants", "C": "Ayant un seul type d'acide nucléique", "D": "Sporulés", "E": "Aérobies"}, "correct": "BC"}, {"id": 14, "text": "L'enveloppe des virus est d'origine cellulaire avec des glycoprotéines spécifiques :", "options": {"A": "Elle rend le virus résistant", "B": "Elle rend le virus vulnérable", "C": "Permettant la coloration de Gram", "D": "Joue un rôle dans le diagnostic", "E": "Joue un rôle dans la fixation sur les cellules cibles"}, "correct": "BDE"}, {"id": 15, "text": "La classification des virus se base :", "options": {"A": "Le pouvoir pathogène", "B": "Les cibles", "C": "Le type d'infection", "D": "La structure propre", "E": "Le mode de transmission"}, "correct": "D"}, {"id": 16, "text": "Les bactériophages ont une structure complexe faite d'une :", "options": {"A": "Tête hexagonale et d'une queue cylindrique", "B": "Tête hexagonale et d'une queue hexagonale", "C": "Tête cylindrique et d'une queue cylindrique", "D": "Tête cylindrique et d'une queue cylindrique", "E": "Une seule entité fusiforme"}, "correct": "A"}, {"id": 17, "text": "Le HBV :", "options": {"A": "Le HBV est un virus à ADN double brin partiellement monocaténaire", "B": "Le HBV utilise pour sa réplication une polymérase à activité de transcription inverse", "C": "L'HBV se caractérise par un intermédiaire de réplication", "D": "L'ARN pré-génomique est encapsulé pour former un nouveau virion", "E": "L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques"}, "correct": "ABC"}, {"id": 18, "text": "La nucléocapside :", "options": {"A": "Est un élément facultatif de la structure virale", "B": "Est composée d'acide nucléique entouré de protéines", "C": "Est constituée d'un acide nucléique et du peplos", "D": "Est composée d'une molécule d'ADN et d'une molécule d'ARN", "E": "Est composée d'une molécule d'ADN et d'une molécule d'ARN entourées de protéines de capsides"}, "correct": "B"}, {"id": 19, "text": "La classification des virus :", "options": {"A": "Est basée uniquement sur la composition de l'acide nucléique", "B": "Les virus nus sont dépourvus de peplos et sont fragiles dans le milieu extérieur", "C": "Les virus à ADN bicaténaires ont tous une capside à symétrie complexe", "D": "Les virus à ADN diploïdes ont un génome constitué d'ARN bicaténaire", "E": "Le virus de la grippe est un virus à ARN segmenté"}, "correct": "E"}, {"id": 20, "text": "Le virion : quelles sont les propositions justes ?", "options": {"A": "C'est une particule virale mature et non infectieuse", "B": "Un seul type d'acide nucléique (ADN ou ARN) qui constitue le génome viral", "C": "Contiens un cytoplasme et une membrane cytoplasmique", "D": "Un parasitisme extracellulaire absolu", "E": "Une structure particulaire"}, "correct": "BE"}, {"id": 21, "text": "Structure des virus :", "options": {"A": "Certains virus sont constitués uniquement d'une nucléocapside", "B": "Les capsides icosaédriques ont toutes la même taille", "C": "L'enveloppe virale est indispensable à la multiplication de certains virus", "D": "Les virus possédant des capsides hélicoïdales n'infectent que les plantes", "E": "Les virus possédant des symétries complexes n'infectent pas l'homme"}, "correct": "AC"}, {"id": 22, "text": "Les enveloppes virales :", "options": {"A": "Peuvent être doublées à leur face externe par une matrice protéique", "B": "Sont générées uniquement par bourgeonnement de la membrane cytoplasmique cellulaire", "C": "Ne contiennent pas de protéines cellulaires", "D": "Sont généralement un facteur de fragilité pour le virus", "E": "Sont généralement dégradées par les détergents"}, "correct": "DE"}, {"id": 23, "text": "Le HBV :", "options": {"A": "Le HBV est un virus à ADN double brin partiellement monocaténaire", "B": "Le HBV utilise pour sa réplication une polymérase d'origine cellulaire", "C": "L'HBV se caractérise par un intermédiaire de réplication", "D": "L'ARN pré-génomique est dégradé grâce à une protéase cellulaire", "E": "L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques"}, "correct": "AC"}, {"id": 24, "text": "Le HIV :", "options": {"A": "Le génome est rétro-transcrit par une transcriptase inverse en ARN", "B": "L'ADN viral rétro-transcrit peut s'intégrer à l'ADN chromosomique de la cellule infectée.", "C": "La traduction des ARNm donne naissance à 03 polyprotéines distinctes : gag, pol, env", "D": "La polyprotéine Env est clivée par une protéase virale au moment du bourgeonnement du virus", "E": "Les protéines Env sont glycosilées"}, "correct": "BE"}, {"id": 25, "text": "Les virus transmissibles lors d'un accident d'exposition au sang sont :", "options": {"A": "Le virus de l'hépatite A", "B": "Le virus de l'hépatite B", "C": "Le virus de la grippe", "D": "Le virus de la rage", "E": "Le virus de la rubéole"}, "correct": "B"}, {"id": 26, "text": "Les virus transmissibles lors d'un accident d'exposition au sang sont :", "options": {"A": "Le virus de l'hépatite A", "B": "Le virus de l'hépatite B", "C": "Le virus de la grippe", "D": "Le virus de la rage", "E": "Le virus de la rubéole"}, "correct": "B"}, {"id": 27, "text": "Les micro-organismes pouvant être transmis lors d'un accident d'exposition au sang sont :", "options": {"A": "Les bactéries essentiellement les bacilles à Gram négatif", "B": "Les virus", "C": "Les prions", "D": "Les champignons", "E": "Les levures"}, "correct": "B"}, {"id": 28, "text": "Les virus sont des microorganismes :", "options": {"A": "Possédant un appareil de Golgi", "B": "Contenant un noyau et des ribosomes", "C": "Entourés d'une membrane cytoplasmique", "D": "Protégés par le peptidoglycane", "E": "Toutes les réponses sont fausses"}, "correct": "E"}, {"id": 29, "text": "L'acide nucléique d'un virus :", "options": {"A": "Est un ARN bicaténaire hélicoïdal", "B": "Est soit un ADN soit un ARN", "C": "Est un ADN monocaténaire poly segmenté", "D": "Est toujours à double brins", "E": "Toutes les réponses sont fausses"}, "correct": "B"}, {"id": 30, "text": "Les virus pouvant être transmis lors d'un accident d'exposition au sang sont :", "options": {"A": "Le virus de l'hépatite A.", "B": "Entérovirus.", "C": "Le virus de la grippe.", "D": "Virus de la rage.", "E": "Virus de l'hépatite B."}, "correct": "E"}, {"id": 31, "text": "Les virus pouvant être transmis lors d'un accident d'exposition au sang sont :", "options": {"A": "Le virus de l'hépatite E.", "B": "Virus polio.", "C": "Virus de l'hépatite C.", "D": "Virus de la rage.", "E": "Virus de la grippe."}, "correct": "C"}, {"id": 32, "text": "Le HBV :", "options": {"A": "Le HBV est un virus à ADN simple brin partiellement circulaire.", "B": "Le HBV utilise pour sa réplication une polymérase à activité de transcription inverse. L'HBV se caractérise par un intermédiaire de réplication. | . L'ARN pré génomique est dégradé grâce à une protéase virale. | L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à | des récepteurs spécifiques. ] FINÛD", "C": "Le HBV est un virus à ADN double brin partiellement monocaténaire", "D": "L'ARN pré-génomique est encapsulé pour former un nouveau virion", "E": "L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques"}, "correct": "BC"}, {"id": 33, "text": "Le HIV :", "options": {"A": "Le génome est rétro-transcrit par une transcriptase inverse en ADN.", "B": "L'ADN viral rétro-transcrit peut s'intégrer à l'ADN chromosomique de la cellule infectée.", "C": "La traduction des ARNm donne naissance à trois polyprotéines distinctes : gag, pol, env.", "D": "La polyprotéine Env est clivée par une protéase virale au moment du bourgeonnement du virus.", "E": "Les protéines Env ne sont pas glycosilées"}, "correct": "AB"}, {"id": 34, "text": "Un virus est caractérisée par la présence de :", "options": {"A": "Plusieurs types d'acide nucléique", "B": "Une reproduction par réplication du génome", "C": "Un système enzymatique et énergétique", "D": "Une capside", "E": "Une paroi rigide"}, "correct": "BD"}, {"id": 35, "text": "Les particules virales se distinguent par :", "options": {"A": "Leur divisons cellulaire par mitose", "B": "Leur parasitisme intracellulaire strict", "C": "Leur structure qui s'apparente aux protozoaires", "D": "Leurs incapacité de se multiplier sur les milieux de culture", "E": "Leur sensibilité aux antibiotiques"}, "correct": "BD"}, {"id": 36, "text": "La difficulté de mise au point d'une chimiothérapie antivirale est due :", "options": {"A": "A la structure compliquée d'un virus", "B": "Au risque de contamination des manipulateurs", "C": "Aux conditions de mise en culture du virus", "D": "Aux interactions et relations étroites cellule hôte-virus.", "E": "Aux effets secondaires des médicaments antiviraux"}, "correct": "D"}, {"id": 37, "text": "Le virus du Sida (HIV) se distingue par :", "options": {"A": "La présence de deux molécules d'ARN monocaténaire", "B": "La présence d'une transcriptase", "C": "Un cycle de multiplication intra cytoplasmique", "D": "La présence d'enveloppe", "E": "Une capside a symétrie cubique"}, "correct": "AD"}, {"id": 38, "text": "Les enveloppes virales :", "options": {"A": "Présentent une structure complexe de nature protéique.", "B": "Confèrent aux virus enveloppés une certaine fragilité, dans le milieu extérieur", "C": "Rendent les virus très résistants aux détergents", "D": "Confèrent aux virions une thermo-sensibilité.", "E": "Protègent les virus des agents physicochimiques"}, "correct": "BD"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                updateSelectionDisplay(num);
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect;
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore);
+            score += partialScore;
+            checkedQuestions.add(questionNum);
+            showFeedback(questionNum);
+            updateProgress();
+            if (checkedQuestions.size === totalQuestions) {
+                showResults();
+            }
+        }
+        
+        function showFeedback(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            const isCorrect = selection.join('') === correctAnswer;
+            if (isCorrect) {
+                feedbackEl.innerHTML = '<span style="color: #16c79a;">✓ Correct!</span>';
+            } else {
+                feedbackEl.innerHTML = '<span style="color: #e94560;">✗ Incorrect. Réponse: ' + correctAnswer.split('').join(', ') + '</span>';
+            }
+            feedbackEl.style.display = 'block';
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const letter = opt.dataset.option;
+                if (correctAnswer.includes(letter)) {
+                    opt.classList.add('correct');
+                } else if (userAnswers[questionNum] && userAnswers[questionNum].includes(letter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const progress = (checkedQuestions.size / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            const resultCard = document.getElementById('resultCard');
+            resultCard.style.display = 'block';
+            document.getElementById('score').textContent = score.toFixed(2);
+            const percentage = (score / totalQuestions) * 100;
+            let message = '';
+            if (percentage >= 80) message = 'Excellent travail! 🌟';
+            else if (percentage >= 60) message = 'Bon travail! 👍';
+            else if (percentage >= 40) message = 'Continuez à réviser! 📚';
+            else message = 'Encore un peu de travail! 💪';
+            document.getElementById('resultMessage').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.style.display = 'none';
+                fb.innerHTML = '';
+            });
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            showQuestion(1);
+            updateProgress();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+{
+  "lecture": 15,
+  "title": "Désinfection - Stérilisation",
+  "questions": [
+    {
+      "id": 1,
+      "text": "La désinfection",
+      "options": {
+        "A": "Donne un état de stérilité durable dans le temps",
+        "B": "Est un procédé appliqué sur la peau lésée",
+        "C": "Utilise la chaleur sèche",
+        "D": "Est obtenue par filtration",
+        "E": "Est utilisée pour les surfaces inertes"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 2,
+      "text": "La stérilisation peut être obtenue par",
+      "options": {
+        "A": "L'autoclavage",
+        "B": "L'utilisation des antiseptiques",
+        "C": "L'application de l'alcool",
+        "D": "L'application de la Bétadine",
+        "E": "L'utilisation de l'eau de javel"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 3,
+      "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont",
+      "options": {
+        "A": "Avant d'entrer dans les toilettes",
+        "B": "Après contact avec le patient",
+        "C": "Après avoir discuté avec le patient",
+        "D": "Après contact avec le LCR",
+        "E": "À la sortie du service"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 4,
+      "text": "Les antiseptiques se caractérisent par",
+      "options": {
+        "A": "Action spécifique",
+        "B": "Usage externe",
+        "C": "Action indépendante des concentrations",
+        "D": "Spectre large",
+        "E": "Toxicité faible"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 5,
+      "text": "Les antiseptiques se caractérisent par",
+      "options": {
+        "A": "Action spécifique",
+        "B": "Usage externe",
+        "C": "Action indépendante des concentrations",
+        "D": "Spectre large",
+        "E": "Toxicité faible"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 6,
+      "text": "Les antiseptiques se caractérisent par leur",
+      "options": {
+        "A": "Action non spécifique",
+        "B": "Usage en intraveineux",
+        "C": "Action indépendante des concentrations",
+        "D": "Spectre étroit",
+        "E": "Toxicité faible"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 7,
+      "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont",
+      "options": {
+        "A": "Après sortie des toilettes",
+        "B": "Après avoir discuté avec le patient",
+        "C": "Après contact avec environnement du patient",
+        "D": "Avant contact avec le patient",
+        "E": "À l'entrée du service"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 8,
+      "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont",
+      "options": {
+        "A": "Avant d'entrer dans les toilettes",
+        "B": "Après contact avec le patient",
+        "C": "Après avoir discuté avec le patient",
+        "D": "Après contact avec le LCR",
+        "E": "À la sortie du service"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 9,
+      "text": "Les antiseptiques se caractérisent par leur",
+      "options": {
+        "A": "Action spécifique",
+        "B": "Usage externe",
+        "C": "Action à des concentrations faibles",
+        "D": "Spectre étroit",
+        "E": "Toxicité faible par voie parentérale"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 10,
+      "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont",
+      "options": {
+        "A": "À la sortie des toilettes",
+        "B": "À la prise de fonction le matin au service",
+        "C": "Après contact avec l'environnement du patient",
+        "D": "Après contact avec un liquide biologique",
+        "E": "Avant geste aseptique"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 11,
+      "text": "Le mode de transmission des germes au cours des hétéro-infections est",
+      "options": {
+        "A": "Cutanée",
+        "B": "Manuportée",
+        "C": "Respiratoire",
+        "D": "Digestive",
+        "E": "Sexuelle"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 12,
+      "text": "Les règles d'utilisation d'un désinfectant sont",
+      "options": {
+        "A": "Ne jamais mélanger",
+        "B": "Désinfecter puis nettoyer",
+        "C": "Utiliser même à des concentrations très faibles",
+        "D": "Utiliser sans protection",
+        "E": "Utiliser même après la date de péremption"
+      },
+      "correct": "A"
+    }
+  ]
+}

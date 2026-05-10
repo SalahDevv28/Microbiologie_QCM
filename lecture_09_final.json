@@ -1,0 +1,282 @@
+{
+  "lecture": 9,
+  "title": "Bacilles Gram Négatif",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Les bacilles à Gram négatif :",
+      "options": {
+        "A": "Les entérobactéries sont Nitrate réductase négatif",
+        "B": "Vibrio cholerae est une bactérie qui tolère les milieux alcalins",
+        "C": "Pseudomonas est une bactérie aéro-anaérobie facultative",
+        "D": "Acinetobacter est un pathogène strict",
+        "E": "Sont naturellement résistant à la pénicilline G"
+      },
+      "correct": "BE"
+    },
+    {
+      "id": 2,
+      "text": "L'Entérocoque :",
+      "options": {
+        "A": "Est un bacille aérobie strict",
+        "B": "Est naturellement sensibles aux Bêtalactamines",
+        "C": "Produit une toxine diphtérique",
+        "D": "Est responsable d'angine blanche",
+        "E": "Est responsable d'infection urinaire nosocomiale"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 3,
+      "text": "Les germes incriminés dans les diarrhées infectieuses :",
+      "options": {
+        "A": "Shigelle",
+        "B": "Salmonelle",
+        "C": "Klebsiella",
+        "D": "Morganella",
+        "E": "Pseudomonas aeruginosa"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 4,
+      "text": "Dans la liste suivante, quels sont les bacilles à Gram négatif :",
+      "options": {
+        "A": "Hélicobacter pylori",
+        "B": "Streptococcus pneumoniae",
+        "C": "Branhamella catarrhalis",
+        "D": "Vibrio cholerae",
+        "E": "Gardnerella vaginalis"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 5,
+      "text": "Les entérobactéries :",
+      "options": {
+        "A": "L'antigène somatique Ag O est l'endotoxine des bactéries à Gram négatif",
+        "B": "L'antigène commun ECA n'existe que chez les entérobactéries",
+        "C": "E.coli produit des verocytotoxines qui peuvent être neutralisée par un sérum antitoxine de Shiga",
+        "D": "Parmi les entérobactéries on trouve les genres : Escherichia, Shigella, Vibrio, Klebsiella",
+        "E": "Parmi les entérobactéries on trouve les genres : Proteus, Salmonella, Yersinia, Enterobacter"
+      },
+      "correct": "ABCE"
+    },
+    {
+      "id": 6,
+      "text": "Escherichia coli :",
+      "options": {
+        "A": "Est une bactérie mobile grâce à une ciliature péritriche",
+        "B": "Elle ne peut pas être retrouvée dans l'environnement",
+        "C": "Les antigènes de surface permettent de définir différents sérovars tel qu'E. Coli 0157 :H7",
+        "D": "Les entérites épidémiques du nourrisson sont dues aux E. Coli entérotoxinogènes",
+        "E": "Les syndromes dysentériformes sont causés par les E. coli entéro-invasives"
+      },
+      "correct": "ACDE"
+    },
+    {
+      "id": 7,
+      "text": "Les bacilles à Gram négatif :",
+      "options": {
+        "A": "Diagnostic tardif des salmonelloses majeures se fait par la recherche des Anticorps anti AgO et anti AgH",
+        "B": "Yersinia pestis : agent de la peste, transmis à l'homme par la puce du rat",
+        "C": "Partie B de la toxine cholérique est responsable de l'activation de l'adénylcyclase",
+        "D": "L'antibiothérapie du choléra n'a qu'un rôle accessoire pour diminuer l'excrétion de la bactérie par le malade",
+        "E": "Pseudomonas aeruginosa : pathogène opportuniste responsable de la contamination du matériel hospitalier"
+      },
+      "correct": "ABDE"
+    },
+    {
+      "id": 8,
+      "text": "Les bacilles à Gram négatif :",
+      "options": {
+        "A": "Test respiratoire à l'urée marquée permet le diagnostic direct de l'Hélicobacter pylori",
+        "B": "L'éradication d'Hélicobacter pylori se fait par : 02 antibiotiques + inhibiteur des pompes à protons",
+        "C": "Acinetobacter baumannii est souvent responsable d'infections nosocomiales",
+        "D": "La prophylaxie des méningites à Haemophilus influenzae type b repose sur l'utilisation d'un vaccin conjugué",
+        "E": "Le traitement antibiotique courant pour les vaginoses à Gardnerella vaginalis est le métronidazole"
+      },
+      "correct": "BCDE"
+    },
+    {
+      "id": 9,
+      "text": "La famille des Enterobacteriaceae regroupe des bacilles à Gram négatif aéro-anaérobies facultatif :",
+      "options": {
+        "A": "Non exigeant",
+        "B": "Réduisant les nitrates",
+        "C": "Oxydase positive",
+        "D": "Tous mobiles",
+        "E": "Tous sporulés"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 10,
+      "text": "Les bacilles à Gram négatif non fermentaire se caractérisent :",
+      "options": {
+        "A": "Souvent opportunistes et responsables d'infections nosocomiales",
+        "B": "Colonizent la muqueuse buccale",
+        "C": "Sont tous pathogènes stricts",
+        "D": "Sont naturellement résistants aux aminosides",
+        "E": "Sont tous anaérobies"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 11,
+      "text": "Parmi les propositions suivantes concernant Haemophilus influenzae, une seule est exacte, laquelle ?",
+      "options": {
+        "A": "C'est un bacille à gram positif",
+        "B": "Il cultive sur gélose ordinaire",
+        "C": "Il peut être agent de méningites",
+        "D": "Il est toujours sensible aux aminopénicillines",
+        "E": "Il n'existe aucune prophylaxie vaccinale"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 12,
+      "text": "Parmi les propositions suivantes concernant Pseudomonas aeruginosa, laquelle est fausse ?",
+      "options": {
+        "A": "Il est sensible aux aminopénicillines",
+        "B": "Il peut être responsable d'infections bronchiques au cours de la mucoviscidose",
+        "C": "Il est aérobie strict",
+        "D": "Il est souvent responsable d'infections nosocomiales",
+        "E": "Il peut produire des pigments"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 13,
+      "text": "La transmission de Salmonella typhi se fait par :",
+      "options": {
+        "A": "Voie aérienne",
+        "B": "Voie sexuelle",
+        "C": "Voie cutanée",
+        "D": "Voie digestive",
+        "E": "Voie urinaire"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 14,
+      "text": "A propos de Pseudomonas aeruginosa :",
+      "options": {
+        "A": "Bactérie pathogène stricte",
+        "B": "Anaérobie strict",
+        "C": "Oxydase négatif",
+        "D": "Elabore des pigments (pyoverdine et pyocyanine)",
+        "E": "Naturellement résistant aux Aminopénicillines"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 15,
+      "text": "Haemophilus influenzae :",
+      "options": {
+        "A": "C'est l'agent de la grippe",
+        "B": "Peut être responsable d'IST",
+        "C": "Peut élaborer une bêtalactamase",
+        "D": "Présente en général une résistance naturelle à l'association amoxicilline + acide clavulanique",
+        "E": "Peut-être capsulé"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 16,
+      "text": "A propos de Pseudomonas aeruginosa :",
+      "options": {
+        "A": "Bactérie pathogène stricte",
+        "B": "Anaérobie strict",
+        "C": "Oxydase négatif",
+        "D": "Elabore des pigments (pyoverdine et pyocyanine)",
+        "E": "Naturellement résistant aux Aminopénicillines"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 17,
+      "text": "Haemophilus influenzae :",
+      "options": {
+        "A": "C'est l'agent de la grippe",
+        "B": "Peut être responsable d'IST",
+        "C": "Peut élaborer une bêtalactamase",
+        "D": "Présente en général une résistance naturelle à l'association amoxicilline + acide clavulanique",
+        "E": "Peut-être capsulé"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 18,
+      "text": "Les campylobacter sont des bactéries à Gram (-) qui se caractérisent par :",
+      "options": {
+        "A": "La présence d'un flagelle polaire observable au microscope à fond noir",
+        "B": "Des gastroentérites",
+        "C": "La croissance dans une atmosphère à tension réduite en oxygène",
+        "D": "Une croissance très lente (temps de génération > 5 heures)",
+        "E": "Leur caractère acido-résistant"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 19,
+      "text": "Concernant le genre Légionella :",
+      "options": {
+        "A": "Légionella pneumophila est responsable de la maladie des légionnaires",
+        "B": "C'est une bactérie anaérobie",
+        "C": "Dépourvu d'oxydase",
+        "D": "Pourvu d'oxydase",
+        "E": "Fermente les sucres"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 20,
+      "text": "Quel est le caractère morphologique des Entérobactéries ?",
+      "options": {
+        "A": "Diplocoque à Gram positif",
+        "B": "Bâtonnet à Gram Positif",
+        "C": "Cocci en grappe, à Gram négatif",
+        "D": "Bâtonnet à Gram négatif",
+        "E": "Cocci en grappe, à Gram positif"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 21,
+      "text": "Vibrio cholerae où se multiplie-t-il plus spécialement chez l'homme ?",
+      "options": {
+        "A": "La lumière intestinale",
+        "B": "L'estomac",
+        "C": "Les voies biliaires",
+        "D": "Le colon proximal",
+        "E": "Les ganglions lymphatiques mésentériques"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 22,
+      "text": "Salmonelloses : quelles sont les modes possibles de contamination ?",
+      "options": {
+        "A": "Ingestion d'eau de boisson ou d'aliments souillés",
+        "B": "Infection nosocomiale par ex. lors d'une transfusion sanguine",
+        "C": "Transmission sexuelle",
+        "D": "Transmission respiratoire",
+        "E": "Transmission materno-fœtale"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 23,
+      "text": "Les entérobactéries sont :",
+      "options": {
+        "A": "Des bacilles à Gram (-) qui poussent sur des milieux ordinaires",
+        "B": "Des bactéries pathogènes strictes",
+        "C": "Caractérisées par l'expression de l'antigène de kunin",
+        "D": "Sensibles aux macrolides",
+        "E": "Sensibles aux pénicillines G"
+      },
+      "correct": "A"
+    }
+  ]
+}

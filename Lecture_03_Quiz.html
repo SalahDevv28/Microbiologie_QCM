@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 3 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-display">
+        Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 3 - QCM Interactif</h1>
+            <p>Génétique Bactérienne</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">Les mutations sont des changements de caractères liés à des changements de gènes :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Touchent un grand nombre d'individu par population bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les caractères acquis ne sont pas transmissibles</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Surviennent de manière spontanée</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sont rare</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Concernent plusieurs caractères au même temps</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question2" data-question="2">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">La transduction est un transfert d'ADN bactérien par l'intermédiaire de bactériophages :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(2, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est un transfert total</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(2, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">C'est un transfert partiel</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(2, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ne se fait qu'entre cellules d'espèces différentes</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(2, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Propre aux bactéries à Gram positif</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(2, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Se fait uniquement chez les bacilles à Gram positif</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected2">Sélection: <span id="selectionText2">Aucune</span></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="controls">
+                    <button class="btn" id="prev2" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(2)">Vérifier</button>
+                    <button class="btn" id="next2" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question3" data-question="3">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">La conversion lysogénique est l'acquisition d'un caractère déterminé par le génome :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(3, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">D'une autre bactérie</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(3, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">D'un prophage quelconque</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(3, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">D'un prophage spécifique</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(3, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">D'un plasmide</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(3, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">D'un intégron</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected3">Sélection: <span id="selectionText3">Aucune</span></div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="controls">
+                    <button class="btn" id="prev3" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(3)">Vérifier</button>
+                    <button class="btn" id="next3" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question4" data-question="4">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">La transformation est un procédé d'acquisition de caractères nouveaux par l'intermédiaire :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(4, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">D'un plasmide</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(4, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">D'un transposon véhiculé par un virus</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(4, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">D'un virus</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(4, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">D'une cellule Eucaryote</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(4, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">D'un ADN bactérien</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected4">Sélection: <span id="selectionText4">Aucune</span></div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="controls">
+                    <button class="btn" id="prev4" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(4)">Vérifier</button>
+                    <button class="btn" id="next4" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question5" data-question="5">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">La conjugaison apporte à la cellule bactérienne des caractères d'adaptation :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(5, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est un phénomène sexuel</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(5, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Commun à toutes les cellules bactériennes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(5, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Faisant intervenir deux bactéries de fertilité différente</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(5, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Spécifique des bactéries à Gram positif</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(5, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Caractérise les bactéries anaérobies</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected5">Sélection: <span id="selectionText5">Aucune</span></div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="controls">
+                    <button class="btn" id="prev5" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(5)">Vérifier</button>
+                    <button class="btn" id="next5" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question6" data-question="6">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">La transduction est un phénomène d'acquisition de caractères nouveaux :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(6, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Transmis par une bactérie</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(6, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">D'origine virale</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(6, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Intégrés à partir du cytoplasme</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(6, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">D'origine bactérienne transmis par un virus</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(6, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">D'origine virale transmis par une bactérie</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected6">Sélection: <span id="selectionText6">Aucune</span></div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="controls">
+                    <button class="btn" id="prev6" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(6)">Vérifier</button>
+                    <button class="btn" id="next6" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question7" data-question="7">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">La conversion lysogénique est un processus d'enrichissement des bactéries par des gènes d'origine :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(7, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Virale</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(7, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">De la bactérie elle même</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(7, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Cellulaire</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(7, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">D'une autre bactérie</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(7, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Plasmidique</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected7">Sélection: <span id="selectionText7">Aucune</span></div>
+                <div class="feedback" id="feedback7"></div>
+                <div class="controls">
+                    <button class="btn" id="prev7" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(7)">Vérifier</button>
+                    <button class="btn" id="next7" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question8" data-question="8">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">Le glissement antigénique de l'Orthomyxovirus influenzae est dû :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(8, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">ARN Polymérase virale non fidèle</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(8, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Caractère segmenté du génome</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(8, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Absence de paroi virale</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(8, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Absence d'enveloppe virale</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(8, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Présence de capside cubique</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected8">Sélection: <span id="selectionText8">Aucune</span></div>
+                <div class="feedback" id="feedback8"></div>
+                <div class="controls">
+                    <button class="btn" id="prev8" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(8)">Vérifier</button>
+                    <button class="btn" id="next8" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question9" data-question="9">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">Les bactéries sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(9, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Des organismes procaryotes qui se multiplient par scissiparité</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(9, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">N'ont qu'une seule molécule d'ADN circulaire entourée par une membrane</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(9, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Pourvu toutes de plasmides : molécules circulaires d'ADN capable d'autoréplication</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(9, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Capables de variations phénotypiques induites et non transmissibles à diverses conditions extérieures</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(9, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La biodiversité est le résultat des modifications du génome des différentes espèces</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected9">Sélection: <span id="selectionText9">Aucune</span></div>
+                <div class="feedback" id="feedback9"></div>
+                <div class="controls">
+                    <button class="btn" id="prev9" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(9)">Vérifier</button>
+                    <button class="btn" id="next9" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question10" data-question="10">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">La mutation :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(10, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est un changement du nombre ou de la séquence des bases nucléotidiques de l'ADN</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(10, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est toujours provoquée par un agent mutagène</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(10, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le caractère acquis par la mutation est transmissible à la descendance</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(10, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Se fait à la suite d'une longue période d'adaptation progressive</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(10, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Elle affecte plusieurs caractères</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected10">Sélection: <span id="selectionText10">Aucune</span></div>
+                <div class="feedback" id="feedback10"></div>
+                <div class="controls">
+                    <button class="btn" id="prev10" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(10)">Vérifier</button>
+                    <button class="btn" id="next10" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question11" data-question="11">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">Les pneumocoques entraînent la mort après injection à la souris (expérience de Griffith) s'ils sont :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(11, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">De forme S (encapsulées) vivants</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(11, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">De forme R (non capsulées) vivants</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(11, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">De forme R vivants + l'ADN extrait de Pneumocoques S</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(11, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">De formes S tuées</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(11, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">De forme S tués + pneumocoques de forme R vivants</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected11">Sélection: <span id="selectionText11">Aucune</span></div>
+                <div class="feedback" id="feedback11"></div>
+                <div class="controls">
+                    <button class="btn" id="prev11" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(11)">Vérifier</button>
+                    <button class="btn" id="next11" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question12" data-question="12">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">Les Variations génétiques par transfert de matériel génétique :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(12, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La transformation nécessite l'état de compétence de la bactérie donatrice</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(12, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La transduction nécessite le contact étroit entre les bactéries reposant sur la présence chez la bactérie donatrice d'un facteur de fertilité</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(12, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le plasmide F est capable de s'intégrer au chromosome bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(12, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La transformation est le transfert d'ADN bactérien par l'intermédiaire d'un bactériophage</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(12, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Certaines bactéries sont capables d'absorber de l'ADN naturellement</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected12">Sélection: <span id="selectionText12">Aucune</span></div>
+                <div class="feedback" id="feedback12"></div>
+                <div class="controls">
+                    <button class="btn" id="prev12" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(12)">Vérifier</button>
+                    <button class="btn" id="next12" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question13" data-question="13">
+                <div class="question-number">Question 13</div>
+                <div class="question-text">Les bactériophages :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(13, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Ce sont les virus des bactéries</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(13, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le bactériophage se compose d'un chromosome d'acide nucléique, entouré d'une paroi de protéines</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(13, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Virulents s'intègre dans le chromosome de la bactérie, il est répliqué en même temps que ce chromosome</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(13, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Pliage tempéré : se multiplie et se réplique dans la bactérie puis finit par la lyser</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(13, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La conversion lysogénique : le génome du bactériophage est intégré à celui de la bactérie</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected13">Sélection: <span id="selectionText13">Aucune</span></div>
+                <div class="feedback" id="feedback13"></div>
+                <div class="controls">
+                    <button class="btn" id="prev13" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(13)">Vérifier</button>
+                    <button class="btn" id="next13" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question14" data-question="14">
+                <div class="question-number">Question 14</div>
+                <div class="question-text">Le génome bactérien peut acquérir de l'information d'origine virale par :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(14, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Conversion lysogénique</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(14, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Transformation</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(14, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Conjugaison</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(14, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Mutation</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(14, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Intégration</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected14">Sélection: <span id="selectionText14">Aucune</span></div>
+                <div class="feedback" id="feedback14"></div>
+                <div class="controls">
+                    <button class="btn" id="prev14" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(14)">Vérifier</button>
+                    <button class="btn" id="next14" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question15" data-question="15">
+                <div class="question-number">Question 15</div>
+                <div class="question-text">Les plasmides sont des éléments génétiques mobiles transmis entre les bactéries par :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(15, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Mutations ponctuelles</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(15, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Transduction généralisée</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(15, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Transduction localisée</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(15, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Transformation</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(15, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Conjugaison</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected15">Sélection: <span id="selectionText15">Aucune</span></div>
+                <div class="feedback" id="feedback15"></div>
+                <div class="controls">
+                    <button class="btn" id="prev15" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(15)">Vérifier</button>
+                    <button class="btn" id="next15" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question16" data-question="16">
+                <div class="question-number">Question 16</div>
+                <div class="question-text">La transformation bactérienne :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(16, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est une modification intrinsèque du génome bactérien par transversion</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(16, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Nécessite un contact étroit entre une bactérie donatrice et une bactérie réceptrice par l'intermédiaire de plasmides</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(16, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est un mécanisme limité à certaines bactéries dites auxotrophes</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(16, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Exige l'incorporation de l'ADN transféré dans le génome de la bactérie réceptrice</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(16, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Peut aboutir à l'acquisition de la résistance aux antibiotiques</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected16">Sélection: <span id="selectionText16">Aucune</span></div>
+                <div class="feedback" id="feedback16"></div>
+                <div class="controls">
+                    <button class="btn" id="prev16" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(16)">Vérifier</button>
+                    <button class="btn" id="next16" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question17" data-question="17">
+                <div class="question-number">Question 17</div>
+                <div class="question-text">La conjugaison :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(17, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Nécessite un contact étroit entre la bactérie donatrice et la bactérie réceptrice par l'intermédiaire de bactériophages</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(17, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Aboutit toujours à la perte du caractère porté par le plasmide conjugatif chez la bactérie donatrice</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(17, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Aboutit à la formation d'une copie complète du plasmide conjugatif chez la bactérie réceptrice</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(17, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est un mécanisme de transfert unidirectionnel</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(17, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est un mécanisme limité à certaines bactéries dites compétentes</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected17">Sélection: <span id="selectionText17">Aucune</span></div>
+                <div class="feedback" id="feedback17"></div>
+                <div class="controls">
+                    <button class="btn" id="prev17" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(17)">Vérifier</button>
+                    <button class="btn" id="next17" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question18" data-question="18">
+                <div class="question-number">Question 18</div>
+                <div class="question-text">La transduction :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(18, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Se fait par l'intermédiaire de plasmides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(18, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Peut aboutir à la formation d'une bactérie lysogène</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(18, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Fait intervenir les bactériophages</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(18, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Permet l'acquisition de l'ADN bactérien libre présent dans l'environnement par l'intermédiaire d'enzymes de transduction</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(18, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est un mécanisme qui concerne exclusivement les bactéries à Gram négatif</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected18">Sélection: <span id="selectionText18">Aucune</span></div>
+                <div class="feedback" id="feedback18"></div>
+                <div class="controls">
+                    <button class="btn" id="prev18" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(18)">Vérifier</button>
+                    <button class="btn" id="next18" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question19" data-question="19">
+                <div class="question-number">Question 19</div>
+                <div class="question-text">La transformation bactérienne :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(19, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Fait intervenir les transposons</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(19, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est le résultat de l'acquisition de nouvelles enzymes bactériennes à partir de bactéries du même genre</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(19, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est un mécanisme limité à certaines bactéries dites compétentes</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(19, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est un mécanisme observé chez Streptococcus pneumoniae</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(19, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">S'observe exclusivement chez les bacilles à Gram négatif</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected19">Sélection: <span id="selectionText19">Aucune</span></div>
+                <div class="feedback" id="feedback19"></div>
+                <div class="controls">
+                    <button class="btn" id="prev19" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(19)">Vérifier</button>
+                    <button class="btn" id="next19" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question20" data-question="20">
+                <div class="question-number">Question 20</div>
+                <div class="question-text">La conjugaison :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(20, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est l'acquisition de l'ADN libre à partir de l'environnement de la bactérie</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(20, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Fait intervenir les plasmides</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(20, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Fait intervenir les bactériophages</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(20, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Fait intervenir les transposons</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(20, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">S'observe exclusivement chez les bacilles à Gram positif</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected20">Sélection: <span id="selectionText20">Aucune</span></div>
+                <div class="feedback" id="feedback20"></div>
+                <div class="controls">
+                    <button class="btn" id="prev20" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(20)">Vérifier</button>
+                    <button class="btn" id="next20" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question21" data-question="21">
+                <div class="question-number">Question 21</div>
+                <div class="question-text">La transduction :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(21, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Nécessite un contact étroit entre la bactérie donatrice et la bactérie réceptrice</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(21, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Permet le transfert de l'ADN plasmidique</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(21, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Nécessite la présence d'un bactériophage pour le transfert de l'ADN</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(21, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Permet l'acquisition de l'ADN bactérien présent dans les cellules humaines</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(21, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est un mécanisme qui concerne exclusivement les bactéries produisant des spores</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected21">Sélection: <span id="selectionText21">Aucune</span></div>
+                <div class="feedback" id="feedback21"></div>
+                <div class="controls">
+                    <button class="btn" id="prev21" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(21)">Vérifier</button>
+                    <button class="btn" id="next21" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question22" data-question="22">
+                <div class="question-number">Question 22</div>
+                <div class="question-text">La transduction généralisée :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(22, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Aboutit toujours à la duplication de l'ADN de la bactérie donatrice</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(22, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Aboutit toujours à la duplication de l'ADN de la bactérie réceptrice</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(22, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Peut aboutir à la dégradation de l'ADN transduit dans la cellule réceptrice</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(22, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Aboutit à la formation de bactéries lysogénisées</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(22, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Permet l'intégration de l'ADN de la bactérie donatrice dans le génome de la bactérie réceptrice</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected22">Sélection: <span id="selectionText22">Aucune</span></div>
+                <div class="feedback" id="feedback22"></div>
+                <div class="controls">
+                    <button class="btn" id="prev22" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(22)">Vérifier</button>
+                    <button class="btn" id="next22" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question23" data-question="23">
+                <div class="question-number">Question 23</div>
+                <div class="question-text">La génétique bactérienne a eu de nombreuses applications :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(23, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Détecter les colonies des bactéries sur les milieux de culture</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(23, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Comprendre par la génétique bactériémie les mécanismes du pouvoir pathogène des bactéries et leur virulence</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(23, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Réalisation des antibiogrammes pour l'étude de la résistance aux antibiotiques</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(23, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Détection des anticorps sériques</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(23, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Détection des antigènes viraux dans les produits pathologiques</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected23">Sélection: <span id="selectionText23">Aucune</span></div>
+                <div class="feedback" id="feedback23"></div>
+                <div class="controls">
+                    <button class="btn" id="prev23" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(23)">Vérifier</button>
+                    <button class="btn" id="next23" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question24" data-question="24">
+                <div class="question-number">Question 24</div>
+                <div class="question-text">Certaines mutations peuvent induire la mort de la bactérie, elles sont appelées :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(24, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Les mutations morphologiques</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(24, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les mutations létales</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(24, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les mutations conditionnelles</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(24, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les mutations biochimiques</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(24, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les mutations adaptatives ou dirigées</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected24">Sélection: <span id="selectionText24">Aucune</span></div>
+                <div class="feedback" id="feedback24"></div>
+                <div class="controls">
+                    <button class="btn" id="prev24" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(24)">Vérifier</button>
+                    <button class="btn" id="next24" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question25" data-question="25">
+                <div class="question-number">Question 25</div>
+                <div class="question-text">La conjugaison est un phénomène de transfert d'information génétique :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(25, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Qui permet d'établir la carte génétique</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(25, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Qui permet à un virus d'acquérir de nouveaux gènes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(25, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">D'un virus à un autre</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(25, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Se fait entre virus et bactéries</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(25, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Survient entre bactéries à Gram négatif uniquement</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected25">Sélection: <span id="selectionText25">Aucune</span></div>
+                <div class="feedback" id="feedback25"></div>
+                <div class="controls">
+                    <button class="btn" id="prev25" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(25)">Vérifier</button>
+                    <button class="btn" id="next25" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question26" data-question="26">
+                <div class="question-number">Question 26</div>
+                <div class="question-text">La conversion lysogénique est l'un des moyens d'acquisition de caractères nouveaux :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(26, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est une insertion de gènes portés par des virus</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(26, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">C'est une transcription de gènes d'une autre bactérie</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(26, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">C'est une insertion illégitime de gènes cytoplasmique</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(26, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">C'est une insertion illégitime de gènes portés par des transposons</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(26, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">C'est une réponse de la bactérie à une infection par plusieurs virus</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected26">Sélection: <span id="selectionText26">Aucune</span></div>
+                <div class="feedback" id="feedback26"></div>
+                <div class="controls">
+                    <button class="btn" id="prev26" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(26)">Vérifier</button>
+                    <button class="btn" id="next26" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="results" id="results">
+            <h2>Quiz Terminé !</h2>
+            <div class="final-score" id="finalScore">0/0</div>
+            <div class="message" id="message"></div>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Bonnes réponses</h3>
+                    <p id="correctCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Mauvaises réponses</h3>
+                    <p id="incorrectCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pourcentage</h3>
+                    <p id="percentage">0%</p>
+                </div>
+            </div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "Les mutations sont des changements de caractères liés à des changements de gènes :", "options": {"A": "Touchent un grand nombre d'individu par population bactérienne", "B": "Les caractères acquis ne sont pas transmissibles", "C": "Surviennent de manière spontanée", "D": "Sont rare", "E": "Concernent plusieurs caractères au même temps"}, "correct": "C"}, {"id": 2, "text": "La transduction est un transfert d'ADN bactérien par l'intermédiaire de bactériophages :", "options": {"A": "C'est un transfert total", "B": "C'est un transfert partiel", "C": "Ne se fait qu'entre cellules d'espèces différentes", "D": "Propre aux bactéries à Gram positif", "E": "Se fait uniquement chez les bacilles à Gram positif"}, "correct": "B"}, {"id": 3, "text": "La conversion lysogénique est l'acquisition d'un caractère déterminé par le génome :", "options": {"A": "D'une autre bactérie", "B": "D'un prophage quelconque", "C": "D'un prophage spécifique", "D": "D'un plasmide", "E": "D'un intégron"}, "correct": "B"}, {"id": 4, "text": "La transformation est un procédé d'acquisition de caractères nouveaux par l'intermédiaire :", "options": {"A": "D'un plasmide", "B": "D'un transposon véhiculé par un virus", "C": "D'un virus", "D": "D'une cellule Eucaryote", "E": "D'un ADN bactérien"}, "correct": "E"}, {"id": 5, "text": "La conjugaison apporte à la cellule bactérienne des caractères d'adaptation :", "options": {"A": "C'est un phénomène sexuel", "B": "Commun à toutes les cellules bactériennes", "C": "Faisant intervenir deux bactéries de fertilité différente", "D": "Spécifique des bactéries à Gram positif", "E": "Caractérise les bactéries anaérobies"}, "correct": "AC"}, {"id": 6, "text": "La transduction est un phénomène d'acquisition de caractères nouveaux :", "options": {"A": "Transmis par une bactérie", "B": "D'origine virale", "C": "Intégrés à partir du cytoplasme", "D": "D'origine bactérienne transmis par un virus", "E": "D'origine virale transmis par une bactérie"}, "correct": "D"}, {"id": 7, "text": "La conversion lysogénique est un processus d'enrichissement des bactéries par des gènes d'origine :", "options": {"A": "Virale", "B": "De la bactérie elle même", "C": "Cellulaire", "D": "D'une autre bactérie", "E": "Plasmidique"}, "correct": "A"}, {"id": 8, "text": "Le glissement antigénique de l'Orthomyxovirus influenzae est dû :", "options": {"A": "ARN Polymérase virale non fidèle", "B": "Caractère segmenté du génome", "C": "Absence de paroi virale", "D": "Absence d'enveloppe virale", "E": "Présence de capside cubique"}, "correct": "A"}, {"id": 9, "text": "Les bactéries sont :", "options": {"A": "Des organismes procaryotes qui se multiplient par scissiparité", "B": "N'ont qu'une seule molécule d'ADN circulaire entourée par une membrane", "C": "Pourvu toutes de plasmides : molécules circulaires d'ADN capable d'autoréplication", "D": "Capables de variations phénotypiques induites et non transmissibles à diverses conditions extérieures", "E": "La biodiversité est le résultat des modifications du génome des différentes espèces"}, "correct": "ADE"}, {"id": 10, "text": "La mutation :", "options": {"A": "Est un changement du nombre ou de la séquence des bases nucléotidiques de l'ADN", "B": "Est toujours provoquée par un agent mutagène", "C": "Le caractère acquis par la mutation est transmissible à la descendance", "D": "Se fait à la suite d'une longue période d'adaptation progressive", "E": "Elle affecte plusieurs caractères"}, "correct": "AC"}, {"id": 11, "text": "Les pneumocoques entraînent la mort après injection à la souris (expérience de Griffith) s'ils sont :", "options": {"A": "De forme S (encapsulées) vivants", "B": "De forme R (non capsulées) vivants", "C": "De forme R vivants + l'ADN extrait de Pneumocoques S", "D": "De formes S tuées", "E": "De forme S tués + pneumocoques de forme R vivants"}, "correct": "ACE"}, {"id": 12, "text": "Les Variations génétiques par transfert de matériel génétique :", "options": {"A": "La transformation nécessite l'état de compétence de la bactérie donatrice", "B": "La transduction nécessite le contact étroit entre les bactéries reposant sur la présence chez la bactérie donatrice d'un facteur de fertilité", "C": "Le plasmide F est capable de s'intégrer au chromosome bactérien", "D": "La transformation est le transfert d'ADN bactérien par l'intermédiaire d'un bactériophage", "E": "Certaines bactéries sont capables d'absorber de l'ADN naturellement"}, "correct": "ABE"}, {"id": 13, "text": "Les bactériophages :", "options": {"A": "Ce sont les virus des bactéries", "B": "Le bactériophage se compose d'un chromosome d'acide nucléique, entouré d'une paroi de protéines", "C": "Virulents s'intègre dans le chromosome de la bactérie, il est répliqué en même temps que ce chromosome", "D": "Pliage tempéré : se multiplie et se réplique dans la bactérie puis finit par la lyser", "E": "La conversion lysogénique : le génome du bactériophage est intégré à celui de la bactérie"}, "correct": "CE"}, {"id": 14, "text": "Le génome bactérien peut acquérir de l'information d'origine virale par :", "options": {"A": "Conversion lysogénique", "B": "Transformation", "C": "Conjugaison", "D": "Mutation", "E": "Intégration"}, "correct": "A"}, {"id": 15, "text": "Les plasmides sont des éléments génétiques mobiles transmis entre les bactéries par :", "options": {"A": "Mutations ponctuelles", "B": "Transduction généralisée", "C": "Transduction localisée", "D": "Transformation", "E": "Conjugaison"}, "correct": "E"}, {"id": 16, "text": "La transformation bactérienne :", "options": {"A": "Est une modification intrinsèque du génome bactérien par transversion", "B": "Nécessite un contact étroit entre une bactérie donatrice et une bactérie réceptrice par l'intermédiaire de plasmides", "C": "Est un mécanisme limité à certaines bactéries dites auxotrophes", "D": "Exige l'incorporation de l'ADN transféré dans le génome de la bactérie réceptrice", "E": "Peut aboutir à l'acquisition de la résistance aux antibiotiques"}, "correct": "DE"}, {"id": 17, "text": "La conjugaison :", "options": {"A": "Nécessite un contact étroit entre la bactérie donatrice et la bactérie réceptrice par l'intermédiaire de bactériophages", "B": "Aboutit toujours à la perte du caractère porté par le plasmide conjugatif chez la bactérie donatrice", "C": "Aboutit à la formation d'une copie complète du plasmide conjugatif chez la bactérie réceptrice", "D": "Est un mécanisme de transfert unidirectionnel", "E": "Est un mécanisme limité à certaines bactéries dites compétentes"}, "correct": "CD"}, {"id": 18, "text": "La transduction :", "options": {"A": "Se fait par l'intermédiaire de plasmides", "B": "Peut aboutir à la formation d'une bactérie lysogène", "C": "Fait intervenir les bactériophages", "D": "Permet l'acquisition de l'ADN bactérien libre présent dans l'environnement par l'intermédiaire d'enzymes de transduction", "E": "Est un mécanisme qui concerne exclusivement les bactéries à Gram négatif"}, "correct": "BC"}, {"id": 19, "text": "La transformation bactérienne :", "options": {"A": "Fait intervenir les transposons", "B": "Est le résultat de l'acquisition de nouvelles enzymes bactériennes à partir de bactéries du même genre", "C": "Est un mécanisme limité à certaines bactéries dites compétentes", "D": "Est un mécanisme observé chez Streptococcus pneumoniae", "E": "S'observe exclusivement chez les bacilles à Gram négatif"}, "correct": "CD"}, {"id": 20, "text": "La conjugaison :", "options": {"A": "Est l'acquisition de l'ADN libre à partir de l'environnement de la bactérie", "B": "Fait intervenir les plasmides", "C": "Fait intervenir les bactériophages", "D": "Fait intervenir les transposons", "E": "S'observe exclusivement chez les bacilles à Gram positif"}, "correct": "BD"}, {"id": 21, "text": "La transduction :", "options": {"A": "Nécessite un contact étroit entre la bactérie donatrice et la bactérie réceptrice", "B": "Permet le transfert de l'ADN plasmidique", "C": "Nécessite la présence d'un bactériophage pour le transfert de l'ADN", "D": "Permet l'acquisition de l'ADN bactérien présent dans les cellules humaines", "E": "Est un mécanisme qui concerne exclusivement les bactéries produisant des spores"}, "correct": "BC"}, {"id": 22, "text": "La transduction généralisée :", "options": {"A": "Aboutit toujours à la duplication de l'ADN de la bactérie donatrice", "B": "Aboutit toujours à la duplication de l'ADN de la bactérie réceptrice", "C": "Peut aboutir à la dégradation de l'ADN transduit dans la cellule réceptrice", "D": "Aboutit à la formation de bactéries lysogénisées", "E": "Permet l'intégration de l'ADN de la bactérie donatrice dans le génome de la bactérie réceptrice"}, "correct": "CE"}, {"id": 23, "text": "La génétique bactérienne a eu de nombreuses applications :", "options": {"A": "Détecter les colonies des bactéries sur les milieux de culture", "B": "Comprendre par la génétique bactériémie les mécanismes du pouvoir pathogène des bactéries et leur virulence", "C": "Réalisation des antibiogrammes pour l'étude de la résistance aux antibiotiques", "D": "Détection des anticorps sériques", "E": "Détection des antigènes viraux dans les produits pathologiques"}, "correct": "B"}, {"id": 24, "text": "Certaines mutations peuvent induire la mort de la bactérie, elles sont appelées :", "options": {"A": "Les mutations morphologiques", "B": "Les mutations létales", "C": "Les mutations conditionnelles", "D": "Les mutations biochimiques", "E": "Les mutations adaptatives ou dirigées"}, "correct": "B"}, {"id": 25, "text": "La conjugaison est un phénomène de transfert d'information génétique :", "options": {"A": "Qui permet d'établir la carte génétique", "B": "Qui permet à un virus d'acquérir de nouveaux gènes", "C": "D'un virus à un autre", "D": "Se fait entre virus et bactéries", "E": "Survient entre bactéries à Gram négatif uniquement"}, "correct": "A"}, {"id": 26, "text": "La conversion lysogénique est l'un des moyens d'acquisition de caractères nouveaux :", "options": {"A": "C'est une insertion de gènes portés par des virus", "B": "C'est une transcription de gènes d'une autre bactérie", "C": "C'est une insertion illégitime de gènes cytoplasmique", "D": "C'est une insertion illégitime de gènes portés par des transposons", "E": "C'est une réponse de la bactérie à une infection par plusieurs virus"}, "correct": "A"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};  // Stores arrays of selected letters
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            // Hide all questions
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            
+            // Show current
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                
+                // Update button states
+                document.getElementById('prev' + num).disabled = num === 1;
+                document.getElementById('next' + num).disabled = num === totalQuestions;
+                
+                // Restore previous selections
+                updateSelectionDisplay(num);
+                
+                // Show feedback if already checked
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            
+            // Initialize array if needed
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                // Remove if already selected
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                // Add to selection
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            
+            // Update UI
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function calculatePartialScore(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect; // Assuming 5 options max
+            
+            // Calculate partial score: correct/total_correct - wrong/total_wrong
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore); // Don't go below 0
+            
+            return {
+                score: partialScore,
+                correctSelected: correctSelected,
+                totalCorrect: totalCorrect,
+                wrongSelected: wrongSelected,
+                isPerfect: correctSelected === totalCorrect && wrongSelected === 0
+            };
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            
+            const selection = userAnswers[questionNum] || [];
+            
+            checkedQuestions.add(questionNum);
+            
+            if (selection.length === 0) {
+                // Show answer without selecting anything
+                showAnswerOnly(questionNum);
+                return;
+            }
+            
+            const result = calculatePartialScore(questionNum);
+            
+            // Add partial score to total
+            score += result.score;
+            
+            document.getElementById('score').textContent = score.toFixed(1);
+            showFeedback(questionNum, result);
+        }
+        
+        function showAnswerOnly(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            
+            // Highlight correct options in green
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const optLetter = opt.dataset.option;
+                opt.classList.remove('selected');
+                
+                if (correctAnswer.includes(optLetter)) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            feedbackEl.textContent = '↳ Réponse : ' + correctAnswer.split('').join(', ');
+            feedbackEl.className = 'feedback show correct';
+        }
+        
+        function showFeedback(questionNum, result) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const userAnswer = selection.join('');
+            
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            
+            // Highlight options
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const optLetter = opt.dataset.option;
+                opt.classList.remove('selected');
+                
+                if (correctAnswer.includes(optLetter)) {
+                    opt.classList.add('correct');
+                } else if (selection.includes(optLetter) && !correctAnswer.includes(optLetter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show feedback message with partial scoring info
+            let feedbackText = '';
+            if (result.isPerfect) {
+                feedbackText = '✓ Parfait ! La réponse est : ' + correctAnswer.split('').join(', ');
+                feedbackEl.className = 'feedback show correct';
+            } else if (result.score > 0) {
+                const percentage = Math.round(result.score * 100);
+                feedbackText = '↗ Réponse partielle (' + percentage + '%). ' +
+                              'Correct : ' + result.correctSelected + '/' + result.totalCorrect + '. ' +
+                              'La réponse complète est : ' + correctAnswer.split('').join(', ');
+                feedbackEl.className = 'feedback show correct';
+            } else {
+                feedbackText = '✗ Incorrect. La bonne réponse est : ' + correctAnswer.split('').join(', ') + 
+                              '. Votre réponse : ' + (userAnswer || 'Aucune');
+                feedbackEl.className = 'feedback show incorrect';
+            }
+            
+            feedbackEl.textContent = feedbackText;
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgress();
+                
+                if (currentQuestion === totalQuestions && checkedQuestions.size === totalQuestions) {
+                    showResults();
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgress();
+            }
+        }
+        
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.score-display').style.display = 'none';
+            
+            const resultsEl = document.getElementById('results');
+            resultsEl.classList.add('show');
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = score + '/' + totalQuestions;
+            document.getElementById('correctCount').textContent = score;
+            document.getElementById('incorrectCount').textContent = totalQuestions - score;
+            document.getElementById('percentage').textContent = percentage + '%';
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = 'Excellent travail ! 🎉';
+            } else if (percentage >= 60) {
+                message = 'Bon travail ! Continuez à réviser.';
+            } else {
+                message = 'Continuez à réviser, vous allez y arriver !';
+            }
+            document.getElementById('message').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            
+            document.getElementById('score').textContent = '0';
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(f => f.classList.remove('show'));
+            document.querySelectorAll('[id^="selectionText"]').forEach(el => el.textContent = 'Aucune');
+            
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.header').style.display = 'block';
+            document.querySelector('.score-display').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            
+            showQuestion(1);
+            updateProgress();
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextQuestion();
+            if (e.key === 'ArrowLeft') prevQuestion();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+{
+  "lecture": 3,
+  "title": "Génétique Bactérienne",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Les mutations sont des changements de caractères liés à des changements de gènes :",
+      "options": {
+        "A": "Touchent un grand nombre d'individu par population bactérienne",
+        "B": "Les caractères acquis ne sont pas transmissibles",
+        "C": "Surviennent de manière spontanée",
+        "D": "Sont rare",
+        "E": "Concernent plusieurs caractères au même temps"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 2,
+      "text": "La transduction est un transfert d'ADN bactérien par l'intermédiaire de bactériophages :",
+      "options": {
+        "A": "C'est un transfert total",
+        "B": "C'est un transfert partiel",
+        "C": "Ne se fait qu'entre cellules d'espèces différentes",
+        "D": "Propre aux bactéries à Gram positif",
+        "E": "Se fait uniquement chez les bacilles à Gram positif"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 3,
+      "text": "La conversion lysogénique est l'acquisition d'un caractère déterminé par le génome :",
+      "options": {
+        "A": "D'une autre bactérie",
+        "B": "D'un prophage quelconque",
+        "C": "D'un prophage spécifique",
+        "D": "D'un plasmide",
+        "E": "D'un intégron"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 4,
+      "text": "La transformation est un procédé d'acquisition de caractères nouveaux par l'intermédiaire :",
+      "options": {
+        "A": "D'un plasmide",
+        "B": "D'un transposon véhiculé par un virus",
+        "C": "D'un virus",
+        "D": "D'une cellule Eucaryote",
+        "E": "D'un ADN bactérien"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 5,
+      "text": "La conjugaison apporte à la cellule bactérienne des caractères d'adaptation :",
+      "options": {
+        "A": "C'est un phénomène sexuel",
+        "B": "Commun à toutes les cellules bactériennes",
+        "C": "Faisant intervenir deux bactéries de fertilité différente",
+        "D": "Spécifique des bactéries à Gram positif",
+        "E": "Caractérise les bactéries anaérobies"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 6,
+      "text": "La transduction est un phénomène d'acquisition de caractères nouveaux :",
+      "options": {
+        "A": "Transmis par une bactérie",
+        "B": "D'origine virale",
+        "C": "Intégrés à partir du cytoplasme",
+        "D": "D'origine bactérienne transmis par un virus",
+        "E": "D'origine virale transmis par une bactérie"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 7,
+      "text": "La conversion lysogénique est un processus d'enrichissement des bactéries par des gènes d'origine :",
+      "options": {
+        "A": "Virale",
+        "B": "De la bactérie elle même",
+        "C": "Cellulaire",
+        "D": "D'une autre bactérie",
+        "E": "Plasmidique"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 8,
+      "text": "Le glissement antigénique de l'Orthomyxovirus influenzae est dû :",
+      "options": {
+        "A": "ARN Polymérase virale non fidèle",
+        "B": "Caractère segmenté du génome",
+        "C": "Absence de paroi virale",
+        "D": "Absence d'enveloppe virale",
+        "E": "Présence de capside cubique"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 9,
+      "text": "Les bactéries sont :",
+      "options": {
+        "A": "Des organismes procaryotes qui se multiplient par scissiparité",
+        "B": "N'ont qu'une seule molécule d'ADN circulaire entourée par une membrane",
+        "C": "Pourvu toutes de plasmides : molécules circulaires d'ADN capable d'autoréplication",
+        "D": "Capables de variations phénotypiques induites et non transmissibles à diverses conditions extérieures",
+        "E": "La biodiversité est le résultat des modifications du génome des différentes espèces"
+      },
+      "correct": "ADE"
+    },
+    {
+      "id": 10,
+      "text": "La mutation :",
+      "options": {
+        "A": "Est un changement du nombre ou de la séquence des bases nucléotidiques de l'ADN",
+        "B": "Est toujours provoquée par un agent mutagène",
+        "C": "Le caractère acquis par la mutation est transmissible à la descendance",
+        "D": "Se fait à la suite d'une longue période d'adaptation progressive",
+        "E": "Elle affecte plusieurs caractères"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 11,
+      "text": "Les pneumocoques entraînent la mort après injection à la souris (expérience de Griffith) s'ils sont :",
+      "options": {
+        "A": "De forme S (encapsulées) vivants",
+        "B": "De forme R (non capsulées) vivants",
+        "C": "De forme R vivants + l'ADN extrait de Pneumocoques S",
+        "D": "De formes S tuées",
+        "E": "De forme S tués + pneumocoques de forme R vivants"
+      },
+      "correct": "ACE"
+    },
+    {
+      "id": 12,
+      "text": "Les Variations génétiques par transfert de matériel génétique :",
+      "options": {
+        "A": "La transformation nécessite l'état de compétence de la bactérie donatrice",
+        "B": "La transduction nécessite le contact étroit entre les bactéries reposant sur la présence chez la bactérie donatrice d'un facteur de fertilité",
+        "C": "Le plasmide F est capable de s'intégrer au chromosome bactérien",
+        "D": "La transformation est le transfert d'ADN bactérien par l'intermédiaire d'un bactériophage",
+        "E": "Certaines bactéries sont capables d'absorber de l'ADN naturellement"
+      },
+      "correct": "ABE"
+    },
+    {
+      "id": 13,
+      "text": "Les bactériophages :",
+      "options": {
+        "A": "Ce sont les virus des bactéries",
+        "B": "Le bactériophage se compose d'un chromosome d'acide nucléique, entouré d'une paroi de protéines",
+        "C": "Virulents s'intègre dans le chromosome de la bactérie, il est répliqué en même temps que ce chromosome",
+        "D": "Pliage tempéré : se multiplie et se réplique dans la bactérie puis finit par la lyser",
+        "E": "La conversion lysogénique : le génome du bactériophage est intégré à celui de la bactérie"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 14,
+      "text": "Le génome bactérien peut acquérir de l'information d'origine virale par :",
+      "options": {
+        "A": "Conversion lysogénique",
+        "B": "Transformation",
+        "C": "Conjugaison",
+        "D": "Mutation",
+        "E": "Intégration"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 15,
+      "text": "Les plasmides sont des éléments génétiques mobiles transmis entre les bactéries par :",
+      "options": {
+        "A": "Mutations ponctuelles",
+        "B": "Transduction généralisée",
+        "C": "Transduction localisée",
+        "D": "Transformation",
+        "E": "Conjugaison"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 16,
+      "text": "La transformation bactérienne :",
+      "options": {
+        "A": "Est une modification intrinsèque du génome bactérien par transversion",
+        "B": "Nécessite un contact étroit entre une bactérie donatrice et une bactérie réceptrice par l'intermédiaire de plasmides",
+        "C": "Est un mécanisme limité à certaines bactéries dites auxotrophes",
+        "D": "Exige l'incorporation de l'ADN transféré dans le génome de la bactérie réceptrice",
+        "E": "Peut aboutir à l'acquisition de la résistance aux antibiotiques"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 17,
+      "text": "La conjugaison :",
+      "options": {
+        "A": "Nécessite un contact étroit entre la bactérie donatrice et la bactérie réceptrice par l'intermédiaire de bactériophages",
+        "B": "Aboutit toujours à la perte du caractère porté par le plasmide conjugatif chez la bactérie donatrice",
+        "C": "Aboutit à la formation d'une copie complète du plasmide conjugatif chez la bactérie réceptrice",
+        "D": "Est un mécanisme de transfert unidirectionnel",
+        "E": "Est un mécanisme limité à certaines bactéries dites compétentes"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 18,
+      "text": "La transduction :",
+      "options": {
+        "A": "Se fait par l'intermédiaire de plasmides",
+        "B": "Peut aboutir à la formation d'une bactérie lysogène",
+        "C": "Fait intervenir les bactériophages",
+        "D": "Permet l'acquisition de l'ADN bactérien libre présent dans l'environnement par l'intermédiaire d'enzymes de transduction",
+        "E": "Est un mécanisme qui concerne exclusivement les bactéries à Gram négatif"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 19,
+      "text": "La transformation bactérienne :",
+      "options": {
+        "A": "Fait intervenir les transposons",
+        "B": "Est le résultat de l'acquisition de nouvelles enzymes bactériennes à partir de bactéries du même genre",
+        "C": "Est un mécanisme limité à certaines bactéries dites compétentes",
+        "D": "Est un mécanisme observé chez Streptococcus pneumoniae",
+        "E": "S'observe exclusivement chez les bacilles à Gram négatif"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 20,
+      "text": "La conjugaison :",
+      "options": {
+        "A": "Est l'acquisition de l'ADN libre à partir de l'environnement de la bactérie",
+        "B": "Fait intervenir les plasmides",
+        "C": "Fait intervenir les bactériophages",
+        "D": "Fait intervenir les transposons",
+        "E": "S'observe exclusivement chez les bacilles à Gram positif"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 21,
+      "text": "La transduction :",
+      "options": {
+        "A": "Nécessite un contact étroit entre la bactérie donatrice et la bactérie réceptrice",
+        "B": "Permet le transfert de l'ADN plasmidique",
+        "C": "Nécessite la présence d'un bactériophage pour le transfert de l'ADN",
+        "D": "Permet l'acquisition de l'ADN bactérien présent dans les cellules humaines",
+        "E": "Est un mécanisme qui concerne exclusivement les bactéries produisant des spores"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 22,
+      "text": "La transduction généralisée :",
+      "options": {
+        "A": "Aboutit toujours à la duplication de l'ADN de la bactérie donatrice",
+        "B": "Aboutit toujours à la duplication de l'ADN de la bactérie réceptrice",
+        "C": "Peut aboutir à la dégradation de l'ADN transduit dans la cellule réceptrice",
+        "D": "Aboutit à la formation de bactéries lysogénisées",
+        "E": "Permet l'intégration de l'ADN de la bactérie donatrice dans le génome de la bactérie réceptrice"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 23,
+      "text": "La génétique bactérienne a eu de nombreuses applications :",
+      "options": {
+        "A": "Détecter les colonies des bactéries sur les milieux de culture",
+        "B": "Comprendre par la génétique bactériémie les mécanismes du pouvoir pathogène des bactéries et leur virulence",
+        "C": "Réalisation des antibiogrammes pour l'étude de la résistance aux antibiotiques",
+        "D": "Détection des anticorps sériques",
+        "E": "Détection des antigènes viraux dans les produits pathologiques"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 24,
+      "text": "Certaines mutations peuvent induire la mort de la bactérie, elles sont appelées :",
+      "options": {
+        "A": "Les mutations morphologiques",
+        "B": "Les mutations létales",
+        "C": "Les mutations conditionnelles",
+        "D": "Les mutations biochimiques",
+        "E": "Les mutations adaptatives ou dirigées"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 25,
+      "text": "La conjugaison est un phénomène de transfert d'information génétique :",
+      "options": {
+        "A": "Qui permet d'établir la carte génétique",
+        "B": "Qui permet à un virus d'acquérir de nouveaux gènes",
+        "C": "D'un virus à un autre",
+        "D": "Se fait entre virus et bactéries",
+        "E": "Survient entre bactéries à Gram négatif uniquement"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 26,
+      "text": "La conversion lysogénique est l'un des moyens d'acquisition de caractères nouveaux :",
+      "options": {
+        "A": "C'est une insertion de gènes portés par des virus",
+        "B": "C'est une transcription de gènes d'une autre bactérie",
+        "C": "C'est une insertion illégitime de gènes cytoplasmique",
+        "D": "C'est une insertion illégitime de gènes portés par des transposons",
+        "E": "C'est une réponse de la bactérie à une infection par plusieurs virus"
+      },
+      "correct": "A"
+    }
+  ]
+}

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 13 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 13 - Mycoplasma et Ureaplasma</h1>
+            <p>QCM Interactif - Collection MDM</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">Mycoplasma - Ureaplasma :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Ce sont des bactéries ubiquitaires, dépourvues de paroi</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Mycoplasma genitalium a le plus petit génome bactérien connu</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les mycoplasmes sont toujours sensibles aux β-lactamines</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Mycoplasma pneumoniae appartient à la flore commensale des voies aériennes</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Ureaplasma Sp et Mycoplasma hominis provoquent des infections au coure de la grossesse, qui peuvent se compliquer d'infections néonatales survenant chez des nouveau-nés</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-card" id="resultCard">
+            <div class="result-icon">🎉</div>
+            <div class="result-title">Quiz Terminé!</div>
+            <div class="result-score">
+                Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+            </div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "Mycoplasma - Ureaplasma :", "options": {"A": "Ce sont des bactéries ubiquitaires, dépourvues de paroi", "B": "Mycoplasma genitalium a le plus petit génome bactérien connu", "C": "Les mycoplasmes sont toujours sensibles aux β-lactamines", "D": "Mycoplasma pneumoniae appartient à la flore commensale des voies aériennes", "E": "Ureaplasma Sp et Mycoplasma hominis provoquent des infections au coure de la grossesse, qui peuvent se compliquer d'infections néonatales survenant chez des nouveau-nés"}, "correct": "ABE"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                updateSelectionDisplay(num);
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect;
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore);
+            score += partialScore;
+            checkedQuestions.add(questionNum);
+            showFeedback(questionNum);
+            updateProgress();
+            if (checkedQuestions.size === totalQuestions) {
+                showResults();
+            }
+        }
+        
+        function showFeedback(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            const isCorrect = selection.join('') === correctAnswer;
+            if (isCorrect) {
+                feedbackEl.innerHTML = '<span style="color: #16c79a;">✓ Correct!</span>';
+            } else {
+                feedbackEl.innerHTML = '<span style="color: #e94560;">✗ Incorrect. Réponse: ' + correctAnswer.split('').join(', ') + '</span>';
+            }
+            feedbackEl.style.display = 'block';
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const letter = opt.dataset.option;
+                if (correctAnswer.includes(letter)) {
+                    opt.classList.add('correct');
+                } else if (userAnswers[questionNum] && userAnswers[questionNum].includes(letter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const progress = (checkedQuestions.size / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            const resultCard = document.getElementById('resultCard');
+            resultCard.style.display = 'block';
+            document.getElementById('score').textContent = score.toFixed(2);
+            const percentage = (score / totalQuestions) * 100;
+            let message = '';
+            if (percentage >= 80) message = 'Excellent travail! 🌟';
+            else if (percentage >= 60) message = 'Bon travail! 👍';
+            else if (percentage >= 40) message = 'Continuez à réviser! 📚';
+            else message = 'Encore un peu de travail! 💪';
+            document.getElementById('resultMessage').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.style.display = 'none';
+                fb.innerHTML = '';
+            });
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            showQuestion(1);
+            updateProgress();
+        }
+    </script>
+</body>
+</html>

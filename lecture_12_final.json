@@ -1,0 +1,679 @@
+{
+  "lecture": 12,
+  "title": "Bactéries Intracellulaires, Mycoplasma et Structure Virale",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Bactéries intracellulaires :",
+      "options": {
+        "A": "Sont incapables de réplication autonome et ont besoin de cellules eucaryotes pour vivre",
+        "B": "Par leur adaptation au pH acide peuvent survivre dans le phagosome",
+        "C": "Le genre Chlamydia regroupe des bactéries intracellulaires facultatives",
+        "D": "Brucella peut se multiplier dans les milieux avec ou sans cellules",
+        "E": "Leur diagnostic repose sur les méthodes sérologiques et antigéniques"
+      },
+      "answers": [
+        "A",
+        "B",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Bactéries intracellulaires :",
+      "options": {
+        "A": "Le corps élémentaire représente la forme de résistance, extracellulaire capable de multiplication",
+        "B": "Le corps réticulé est la forme intracellulaire métaboliquement active",
+        "C": "La forme infectieuse est le corps élémentaire",
+        "D": "La multiplication intracellulaire permet à la bactérie de rester à l'abri des défenses immunitaires de l'hôte",
+        "E": "Certaines bactéries intracellulaires survivent dans le phagosome, d'autres dans le cytoplasme"
+      },
+      "answers": [
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Chlamydia trachomatis :",
+      "options": {
+        "A": "Bactérie à développement extracellulaire obligatoire qui a été longtemps prise pour un virus",
+        "B": "La seule espèce du genre Chlamydia rencontrée chez l'homme",
+        "C": "est à l'origine d'une kérato-conjonctivite chronique, dont la complication majeure est la cécité",
+        "D": "Chlamydia trachomatis de sérovar D est responsable d'infections sexuellement transmissible IST",
+        "E": "Les Chlamydia présentent une résistance naturelle aux antibiotiques actifs sur la paroi"
+      },
+      "answers": [
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Les Brucella sont des bactéries :",
+      "options": {
+        "A": "Strictement humaines",
+        "B": "Responsable de la fièvre de malte",
+        "C": "A croissance rapide, en moins de 02 heures",
+        "D": "A localisation extracellulaire",
+        "E": "A localisation intracellulaire"
+      },
+      "answers": [
+        "B",
+        "E"
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Parmi les caractères suivants, lequel concerne Brucella sp ?",
+      "options": {
+        "A": "Sa culture nécessite des milieux enrichis.",
+        "B": "Il peut sécréter un pigment fluorescent.",
+        "C": "Il est souvent responsable d'IST chez l'homme.",
+        "D": "L'agent causal de la coqueluche.",
+        "E": "C'est un pathogène de l'homme, jamais rencontré chez l'animal."
+      },
+      "answers": [
+        "A"
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Brucella melitensis est :",
+      "options": {
+        "A": "Un Bacille à Gram positif",
+        "B": "Cocci à Gram négatif",
+        "C": "Responsable de la fièvre de malte",
+        "D": "Difficilement cultivable sur les milieux ordinaires",
+        "E": "Un pathogène opportuniste."
+      },
+      "answers": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "id": 7,
+      "text": "Mycoplasma - Ureaplasma :",
+      "options": {
+        "A": "Ce sont des bactéries ubiquitaires, dépourvues de paroi",
+        "B": "Mycoplasma genitalium a le plus petit génome bactérien connu",
+        "C": "Les mycoplasmes sont toujours sensibles aux β-lactamines",
+        "D": "Mycoplasma pneumoniae appartient à la flore commensale des voies aériennes",
+        "E": "Ureaplasma Sp et Mycoplasma hominis provoquent des infections au coure de la grossesse, qui peuvent se compliquer d'infections néonatales survenant chez des nouveau-nés"
+      },
+      "answers": [
+        "A",
+        "B",
+        "E"
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Les enveloppes des virus sont des structures périphériques facultatives recouvrant la nucléocapside :",
+      "options": {
+        "A": "Elles ont la même origine",
+        "B": "Sont thermorésistante",
+        "C": "Sont thermosensibles et confère une faible persistance dans l'environnement",
+        "D": "Résistant aux solvants des lipides",
+        "E": "Peuvent être complexes"
+      },
+      "answers": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "id": 9,
+      "text": "Chez les virus enveloppés, le péplos :",
+      "options": {
+        "A": "Est d'origine cellulaire",
+        "B": "Peut-être d'origine nucléaire",
+        "C": "Est une membrane ayant subi des modifications par addition de glycoprotéines",
+        "D": "Est codé par le génome viral",
+        "E": "Est issu exclusivement du réticulum endoplasmique"
+      },
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": 10,
+      "text": "Le genre Entérovirus fait partie des Picornaviridae :",
+      "options": {
+        "A": "Ce sont des virus enveloppés à ARN monocaténaire (simple brin)",
+        "B": "La réplication est intranucléaire",
+        "C": "Ils peuvent être responsables de méningites lymphocytaires",
+        "D": "Coxsackie virus A est responsable du syndrome mains-pieds-bouche",
+        "E": "La poliomyélite est toujours paralytique"
+      },
+      "answers": [
+        "A",
+        "C",
+        "D"
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Parmi les virus à ADN, on distingue les Herpesviridae :",
+      "options": {
+        "A": "La synthèse des protéines se fait en 3 phases : très précoces, précoces et tardives",
+        "B": "Après une primo-infection, le virus persiste toute la vie chez, l'hôte infecté",
+        "C": "CMV donne le bouton de fièvre après récurrence",
+        "D": "L'infection par HSV2 est une IST",
+        "E": "HSV1 donne zona après récurrence"
+      },
+      "answers": [
+        "A",
+        "B",
+        "D"
+      ]
+    },
+    {
+      "id": 12,
+      "text": "Le virus EBV (Epstein Barr Virus) :",
+      "options": {
+        "A": "La transmission est féco-orale",
+        "B": "Est un virus oncogène",
+        "C": "L'Ag EA intervient dans la réplication du génome",
+        "D": "L'Ag VCA de l'enveloppe présent dans le cytoplasme et le noyau",
+        "E": "La mise en évidence des anti-VCA et EBNA permet de poser le diagnostic d'une infection ancienne"
+      },
+      "answers": [
+        "B",
+        "C",
+        "E"
+      ]
+    },
+    {
+      "id": 13,
+      "text": "La particule virale se distingue par :",
+      "options": {
+        "A": "La présence d'un seul type d'acide nucléique",
+        "B": "Le mode de vie parasite obligatoire",
+        "C": "Le comportement vis-à-vis de l'oxygène.",
+        "D": "Le comportement vis-à-vis de la température",
+        "E": "Le type de cellule hôte"
+      },
+      "answers": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "id": 14,
+      "text": "La classification des virus se base :",
+      "options": {
+        "A": "Le pouvoir pathogène",
+        "B": "Les cibles",
+        "C": "Le type d'infection",
+        "D": "La structure propre,",
+        "E": "Le mode de transmission"
+      },
+      "answers": [
+        "D"
+      ]
+    },
+    {
+      "id": 15,
+      "text": "Le virus de l'hépatite B :",
+      "options": {
+        "A": "Transmis par voie fécale orale",
+        "B": "Est un virus à ADN simple brin",
+        "C": "Est transmis par voie parentérale",
+        "D": "Entraine toujours une infection chronique",
+        "E": "Présente 8 génotypes"
+      },
+      "answers": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "id": 16,
+      "text": "Le marqueur biologique qui signe la guérison d'une hépatite B est :",
+      "options": {
+        "A": "L'Ag HBs",
+        "B": "L'Ac HBC",
+        "C": "L'Ac HBs",
+        "D": "L'Ag Hbe",
+        "E": "L'Ac HBC"
+      },
+      "answers": [
+        "C"
+      ]
+    },
+    {
+      "id": 17,
+      "text": "L'Orthomyxovirus influenzae :",
+      "options": {
+        "A": "Virus à ADN segmenté",
+        "B": "Virus à ARN bicaténaire segmenté",
+        "C": "Virus non enveloppé",
+        "D": "Virus à ARN segmenté",
+        "E": "Virus enveloppé"
+      },
+      "answers": [
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": 18,
+      "text": "Les virus sont des organismes microscopiques :",
+      "options": {
+        "A": "Filtrants",
+        "B": "Acellulaires",
+        "C": "Parasites obligatoire",
+        "D": "Parasite facultatif",
+        "E": "Vivant à l'état libre"
+      },
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": 19,
+      "text": "Les bactériophages sont des virus à structure binaire :",
+      "options": {
+        "A": "Parasite facultatif",
+        "B": "Tête cylindrique est une queue hexagonale uniquement",
+        "C": "Virus possédant l'ADN et L'ARN",
+        "D": "Se multiplient indépendamment de cellules hôtes",
+        "E": "Tête hexagonale et une queue cylindrique qui se termine par la plaque basale"
+      },
+      "answers": [
+        "E"
+      ]
+    },
+    {
+      "id": 20,
+      "text": "Les virus sont des organismes acellulaires parasites obligatoires :",
+      "options": {
+        "A": "Cultivant sur milieux bactériologiques usuels",
+        "B": "Filtrants",
+        "C": "Ayant un seul type d'acide nucléique",
+        "D": "Sporulés",
+        "E": "Aérobies"
+      },
+      "answers": [
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": 21,
+      "text": "L'enveloppe des virus est d'origine cellulaire avec des glycoprotéines spécifiques :",
+      "options": {
+        "A": "Elle rend le virus résistant",
+        "B": "Elle rend le virus vulnérable",
+        "C": "Permettant la coloration de Gram",
+        "D": "Joue un rôle dans le diagnostic",
+        "E": "Joue un rôle dans la fixation sur les cellules cibles"
+      },
+      "answers": [
+        "B",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": 22,
+      "text": "La classification des virus se base :",
+      "options": {
+        "A": "Le pouvoir pathogène",
+        "B": "Les cibles",
+        "C": "Le type d'infection",
+        "D": "La structure propre",
+        "E": "Le mode de transmission"
+      },
+      "answers": [
+        "D"
+      ]
+    },
+    {
+      "id": 23,
+      "text": "Les bactériophages ont une structure complexe faite d'une :",
+      "options": {
+        "A": "Tête hexagonale et d'une queue cylindrique",
+        "B": "Tête hexagonale et d'une queue hexagonale",
+        "C": "Tête cylindrique et d'une queue cylindrique",
+        "D": "Tête cylindrique et d'une queue cylindrique",
+        "E": "Une seule entité fusiforme"
+      },
+      "answers": [
+        "A"
+      ]
+    },
+    {
+      "id": 24,
+      "text": "Le HBV :",
+      "options": {
+        "A": "Le HBV est un virus à ADN double brin partiellement monocaténaire",
+        "B": "Le HBV utilise pour sa réplication une polymérase à activité de transcription inverse",
+        "C": "L'HBV se caractérise par un intermédiaire de réplication",
+        "D": "L'ARN pré-génomique est encapsulé pour former un nouveau virion",
+        "E": "L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques"
+      },
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": 25,
+      "text": "La nucléocapside :",
+      "options": {
+        "A": "Est un élément facultatif de la structure virale",
+        "B": "Est composée d'acide nucléique entouré de protéines",
+        "C": "Est constituée d'un acide nucléique et du peplos",
+        "D": "Est composée d'une molécule d'ADN et d'une molécule d'ARN",
+        "E": "Est composée d'une molécule d'ADN et d'une molécule d'ARN entourées de protéines de capsides"
+      },
+      "answers": [
+        "B"
+      ]
+    },
+    {
+      "id": 26,
+      "text": "La classification des virus :",
+      "options": {
+        "A": "Est basée uniquement sur la composition de l'acide nucléique",
+        "B": "Les virus nus sont dépourvus de peplos et sont fragiles dans le milieu extérieur",
+        "C": "Les virus à ADN bicaténaires ont tous une capside à symétrie complexe",
+        "D": "Les virus à ADN diploïdes ont un génome constitué d'ARN bicaténaire",
+        "E": "Le virus de la grippe est un virus à ARN segmenté"
+      },
+      "answers": [
+        "E"
+      ]
+    },
+    {
+      "id": 27,
+      "text": "Le virion : quelles sont les propositions justes ?",
+      "options": {
+        "A": "C'est une particule virale mature et non infectieuse",
+        "B": "Un seul type d'acide nucléique (ADN ou ARN) qui constitue le génome viral",
+        "C": "Contiens un cytoplasme et une membrane cytoplasmique",
+        "D": "Un parasitisme extracellulaire absolu",
+        "E": "Une structure particulaire"
+      },
+      "answers": [
+        "B",
+        "E"
+      ]
+    },
+    {
+      "id": 28,
+      "text": "Structure des virus :",
+      "options": {
+        "A": "Certains virus sont constitués uniquement d'une nucléocapside",
+        "B": "Les capsides icosaédriques ont toutes la même taille",
+        "C": "L'enveloppe virale est indispensable à la multiplication de certains virus",
+        "D": "Les virus possédant des capsides hélicoïdales n'infectent que les plantes",
+        "E": "Les virus possédant des symétries complexes n'infectent pas l'homme"
+      },
+      "answers": [
+        "A",
+        "C"
+      ]
+    },
+    {
+      "id": 29,
+      "text": "Les enveloppes virales :",
+      "options": {
+        "A": "Peuvent être doublées à leur face externe par une matrice protéique",
+        "B": "Sont générées uniquement par bourgeonnement de la membrane cytoplasmique cellulaire",
+        "C": "Ne contiennent pas de protéines cellulaires",
+        "D": "Sont généralement un facteur de fragilité pour le virus",
+        "E": "Sont généralement dégradées par les détergents"
+      },
+      "answers": [
+        "D",
+        "E"
+      ]
+    },
+    {
+      "id": 30,
+      "text": "Le HBV :",
+      "options": {
+        "A": "Le HBV est un virus à ADN double brin partiellement monocaténaire",
+        "B": "Le HBV utilise pour sa réplication une polymérase d'origine cellulaire",
+        "C": "L'HBV se caractérise par un intermédiaire de réplication",
+        "D": "L'ARN pré-génomique est dégradé grâce à une protéase cellulaire",
+        "E": "L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques"
+      },
+      "answers": [
+        "A",
+        "C"
+      ]
+    },
+    {
+      "id": 31,
+      "text": "Le HIV :",
+      "options": {
+        "A": "Le génome est rétro-transcrit par une transcriptase inverse en ARN",
+        "B": "L'ADN viral rétro-transcrit peut s'intégrer à l'ADN chromosomique de la cellule infectée.",
+        "C": "La traduction des ARNm donne naissance à 03 polyprotéines distinctes : gag, pol, env",
+        "D": "La polyprotéine Env est clivée par une protéase virale au moment du bourgeonnement du virus",
+        "E": "Les protéines Env sont glycosilées"
+      },
+      "answers": [
+        "B",
+        "E"
+      ]
+    },
+    {
+      "id": 32,
+      "text": "Les virus transmissibles lors d'un accident d'exposition au sang sont :",
+      "options": {
+        "A": "Le virus de l'hépatite A",
+        "B": "Le virus de l'hépatite B",
+        "C": "Le virus de la grippe",
+        "D": "Le virus de la rage",
+        "E": "Le virus de la rubéole"
+      },
+      "answers": [
+        "B"
+      ]
+    },
+    {
+      "id": 33,
+      "text": "Les virus transmissibles lors d'un accident d'exposition au sang sont :",
+      "options": {
+        "A": "Le virus de l'hépatite A",
+        "B": "Le virus de l'hépatite B",
+        "C": "Le virus de la grippe",
+        "D": "Le virus de la rage",
+        "E": "Le virus de la rubéole"
+      },
+      "answers": [
+        "B"
+      ]
+    },
+    {
+      "id": 34,
+      "text": "Les micro-organismes pouvant être transmis lors d'un accident d'exposition au sang sont :",
+      "options": {
+        "A": "Les bactéries essentiellement les bacilles à Gram négatif",
+        "B": "Les virus",
+        "C": "Les prions",
+        "D": "Les champignons",
+        "E": "Les levures"
+      },
+      "answers": [
+        "B"
+      ]
+    },
+    {
+      "id": 35,
+      "text": "Les virus sont des microorganismes :",
+      "options": {
+        "A": "Possédant un appareil de Golgi",
+        "B": "Contenant un noyau et des ribosomes",
+        "C": "Entourés d'une membrane cytoplasmique",
+        "D": "Protégés par le peptidoglycane",
+        "E": "Toutes les réponses sont fausses"
+      },
+      "answers": [
+        "E"
+      ]
+    },
+    {
+      "id": 36,
+      "text": "L'acide nucléique d'un virus :",
+      "options": {
+        "A": "Est un ARN bicaténaire hélicoïdal",
+        "B": "Est soit un ADN soit un ARN",
+        "C": "Est un ADN monocaténaire poly segmenté",
+        "D": "Est toujours à double brins",
+        "E": "Toutes les réponses sont fausses"
+      },
+      "answers": [
+        "B"
+      ]
+    },
+    {
+      "id": 37,
+      "text": "Les virus pouvant être transmis lors d'un accident d'exposition au sang sont :",
+      "options": {
+        "A": "Le virus de l'hépatite A.",
+        "B": "Entérovirus.",
+        "C": "Le virus de la grippe.",
+        "D": "Virus de la rage.",
+        "E": "Virus de l'hépatite B."
+      },
+      "answers": [
+        "E"
+      ]
+    },
+    {
+      "id": 38,
+      "text": "Les virus pouvant être transmis lors d'un accident d'exposition au sang sont :",
+      "options": {
+        "A": "Le virus de l'hépatite E.",
+        "B": "Virus polio.",
+        "C": "Virus de l'hépatite C.",
+        "D": "Virus de la rage.",
+        "E": "Virus de la grippe."
+      },
+      "answers": [
+        "C"
+      ]
+    },
+    {
+      "id": 39,
+      "text": "Le HBV :",
+      "options": {
+        "A": "Le HBV est un virus à ADN simple brin partiellement circulaire.",
+        "B": "Le HBV utilise pour sa réplication une polymérase à activité de transcription inverse. L'HBV se caractérise par un intermédiaire de réplication. | . L'ARN pré génomique est dégradé grâce à une protéase virale. | L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à | des récepteurs spécifiques. ] FINÛD",
+        "C": "Le HBV est un virus à ADN double brin partiellement monocaténaire",
+        "D": "L'ARN pré-génomique est encapsulé pour former un nouveau virion",
+        "E": "L'HBV s'attache aux cellules de l'épithélium respiratoire grâce à des récepteurs spécifiques"
+      },
+      "answers": [
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": 40,
+      "text": "Le HIV :",
+      "options": {
+        "A": "Le génome est rétro-transcrit par une transcriptase inverse en ADN.",
+        "B": "L'ADN viral rétro-transcrit peut s'intégrer à l'ADN chromosomique de la cellule infectée.",
+        "C": "La traduction des ARNm donne naissance à trois polyprotéines distinctes : gag, pol, env.",
+        "D": "La polyprotéine Env est clivée par une protéase virale au moment du bourgeonnement du virus.",
+        "E": "Les protéines Env ne sont pas glycosilées"
+      },
+      "answers": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "id": 41,
+      "text": "Un virus est caractérisée par la présence de :",
+      "options": {
+        "A": "Plusieurs types d'acide nucléique",
+        "B": "Une reproduction par réplication du génome",
+        "C": "Un système enzymatique et énergétique",
+        "D": "Une capside",
+        "E": "Une paroi rigide"
+      },
+      "answers": [
+        "B",
+        "D"
+      ]
+    },
+    {
+      "id": 42,
+      "text": "Les particules virales se distinguent par :",
+      "options": {
+        "A": "Leur divisons cellulaire par mitose",
+        "B": "Leur parasitisme intracellulaire strict",
+        "C": "Leur structure qui s'apparente aux protozoaires",
+        "D": "Leurs incapacité de se multiplier sur les milieux de culture",
+        "E": "Leur sensibilité aux antibiotiques"
+      },
+      "answers": [
+        "B",
+        "D"
+      ]
+    },
+    {
+      "id": 43,
+      "text": "La difficulté de mise au point d'une chimiothérapie antivirale est due :",
+      "options": {
+        "A": "A la structure compliquée d'un virus",
+        "B": "Au risque de contamination des manipulateurs",
+        "C": "Aux conditions de mise en culture du virus",
+        "D": "Aux interactions et relations étroites cellule hôte-virus.",
+        "E": "Aux effets secondaires des médicaments antiviraux"
+      },
+      "answers": [
+        "D"
+      ]
+    },
+    {
+      "id": 44,
+      "text": "Le virus du Sida (HIV) se distingue par :",
+      "options": {
+        "A": "La présence de deux molécules d'ARN monocaténaire",
+        "B": "La présence d'une transcriptase",
+        "C": "Un cycle de multiplication intra cytoplasmique",
+        "D": "La présence d'enveloppe",
+        "E": "Une capside a symétrie cubique"
+      },
+      "answers": [
+        "A",
+        "D"
+      ]
+    },
+    {
+      "id": 45,
+      "text": "Les enveloppes virales :",
+      "options": {
+        "A": "Présentent une structure complexe de nature protéique.",
+        "B": "Confèrent aux virus enveloppés une certaine fragilité, dans le milieu extérieur",
+        "C": "Rendent les virus très résistants aux détergents",
+        "D": "Confèrent aux virions une thermo-sensibilité.",
+        "E": "Protègent les virus des agents physicochimiques"
+      },
+      "answers": [
+        "B",
+        "D"
+      ]
+    }
+  ]
+}

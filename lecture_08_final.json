@@ -1,0 +1,174 @@
+{
+  "lecture": 8,
+  "title": "Actinomyces, Mycobactéries et Cocci Gram Négatif",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Les mycobactéries :",
+      "options": {
+        "A": "Le genre Mycobacterium regroupe des espèces aérobies strictes, à paroi riche en lipides",
+        "B": "Les mycobactéries atypiques sont des pathogènes strictes",
+        "C": "L'agent responsable de la lèpre est un agent pathogène opportuniste",
+        "D": "La mise en évidence des mycobactéries repose sur leur propriété particulière d'acido-alcoolo-résistance",
+        "E": "Parmi les antibiotiques antituberculeux on trouve : la Rifampicine, l'isoniazide, la pyrazinamide et l'éthambutol"
+      },
+      "correct": "ADE"
+    },
+    {
+      "id": 2,
+      "text": "Mycobacterium tuberculosis :",
+      "options": {
+        "A": "Se colore facilement par les colorations usuelles telles que la coloration de Gram",
+        "B": "Peut être isolé de façon transitoire dans l'environnement",
+        "C": "La vaccination antituberculeuse par le BCG a un support humoral",
+        "D": "La bacilloscopie a un bon rendement dans le diagnostic précoce de la tuberculose",
+        "E": "La tuberculose maladie survient soit d'un seul tenant après la tuberculose infection ou après une latence qui peut atteindre plusieurs années"
+      },
+      "correct": "BE"
+    },
+    {
+      "id": 3,
+      "text": "L'examen bactériologique direct du pus urétral d'un sujet de 28 ans laisse apparaître un cocci à Gram négatif intra et extra cellulaires. Il s'agit de :",
+      "options": {
+        "A": "Neisseria gonorrhoeae",
+        "B": "Mycoplasma genitalium",
+        "C": "Ureaplasma urealyticum",
+        "D": "Trichomonas vaginalis",
+        "E": "Chlamydia trachomatis"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 4,
+      "text": "Quelles sont les caractéristiques de la bactérie mise en cause ?",
+      "options": {
+        "A": "Oxydase positive",
+        "B": "Catalase négative",
+        "C": "Aérobie stricte",
+        "D": "Oxydase négative",
+        "E": "Peut être responsable d'infection oculaire chez le nouveau-né"
+      },
+      "correct": "ACE"
+    },
+    {
+      "id": 5,
+      "text": "Le Ceftriaxone en dose unique en IM est prescrit vis-à-vis de la bactérie mise en cause associé à :",
+      "options": {
+        "A": "Antimycosique",
+        "B": "Doxycycline",
+        "C": "Azithromycine",
+        "D": "Fosfomycine",
+        "E": "Pristinamycine"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 6,
+      "text": "Quel bilan complémentaire est demandé à ce patient ?",
+      "options": {
+        "A": "Une sérologie VIH",
+        "B": "Une sérologie Syphilis",
+        "C": "Une sérologie de l'hépatite B",
+        "D": "Une sérologie de l'hépatite A",
+        "E": "Une sérologie de l'hépatite C"
+      },
+      "correct": "ABCE"
+    },
+    {
+      "id": 7,
+      "text": "La méningite à Neisseria meningitidis est caractérisé par :",
+      "options": {
+        "A": "Un aspect clair du LCR",
+        "B": "Une réaction inflammatoire à prédominance lymphocytaire",
+        "C": "Une glycorrachie élevée",
+        "D": "Des cocci à Gram négatif",
+        "E": "Une protéinorachie effondrée"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 8,
+      "text": "Neisseria meningitidis :",
+      "options": {
+        "A": "Bactérie strictement humaine, son réservoir est le rhinopharynx de l'homme",
+        "B": "N. meningitidis ne peut pas résister à l'action du complément et à la phagocytose",
+        "C": "L'inflammation des méninges suite à l'infection par N. meningitidis est une urgence qui peut menacer le pronostic vital",
+        "D": "Les pétéchies caractérisent souvent la septicémie à méningocoque",
+        "E": "La méningite à méningocoque est une maladie à déclaration obligatoire"
+      },
+      "correct": "ACDE"
+    },
+    {
+      "id": 9,
+      "text": "Neisseria gonorrhoeae :",
+      "options": {
+        "A": "Bacille à Gram négatif",
+        "B": "Parasite strict des muqueuses des voies génitales (strictement humaine)",
+        "C": "Caractérisée par une morbidité élevée et des séquelles pouvant conduire à une stérilité",
+        "D": "Peut conduire à des infections conjonctivales pouvant entraîner la cécité (nouveau-né lorsque la mère est infectée)",
+        "E": "L'administration systématique d'un collyre d'antibiotique au nouveau-né permet de prévenir une éventuelle contamination conjonctivale par le gonocoque"
+      },
+      "correct": "BCDE"
+    },
+    {
+      "id": 10,
+      "text": "Le méningocoque :",
+      "options": {
+        "A": "Est un cocci à Gram négatif en grain de café",
+        "B": "Est responsable d'écoulement urétral",
+        "C": "Est un germe non exigeant",
+        "D": "Est commensal du tractus urinaire",
+        "E": "Est transmis par voie aérienne"
+      },
+      "correct": "AE"
+    },
+    {
+      "id": 11,
+      "text": "Neisseria gonorrhoeae est :",
+      "options": {
+        "A": "Un Cocci à Gram positif en grains de café",
+        "B": "Un bacille à Gram positif",
+        "C": "Toujours sensible à l'amoxicilline même en produisant une pénicillinase",
+        "D": "C'est une bactérie exigeante",
+        "E": "Le vaccin A, C, W135 est l'unique moyen"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 12,
+      "text": "Le gonocoque :",
+      "options": {
+        "A": "Appartient à la famille des Neisseria comme le méningocoque",
+        "B": "Est un bacille à Gram positif",
+        "C": "Toujours sensible à l'amoxicilline même en produisant une pénicillinase",
+        "D": "C'est une bactérie non exigeante",
+        "E": "Le réservoir est strictement humain"
+      },
+      "correct": "AE"
+    },
+    {
+      "id": 13,
+      "text": "Parmi les affirmations suivantes, laquelle (ou lesquelles) caractérisent l'épidémiologie des méningites à méningocoques ?",
+      "options": {
+        "A": "Les méningocoques résistent au froid",
+        "B": "La transmission se fait par voie sexuelle",
+        "C": "Les méningocoques colonisent le rhinopharynx",
+        "D": "Il existe des porteurs sains",
+        "E": "En Algérie, le sérogroupe B est le plus fréquent"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 14,
+      "text": "Neisseria meningitidis est :",
+      "options": {
+        "A": "Un diplocoque",
+        "B": "Cocci à Gram positif en grains de café",
+        "C": "Responsable d'une Infection sexuellement transmissible",
+        "D": "Classer en sérogroupes (A, B, C, W135) en fonction des caractères biochimiques",
+        "E": "Rarement productrice d'une pénicillinase"
+      },
+      "correct": "A"
+    }
+  ]
+}

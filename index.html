@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiologie - QCM Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .lectures-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .lecture-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .lecture-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .lecture-info {
+            flex: 1;
+        }
+        
+        .lecture-number {
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .lecture-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .lecture-meta {
+            font-size: 0.85em;
+            opacity: 0.6;
+        }
+        
+        .lecture-arrow {
+            font-size: 1.5em;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        
+        .lecture-card:hover .lecture-arrow {
+            opacity: 1;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 20px 15px; }
+            .header { padding: 20px; margin-bottom: 30px; }
+            .header h1 { font-size: 1.8em; }
+            .header p { font-size: 1em; }
+            .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px; }
+            .stat-card { padding: 20px; }
+            .stat-number { font-size: 2em; }
+            .lecture-card { padding: 20px; }
+            .lecture-title { font-size: 1.1em; }
+            .lecture-arrow { font-size: 1.2em; }
+        }
+        
+        @media (max-width: 480px) {
+            body { padding: 15px 10px; }
+            .header { padding: 15px; }
+            .header h1 { font-size: 1.5em; }
+            .stats { grid-template-columns: 1fr; }
+            .lecture-card { padding: 15px; }
+            .lecture-title { font-size: 1em; }
+            .lecture-meta { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Microbiologie QCM</h1>
+            <p>Collection MDM - Dashboard des QCM Interactifs</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">Leçons</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">407</div>
+                <div class="stat-label">Questions Totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Complété</div>
+            </div>
+        </div>
+        
+        <div class="lectures-grid">
+            <a href="Lecture_01_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 01</div>
+                    <div class="lecture-title">Structure Bactérienne et Taxonomie</div>
+                    <div class="lecture-meta">39 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_02_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 02</div>
+                    <div class="lecture-title">Physiologie et Croissance Bactérienne</div>
+                    <div class="lecture-meta">26 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_03_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 03</div>
+                    <div class="lecture-title">Génétique Bactérienne</div>
+                    <div class="lecture-meta">26 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_04_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 04</div>
+                    <div class="lecture-title">Pouvoir pathogène - Relation Hôte-Bactérie</div>
+                    <div class="lecture-meta">26 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_05_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 05</div>
+                    <div class="lecture-title">Antibiotiques</div>
+                    <div class="lecture-meta">35 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_06_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 06</div>
+                    <div class="lecture-title">Microbiote Humain</div>
+                    <div class="lecture-meta">16 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_07_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 07</div>
+                    <div class="lecture-title">Anaérobies</div>
+                    <div class="lecture-meta">33 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_08_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 08</div>
+                    <div class="lecture-title">Actinomyces, Mycobactéries et Cocci Gram Négatif</div>
+                    <div class="lecture-meta">14 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_09_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 09</div>
+                    <div class="lecture-title">Bacilles Gram Négatif</div>
+                    <div class="lecture-meta">23 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_10_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 10</div>
+                    <div class="lecture-title">Cocci Gram Positif</div>
+                    <div class="lecture-meta">32 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_11_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 11</div>
+                    <div class="lecture-title">Bacilles Gram Positif</div>
+                    <div class="lecture-meta">15 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_12_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 12</div>
+                    <div class="lecture-title">Bactéries Intracellulaires, Mycoplasma et Structure Virale</div>
+                    <div class="lecture-meta">45 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_13_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 13</div>
+                    <div class="lecture-title">Mycoplasma et Ureaplasma</div>
+                    <div class="lecture-meta">1 question</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_14_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 14</div>
+                    <div class="lecture-title">Structure Virale</div>
+                    <div class="lecture-meta">38 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_15_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 15</div>
+                    <div class="lecture-title">Désinfection - Stérilisation</div>
+                    <div class="lecture-meta">12 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_16_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 16</div>
+                    <div class="lecture-title">Infections Nosocomiales</div>
+                    <div class="lecture-meta">18 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+            
+            <a href="Lecture_17_Quiz.html" class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-number">LEÇON 17</div>
+                    <div class="lecture-title">Sérums et Vaccins</div>
+                    <div class="lecture-meta">8 questions</div>
+                </div>
+                <div class="lecture-arrow">→</div>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>Collection MDM Microbiologie - QCM Interactifs</p>
+        </div>
+    </div>
+</body>
+</html>

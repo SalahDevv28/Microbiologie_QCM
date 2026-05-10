@@ -1,0 +1,198 @@
+{
+  "lecture": 6,
+  "title": "Microbiote Humain",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Le microbiote bucco-dentaire est représenté essentiellement par:",
+      "options": {
+        "A": "Bactéries bacilles à Gram négatif",
+        "B": "Cocci à Gram négatif",
+        "C": "Autant de bacilles que de cocci",
+        "D": "Essentiellement des Gram positif",
+        "E": "Les espèces du genre Lactobacillus"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 2,
+      "text": "Parmi les bactéries du microbiote buccal on retrouve les bacilles à Gram négatif :",
+      "options": {
+        "A": "Surtout les aérobies",
+        "B": "Surtout les anaérobies",
+        "C": "Au niveau de l'émail",
+        "D": "Au niveau des sillons gingivaux",
+        "E": "Sur les zones apicales"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 3,
+      "text": "Le microbiote intestinal est quantitativement le plus important dominé par :",
+      "options": {
+        "A": "Bactéries Gram négatif",
+        "B": "Espèces aérobies strictes",
+        "C": "Anaérobies strictes",
+        "D": "Bactéries sporulées",
+        "E": "90% de lactobacilles"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 4,
+      "text": "Jusqu'à un million de bactérie par cm² colonise la peau de l'homme représenté par :",
+      "options": {
+        "A": "Staphylocoques et Corynébactéries dans les zones humides",
+        "B": "Staphylocoques et Corynébactéries dans les zones sèches",
+        "C": "Staphylocoques et Corynébactéries dans zones séborrhéiques",
+        "D": "Bactéries à Gram négatif dans les zones humides",
+        "E": "Bactéries à Gram négatif dans les zones sèches"
+      },
+      "correct": "AE"
+    },
+    {
+      "id": 5,
+      "text": "Les anaérobies constituent la part dominante du microbiote intestinale :",
+      "options": {
+        "A": "2/3 de bactéries à Gram négatif et 1/3 de Gram positif",
+        "B": "Avec dominance des cocci",
+        "C": "Autant de Gram positif de Gram négatif",
+        "D": "Essentiellement Clostridium",
+        "E": "Uniquement des anaérobies stricts"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 6,
+      "text": "Le microbiote bucco-dentaire est composé de :",
+      "options": {
+        "A": "Bacilles à Gram négatif",
+        "B": "Cocci à Gram négatif",
+        "C": "Cocci et bacilles à Gram positif",
+        "D": "Cocci et bacilles à négatif",
+        "E": "2/3 de Gram positif 1/3 de Gram négatif"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 7,
+      "text": "Le microbiote intestinal chez l'Homme varie en fonction de la disponibilité de l'oxygène :",
+      "options": {
+        "A": "Augmente avec la disponibilité de l'oxygène",
+        "B": "Diminue avec la disponibilité de l'oxygène",
+        "C": "Augmente avec la rareté de l'oxygène",
+        "D": "Diminue avec l'augmentation du pH",
+        "E": "Augmente avec l'augmentation de pH et du mucus"
+      },
+      "correct": "BCE"
+    },
+    {
+      "id": 8,
+      "text": "Un million de bactéries par cm² de peau ; les zones riche en glandes sébacées sont colonisées surtout par :",
+      "options": {
+        "A": "Les bacilles à Gram négatif",
+        "B": "Staphylococcus",
+        "C": "Cocci à Gram négatif",
+        "D": "E.coli",
+        "E": "Propionibacterium"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 9,
+      "text": "Le microbiote intestinal est représenté au deux tiers par des bacilles :",
+      "options": {
+        "A": "A Gram négatif aérobies strictes",
+        "B": "A Gram négatif anaérobies",
+        "C": "A Gram positif aérobies",
+        "D": "A Gram positif anaérobies strictes sporulés",
+        "E": "A Gram positif aéro-anaérobies facultatifs"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 10,
+      "text": "Au fur et à mesure que l'on progresse dans le tube digestif, les micro-organismes :",
+      "options": {
+        "A": "Cocci augmentent",
+        "B": "Aérobies augmentent",
+        "C": "Anaérobies diminuent",
+        "D": "Anaérobies augmentent",
+        "E": "Totaux diminuent"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 11,
+      "text": "Les lactobacilles de la microflore de Döderline sont anti-colonisation. Ce sont des :",
+      "options": {
+        "A": "Bacilles à Gram négatif",
+        "B": "Immuno-stimulateurs",
+        "C": "Co-agrégateurs",
+        "D": "Cocci à Gram positif",
+        "E": "Cocci en chaînettes à Gram négatif"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 12,
+      "text": "Au niveau bucco-dentaire, le microbiote permanent est au deux tiers composé de :",
+      "options": {
+        "A": "Cocci à Gram positif",
+        "B": "Cocci Gram négatif",
+        "C": "Bacilles à Gram positif",
+        "D": "De Neisseriaceae",
+        "E": "D'Enterobacteriaceae"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 13,
+      "text": "Des variations peuvent survenir au niveau du microbiote sous l'influence de plusieurs facteurs et :",
+      "options": {
+        "A": "Touchent l'aspect taxonomique",
+        "B": "Concerne uniquement les aérobies",
+        "C": "Ne touche que l'aspect quantitatif",
+        "D": "Seules les proportions des différentes composantes changent",
+        "E": "Et concerne les anaérobies"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 14,
+      "text": "Le microbiote buccal est constitué essentiellement de bactéries :",
+      "options": {
+        "A": "Cocci à Gram négatif",
+        "B": "Bacilles à Gram positif",
+        "C": "Cocci à Gram positif",
+        "D": "Bacilles à Gram négatif",
+        "E": "2/3 de bacilles et 1/3 de cocci"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 15,
+      "text": "Le nombre de bactéries dans les intestins augmente au fur et à mesure que :",
+      "options": {
+        "A": "L'oxygène diminue et que le pH augmente",
+        "B": "L'oxygène augmente, et que le pH augmente",
+        "C": "L'oxygène et les aliments augmentent",
+        "D": "Le pH diminue et que les aliments augmentent",
+        "E": "Le pH augmente et le mucus diminue"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 16,
+      "text": "Plus de 1000 espèces compose le microbiote intestinal. Elles sont:",
+      "options": {
+        "A": "Strictement aérobies",
+        "B": "Strictement anaérobies",
+        "C": "Aéro-anaérobies facultatif",
+        "D": "Surtout des anaérobies",
+        "E": "Surtout des aérobies"
+      },
+      "correct": "D"
+    }
+  ]
+}

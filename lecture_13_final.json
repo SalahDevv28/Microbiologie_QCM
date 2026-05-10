@@ -1,0 +1,22 @@
+{
+  "lecture": 13,
+  "title": "Mycoplasma et Ureaplasma",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Mycoplasma - Ureaplasma :",
+      "options": {
+        "A": "Ce sont des bactéries ubiquitaires, dépourvues de paroi",
+        "B": "Mycoplasma genitalium a le plus petit génome bactérien connu",
+        "C": "Les mycoplasmes sont toujours sensibles aux β-lactamines",
+        "D": "Mycoplasma pneumoniae appartient à la flore commensale des voies aériennes",
+        "E": "Ureaplasma Sp et Mycoplasma hominis provoquent des infections au coure de la grossesse, qui peuvent se compliquer d'infections néonatales survenant chez des nouveau-nés"
+      },
+      "answers": [
+        "A",
+        "B",
+        "E"
+      ]
+    }
+  ]
+}

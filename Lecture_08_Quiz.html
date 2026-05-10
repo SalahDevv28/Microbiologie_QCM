@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 8 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-display">
+        Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 8 - QCM Interactif</h1>
+            <p>Actinomyces, Mycobactéries et Cocci Gram Négatif</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">Les mycobactéries :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le genre Mycobacterium regroupe des espèces aérobies strictes, à paroi riche en lipides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les mycobactéries atypiques sont des pathogènes strictes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'agent responsable de la lèpre est un agent pathogène opportuniste</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La mise en évidence des mycobactéries repose sur leur propriété particulière d'acido-alcoolo-résistance</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Parmi les antibiotiques antituberculeux on trouve : la Rifampicine, l'isoniazide, la pyrazinamide et l'éthambutol</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question2" data-question="2">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">Mycobacterium tuberculosis :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(2, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Se colore facilement par les colorations usuelles telles que la coloration de Gram</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(2, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Peut être isolé de façon transitoire dans l'environnement</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(2, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La vaccination antituberculeuse par le BCG a un support humoral</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(2, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La bacilloscopie a un bon rendement dans le diagnostic précoce de la tuberculose</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(2, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La tuberculose maladie survient soit d'un seul tenant après la tuberculose infection ou après une latence qui peut atteindre plusieurs années</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected2">Sélection: <span id="selectionText2">Aucune</span></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="controls">
+                    <button class="btn" id="prev2" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(2)">Vérifier</button>
+                    <button class="btn" id="next2" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question3" data-question="3">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">L'examen bactériologique direct du pus urétral d'un sujet de 28 ans laisse apparaître un cocci à Gram négatif intra et extra cellulaires. Il s'agit de :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(3, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Neisseria gonorrhoeae</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(3, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Mycoplasma genitalium</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(3, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ureaplasma urealyticum</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(3, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Trichomonas vaginalis</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(3, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Chlamydia trachomatis</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected3">Sélection: <span id="selectionText3">Aucune</span></div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="controls">
+                    <button class="btn" id="prev3" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(3)">Vérifier</button>
+                    <button class="btn" id="next3" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question4" data-question="4">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">Quelles sont les caractéristiques de la bactérie mise en cause ?</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(4, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Oxydase positive</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(4, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Catalase négative</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(4, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Aérobie stricte</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(4, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Oxydase négative</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(4, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Peut être responsable d'infection oculaire chez le nouveau-né</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected4">Sélection: <span id="selectionText4">Aucune</span></div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="controls">
+                    <button class="btn" id="prev4" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(4)">Vérifier</button>
+                    <button class="btn" id="next4" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question5" data-question="5">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">Le Ceftriaxone en dose unique en IM est prescrit vis-à-vis de la bactérie mise en cause associé à :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(5, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Antimycosique</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(5, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Doxycycline</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(5, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Azithromycine</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(5, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Fosfomycine</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(5, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Pristinamycine</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected5">Sélection: <span id="selectionText5">Aucune</span></div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="controls">
+                    <button class="btn" id="prev5" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(5)">Vérifier</button>
+                    <button class="btn" id="next5" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question6" data-question="6">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">Quel bilan complémentaire est demandé à ce patient ?</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(6, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Une sérologie VIH</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(6, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Une sérologie Syphilis</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(6, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Une sérologie de l'hépatite B</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(6, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Une sérologie de l'hépatite A</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(6, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une sérologie de l'hépatite C</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected6">Sélection: <span id="selectionText6">Aucune</span></div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="controls">
+                    <button class="btn" id="prev6" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(6)">Vérifier</button>
+                    <button class="btn" id="next6" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question7" data-question="7">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">La méningite à Neisseria meningitidis est caractérisé par :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(7, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Un aspect clair du LCR</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(7, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Une réaction inflammatoire à prédominance lymphocytaire</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(7, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Une glycorrachie élevée</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(7, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Des cocci à Gram négatif</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(7, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une protéinorachie effondrée</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected7">Sélection: <span id="selectionText7">Aucune</span></div>
+                <div class="feedback" id="feedback7"></div>
+                <div class="controls">
+                    <button class="btn" id="prev7" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(7)">Vérifier</button>
+                    <button class="btn" id="next7" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question8" data-question="8">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">Neisseria meningitidis :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(8, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Bactérie strictement humaine, son réservoir est le rhinopharynx de l'homme</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(8, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">N. meningitidis ne peut pas résister à l'action du complément et à la phagocytose</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(8, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'inflammation des méninges suite à l'infection par N. meningitidis est une urgence qui peut menacer le pronostic vital</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(8, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les pétéchies caractérisent souvent la septicémie à méningocoque</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(8, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La méningite à méningocoque est une maladie à déclaration obligatoire</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected8">Sélection: <span id="selectionText8">Aucune</span></div>
+                <div class="feedback" id="feedback8"></div>
+                <div class="controls">
+                    <button class="btn" id="prev8" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(8)">Vérifier</button>
+                    <button class="btn" id="next8" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question9" data-question="9">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">Neisseria gonorrhoeae :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(9, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Bacille à Gram négatif</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(9, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Parasite strict des muqueuses des voies génitales (strictement humaine)</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(9, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Caractérisée par une morbidité élevée et des séquelles pouvant conduire à une stérilité</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(9, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Peut conduire à des infections conjonctivales pouvant entraîner la cécité (nouveau-né lorsque la mère est infectée)</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(9, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">L'administration systématique d'un collyre d'antibiotique au nouveau-né permet de prévenir une éventuelle contamination conjonctivale par le gonocoque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected9">Sélection: <span id="selectionText9">Aucune</span></div>
+                <div class="feedback" id="feedback9"></div>
+                <div class="controls">
+                    <button class="btn" id="prev9" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(9)">Vérifier</button>
+                    <button class="btn" id="next9" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question10" data-question="10">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">Le méningocoque :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(10, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est un cocci à Gram négatif en grain de café</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(10, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est responsable d'écoulement urétral</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(10, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Est un germe non exigeant</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(10, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est commensal du tractus urinaire</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(10, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est transmis par voie aérienne</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected10">Sélection: <span id="selectionText10">Aucune</span></div>
+                <div class="feedback" id="feedback10"></div>
+                <div class="controls">
+                    <button class="btn" id="prev10" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(10)">Vérifier</button>
+                    <button class="btn" id="next10" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question11" data-question="11">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">Neisseria gonorrhoeae est :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(11, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Un Cocci à Gram positif en grains de café</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(11, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Un bacille à Gram positif</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(11, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Toujours sensible à l'amoxicilline même en produisant une pénicillinase</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(11, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">C'est une bactérie exigeante</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(11, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le vaccin A, C, W135 est l'unique moyen</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected11">Sélection: <span id="selectionText11">Aucune</span></div>
+                <div class="feedback" id="feedback11"></div>
+                <div class="controls">
+                    <button class="btn" id="prev11" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(11)">Vérifier</button>
+                    <button class="btn" id="next11" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question12" data-question="12">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">Le gonocoque :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(12, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Appartient à la famille des Neisseria comme le méningocoque</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(12, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est un bacille à Gram positif</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(12, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Toujours sensible à l'amoxicilline même en produisant une pénicillinase</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(12, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">C'est une bactérie non exigeante</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(12, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le réservoir est strictement humain</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected12">Sélection: <span id="selectionText12">Aucune</span></div>
+                <div class="feedback" id="feedback12"></div>
+                <div class="controls">
+                    <button class="btn" id="prev12" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(12)">Vérifier</button>
+                    <button class="btn" id="next12" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question13" data-question="13">
+                <div class="question-number">Question 13</div>
+                <div class="question-text">Parmi les affirmations suivantes, laquelle (ou lesquelles) caractérisent l'épidémiologie des méningites à méningocoques ?</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(13, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Les méningocoques résistent au froid</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(13, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La transmission se fait par voie sexuelle</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(13, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les méningocoques colonisent le rhinopharynx</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(13, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Il existe des porteurs sains</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(13, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">En Algérie, le sérogroupe B est le plus fréquent</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected13">Sélection: <span id="selectionText13">Aucune</span></div>
+                <div class="feedback" id="feedback13"></div>
+                <div class="controls">
+                    <button class="btn" id="prev13" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(13)">Vérifier</button>
+                    <button class="btn" id="next13" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question14" data-question="14">
+                <div class="question-number">Question 14</div>
+                <div class="question-text">Neisseria meningitidis est :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(14, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Un diplocoque</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(14, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Cocci à Gram positif en grains de café</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(14, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Responsable d'une Infection sexuellement transmissible</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(14, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Classer en sérogroupes (A, B, C, W135) en fonction des caractères biochimiques</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(14, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Rarement productrice d'une pénicillinase</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected14">Sélection: <span id="selectionText14">Aucune</span></div>
+                <div class="feedback" id="feedback14"></div>
+                <div class="controls">
+                    <button class="btn" id="prev14" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(14)">Vérifier</button>
+                    <button class="btn" id="next14" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="results" id="results">
+            <h2>Quiz Terminé !</h2>
+            <div class="final-score" id="finalScore">0/0</div>
+            <div class="message" id="message"></div>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Bonnes réponses</h3>
+                    <p id="correctCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Mauvaises réponses</h3>
+                    <p id="incorrectCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pourcentage</h3>
+                    <p id="percentage">0%</p>
+                </div>
+            </div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "Les mycobactéries :", "options": {"A": "Le genre Mycobacterium regroupe des espèces aérobies strictes, à paroi riche en lipides", "B": "Les mycobactéries atypiques sont des pathogènes strictes", "C": "L'agent responsable de la lèpre est un agent pathogène opportuniste", "D": "La mise en évidence des mycobactéries repose sur leur propriété particulière d'acido-alcoolo-résistance", "E": "Parmi les antibiotiques antituberculeux on trouve : la Rifampicine, l'isoniazide, la pyrazinamide et l'éthambutol"}, "correct": "ADE"}, {"id": 2, "text": "Mycobacterium tuberculosis :", "options": {"A": "Se colore facilement par les colorations usuelles telles que la coloration de Gram", "B": "Peut être isolé de façon transitoire dans l'environnement", "C": "La vaccination antituberculeuse par le BCG a un support humoral", "D": "La bacilloscopie a un bon rendement dans le diagnostic précoce de la tuberculose", "E": "La tuberculose maladie survient soit d'un seul tenant après la tuberculose infection ou après une latence qui peut atteindre plusieurs années"}, "correct": "BE"}, {"id": 3, "text": "L'examen bactériologique direct du pus urétral d'un sujet de 28 ans laisse apparaître un cocci à Gram négatif intra et extra cellulaires. Il s'agit de :", "options": {"A": "Neisseria gonorrhoeae", "B": "Mycoplasma genitalium", "C": "Ureaplasma urealyticum", "D": "Trichomonas vaginalis", "E": "Chlamydia trachomatis"}, "correct": "A"}, {"id": 4, "text": "Quelles sont les caractéristiques de la bactérie mise en cause ?", "options": {"A": "Oxydase positive", "B": "Catalase négative", "C": "Aérobie stricte", "D": "Oxydase négative", "E": "Peut être responsable d'infection oculaire chez le nouveau-né"}, "correct": "ACE"}, {"id": 5, "text": "Le Ceftriaxone en dose unique en IM est prescrit vis-à-vis de la bactérie mise en cause associé à :", "options": {"A": "Antimycosique", "B": "Doxycycline", "C": "Azithromycine", "D": "Fosfomycine", "E": "Pristinamycine"}, "correct": "BC"}, {"id": 6, "text": "Quel bilan complémentaire est demandé à ce patient ?", "options": {"A": "Une sérologie VIH", "B": "Une sérologie Syphilis", "C": "Une sérologie de l'hépatite B", "D": "Une sérologie de l'hépatite A", "E": "Une sérologie de l'hépatite C"}, "correct": "ABCE"}, {"id": 7, "text": "La méningite à Neisseria meningitidis est caractérisé par :", "options": {"A": "Un aspect clair du LCR", "B": "Une réaction inflammatoire à prédominance lymphocytaire", "C": "Une glycorrachie élevée", "D": "Des cocci à Gram négatif", "E": "Une protéinorachie effondrée"}, "correct": "D"}, {"id": 8, "text": "Neisseria meningitidis :", "options": {"A": "Bactérie strictement humaine, son réservoir est le rhinopharynx de l'homme", "B": "N. meningitidis ne peut pas résister à l'action du complément et à la phagocytose", "C": "L'inflammation des méninges suite à l'infection par N. meningitidis est une urgence qui peut menacer le pronostic vital", "D": "Les pétéchies caractérisent souvent la septicémie à méningocoque", "E": "La méningite à méningocoque est une maladie à déclaration obligatoire"}, "correct": "ACDE"}, {"id": 9, "text": "Neisseria gonorrhoeae :", "options": {"A": "Bacille à Gram négatif", "B": "Parasite strict des muqueuses des voies génitales (strictement humaine)", "C": "Caractérisée par une morbidité élevée et des séquelles pouvant conduire à une stérilité", "D": "Peut conduire à des infections conjonctivales pouvant entraîner la cécité (nouveau-né lorsque la mère est infectée)", "E": "L'administration systématique d'un collyre d'antibiotique au nouveau-né permet de prévenir une éventuelle contamination conjonctivale par le gonocoque"}, "correct": "BCDE"}, {"id": 10, "text": "Le méningocoque :", "options": {"A": "Est un cocci à Gram négatif en grain de café", "B": "Est responsable d'écoulement urétral", "C": "Est un germe non exigeant", "D": "Est commensal du tractus urinaire", "E": "Est transmis par voie aérienne"}, "correct": "AE"}, {"id": 11, "text": "Neisseria gonorrhoeae est :", "options": {"A": "Un Cocci à Gram positif en grains de café", "B": "Un bacille à Gram positif", "C": "Toujours sensible à l'amoxicilline même en produisant une pénicillinase", "D": "C'est une bactérie exigeante", "E": "Le vaccin A, C, W135 est l'unique moyen"}, "correct": "D"}, {"id": 12, "text": "Le gonocoque :", "options": {"A": "Appartient à la famille des Neisseria comme le méningocoque", "B": "Est un bacille à Gram positif", "C": "Toujours sensible à l'amoxicilline même en produisant une pénicillinase", "D": "C'est une bactérie non exigeante", "E": "Le réservoir est strictement humain"}, "correct": "AE"}, {"id": 13, "text": "Parmi les affirmations suivantes, laquelle (ou lesquelles) caractérisent l'épidémiologie des méningites à méningocoques ?", "options": {"A": "Les méningocoques résistent au froid", "B": "La transmission se fait par voie sexuelle", "C": "Les méningocoques colonisent le rhinopharynx", "D": "Il existe des porteurs sains", "E": "En Algérie, le sérogroupe B est le plus fréquent"}, "correct": "CD"}, {"id": 14, "text": "Neisseria meningitidis est :", "options": {"A": "Un diplocoque", "B": "Cocci à Gram positif en grains de café", "C": "Responsable d'une Infection sexuellement transmissible", "D": "Classer en sérogroupes (A, B, C, W135) en fonction des caractères biochimiques", "E": "Rarement productrice d'une pénicillinase"}, "correct": "A"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};  // Stores arrays of selected letters
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            // Hide all questions
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            
+            // Show current
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                
+                // Update button states
+                document.getElementById('prev' + num).disabled = num === 1;
+                document.getElementById('next' + num).disabled = num === totalQuestions;
+                
+                // Restore previous selections
+                updateSelectionDisplay(num);
+                
+                // Show feedback if already checked
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            
+            // Initialize array if needed
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                // Remove if already selected
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                // Add to selection
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            
+            // Update UI
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function calculatePartialScore(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect; // Assuming 5 options max
+            
+            // Calculate partial score: correct/total_correct - wrong/total_wrong
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore); // Don't go below 0
+            
+            return {
+                score: partialScore,
+                correctSelected: correctSelected,
+                totalCorrect: totalCorrect,
+                wrongSelected: wrongSelected,
+                isPerfect: correctSelected === totalCorrect && wrongSelected === 0
+            };
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            
+            const selection = userAnswers[questionNum] || [];
+            
+            checkedQuestions.add(questionNum);
+            
+            if (selection.length === 0) {
+                // Show answer without selecting anything
+                showAnswerOnly(questionNum);
+                return;
+            }
+            
+            const result = calculatePartialScore(questionNum);
+            
+            // Add partial score to total
+            score += result.score;
+            
+            document.getElementById('score').textContent = score.toFixed(1);
+            showFeedback(questionNum, result);
+        }
+        
+        function showAnswerOnly(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            
+            // Highlight correct options in green
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const optLetter = opt.dataset.option;
+                opt.classList.remove('selected');
+                
+                if (correctAnswer.includes(optLetter)) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            feedbackEl.textContent = '↳ Réponse : ' + correctAnswer.split('').join(', ');
+            feedbackEl.className = 'feedback show correct';
+        }
+        
+        function showFeedback(questionNum, result) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const userAnswer = selection.join('');
+            
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            
+            // Highlight options
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const optLetter = opt.dataset.option;
+                opt.classList.remove('selected');
+                
+                if (correctAnswer.includes(optLetter)) {
+                    opt.classList.add('correct');
+                } else if (selection.includes(optLetter) && !correctAnswer.includes(optLetter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show feedback message with partial scoring info
+            let feedbackText = '';
+            if (result.isPerfect) {
+                feedbackText = '✓ Parfait ! La réponse est : ' + correctAnswer.split('').join(', ');
+                feedbackEl.className = 'feedback show correct';
+            } else if (result.score > 0) {
+                const percentage = Math.round(result.score * 100);
+                feedbackText = '↗ Réponse partielle (' + percentage + '%). ' +
+                              'Correct : ' + result.correctSelected + '/' + result.totalCorrect + '. ' +
+                              'La réponse complète est : ' + correctAnswer.split('').join(', ');
+                feedbackEl.className = 'feedback show correct';
+            } else {
+                feedbackText = '✗ Incorrect. La bonne réponse est : ' + correctAnswer.split('').join(', ') + 
+                              '. Votre réponse : ' + (userAnswer || 'Aucune');
+                feedbackEl.className = 'feedback show incorrect';
+            }
+            
+            feedbackEl.textContent = feedbackText;
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgress();
+                
+                if (currentQuestion === totalQuestions && checkedQuestions.size === totalQuestions) {
+                    showResults();
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgress();
+            }
+        }
+        
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.score-display').style.display = 'none';
+            
+            const resultsEl = document.getElementById('results');
+            resultsEl.classList.add('show');
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = score + '/' + totalQuestions;
+            document.getElementById('correctCount').textContent = score;
+            document.getElementById('incorrectCount').textContent = totalQuestions - score;
+            document.getElementById('percentage').textContent = percentage + '%';
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = 'Excellent travail ! 🎉';
+            } else if (percentage >= 60) {
+                message = 'Bon travail ! Continuez à réviser.';
+            } else {
+                message = 'Continuez à réviser, vous allez y arriver !';
+            }
+            document.getElementById('message').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            
+            document.getElementById('score').textContent = '0';
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(f => f.classList.remove('show'));
+            document.querySelectorAll('[id^="selectionText"]').forEach(el => el.textContent = 'Aucune');
+            
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.header').style.display = 'block';
+            document.querySelector('.score-display').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            
+            showQuestion(1);
+            updateProgress();
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextQuestion();
+            if (e.key === 'ArrowLeft') prevQuestion();
+        });
+    </script>
+</body>
+</html>

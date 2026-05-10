@@ -1,0 +1,222 @@
+{
+  "lecture": 16,
+  "title": "Infections Nosocomiales",
+  "questions": [
+    {
+      "id": 1,
+      "text": "La mesure de base pour la prévention des infections associées aux soins est",
+      "options": {
+        "A": "Le port de gants stériles",
+        "B": "L'utilisation des antibiotiques",
+        "C": "Hygiène des mains",
+        "D": "Le port de masques de protection",
+        "E": "L'utilisation de matériels propres"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 2,
+      "text": "Une infection est dite associée aux soins si",
+      "options": {
+        "A": "Elle se déclare avant l'hospitalisation",
+        "B": "Elle était en incubation avant l'hospitalisation",
+        "C": "Elle apparaît après un délai de 48h",
+        "D": "Elle survient dans l'année suivant l'intervention chirurgicale",
+        "E": "Elle est d'origine maternelle"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 3,
+      "text": "Parmi les mesures pour la prévention des infections nosocomiales",
+      "options": {
+        "A": "Augmentation de l'utilisation des dispositifs invasifs",
+        "B": "Réduction de l'utilisation des dispositifs invasifs",
+        "C": "L'utilisation des antibiotiques",
+        "D": "L'hygiène des mains",
+        "E": "La formation du personnel sur l'hygiène hospitalière"
+      },
+      "correct": "BDE"
+    },
+    {
+      "id": 4,
+      "text": "L'infection nosocomiale sur prothèse",
+      "options": {
+        "A": "Se déclare au moment de l'admission",
+        "B": "Est en incubation à l'admission",
+        "C": "Survient dans l'année suivant l'intervention",
+        "D": "Est définie par l'isolement de germes dans le prélèvement sans signes cliniques",
+        "E": "Se déclare 48h après l'admission"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 5,
+      "text": "L'infection nosocomiale",
+      "options": {
+        "A": "Se déclare au moment de l'admission",
+        "B": "Est en incubation à l'admission",
+        "C": "Est en rapport avec l'utilisation de dispositifs invasifs",
+        "D": "Est définie par l'isolement de germes dans le prélèvement sans signes cliniques",
+        "E": "Se déclare 48h après l'admission"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 6,
+      "text": "Les espèces des genres Pseudomonas et Acinetobacter sont très incriminées dans les infections nosocomiales",
+      "options": {
+        "A": "Aérobies strictes saprophytes",
+        "B": "Fermentaires",
+        "C": "Aéro-anaérobies facultatifs",
+        "D": "Parasite obligatoire",
+        "E": "Anaérobies strictes"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 7,
+      "text": "Les virus pouvant être transmis lors d'un accident d'exposition au sang sont",
+      "options": {
+        "A": "Le virus de l'hépatite B",
+        "B": "Virus polio",
+        "C": "Virus de l'hépatite C",
+        "D": "Virus de la rage",
+        "E": "Virus de la grippe"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 8,
+      "text": "Les germes responsables d'infection nosocomiale sont caractérisés par",
+      "options": {
+        "A": "Leur culture fastidieuse",
+        "B": "Fragilité dans le milieu extérieur",
+        "C": "Faible adhérence pour la formation du biofilm",
+        "D": "La multirésistance acquise",
+        "E": "La sensibilité aux antibiotiques"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 9,
+      "text": "Parmi ces infections, lesquelles peuvent être considérées comme nosocomiales",
+      "options": {
+        "A": "Les infections matérno-fœtales",
+        "B": "Les infections asymptomatiques",
+        "C": "Les infections secondaires à des soins auto-prescrits",
+        "D": "Les infections urinaires sur cathéter urinaire",
+        "E": "Les infections respiratoires sur ventilation mécanique"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 10,
+      "text": "Quels sont les germes les plus incriminés dans les infections associées aux soins",
+      "options": {
+        "A": "Le streptocoque",
+        "B": "Haemophilus influenzae",
+        "C": "Pseudomonas aeruginosa",
+        "D": "Gonocoque",
+        "E": "Les anaérobies"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 11,
+      "text": "Les germes responsables d'infection nosocomiale sont caractérisés par",
+      "options": {
+        "A": "Leur culture fastidieuse",
+        "B": "Fragilité dans le milieu extérieur",
+        "C": "Faible adhérence pour la formation du biofilm",
+        "D": "La multirésistance acquise",
+        "E": "La sensibilité aux antibiotiques"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 12,
+      "text": "Parmi ces infections, lesquelles peuvent être considérées comme nosocomiales",
+      "options": {
+        "A": "Les infections matérno-fœtales",
+        "B": "Les infections asymptomatiques",
+        "C": "Les infections secondaires à des soins auto-prescrits",
+        "D": "Les infections urinaires sur cathéter urinaire",
+        "E": "Les infections respiratoires sur ventilation mécanique"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 13,
+      "text": "Est considérée comme infection du site opératoire les infections survenant",
+      "options": {
+        "A": "Le jour de l'hospitalisation",
+        "B": "Dans les 30 jours suivant l'intervention",
+        "C": "Dans l'année suivant l'intervention",
+        "D": "Dans les 10 années suivant l'intervention",
+        "E": "À n'importe quel moment après l'intervention chirurgicale"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 14,
+      "text": "La résistance aux antibiotiques des germes responsables d'infection nosocomiale se fait par",
+      "options": {
+        "A": "La modification de la cible",
+        "B": "La production d'enzyme",
+        "C": "Les pompes efflux",
+        "D": "L'imperméabilité",
+        "E": "La phagocytose"
+      },
+      "correct": "ABCD"
+    },
+    {
+      "id": 15,
+      "text": "L'infection associée aux soins",
+      "options": {
+        "A": "Est toujours acquise à l'hôpital",
+        "B": "Concerne uniquement le patient",
+        "C": "Concerne aussi le professionnel de santé",
+        "D": "Peut être en incubation à l'admission",
+        "E": "Est secondaire uniquement à la prise en charge de nature thérapeutique"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 16,
+      "text": "La validation de l'infection nosocomiale se fait par",
+      "options": {
+        "A": "Le microbiologiste",
+        "B": "Le clinicien",
+        "C": "L'épidémiologue",
+        "D": "Les techniques de biologie moléculaire",
+        "E": "Le directeur de la structure hospitalière"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 17,
+      "text": "La réduction des infections associées aux soins nécessite",
+      "options": {
+        "A": "L'utilisation fréquente des sondes trachéales",
+        "B": "L'usage des antibiotiques à spectre large",
+        "C": "La friction hydro-alcoolique des mains",
+        "D": "L'utilisation des dispositifs invasifs",
+        "E": ""
+      },
+      "correct": "C"
+    },
+    {
+      "id": 18,
+      "text": "Les facteurs liés aux patients favorisant la survenue d'une infection urinaire nosocomiale sont",
+      "options": {
+        "A": "Le cathétérisme vasculaire",
+        "B": "L'intubation trachéale",
+        "C": "Le sexe féminin",
+        "D": "Une immunocompétence",
+        "E": "Le lavage des mains"
+      },
+      "correct": "C"
+    }
+  ]
+}

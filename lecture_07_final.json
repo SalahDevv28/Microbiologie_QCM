@@ -1,0 +1,402 @@
+{
+  "lecture": 7,
+  "title": "Anaérobies",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Les anaérobies stricts se caractérisent par leur extrême sensibilité à l'oxygène :",
+      "options": {
+        "A": "Cultivent rapidement",
+        "B": "Cultivent lentement",
+        "C": "Ce sont exclusivement des bacilles",
+        "D": "Ce sont exclusivement des cocci",
+        "E": "Ce sont des Bactéries exclusivement à Gram positif"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 2,
+      "text": "Les anaérobies se caractérisent aussi par leur :",
+      "options": {
+        "A": "Sensibilité à la vancomycine",
+        "B": "Résistance à la vancomycine et au métronidazole",
+        "C": "Sensibilité au métronidazole et à la vancomycine",
+        "D": "Résistance au métronidazole et sensibilité à la vancomycine",
+        "E": "Résistance à la vancomycine et sensibilité au métronidazole"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 3,
+      "text": "Les bacilles anaérobies strictes sporulés à Gram positif font partie de la microflore tellurique et sont :",
+      "options": {
+        "A": "Transmis à l'homme à la faveur d'une effraction blessure",
+        "B": "Exclusivement par les produits alimentaires",
+        "C": "Pour la plus part toxinogènes",
+        "D": "Mobiles",
+        "E": "Ramifiés"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 4,
+      "text": "L'antibiogramme de Bactéries anaérobies se distingue par :",
+      "options": {
+        "A": "Une résistance aux bêtalactamines",
+        "B": "Une résistance au Metronidazole",
+        "C": "Une sensibilité aux aminoglycosides",
+        "D": "Une sensibilité au métronidazole et une résistance aux aminoglycosides",
+        "E": "Une sensibilité à tout antibiotique"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 5,
+      "text": "Une bactérie anaérobie stricte est une bactérie :",
+      "options": {
+        "A": "Qui cultive en présence de l'O2",
+        "B": "Qui exige des facteurs de croissance",
+        "C": "Qui nécessite un pH alcalin",
+        "D": "Qui pousse sur milieux ordinaires",
+        "E": "Qui cultive en absence de l'O2"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 6,
+      "text": "On retrouve Jusqu'à 1 million de bactéries par cm² de peau où les zones riche en glandes sébacées sont colonisées surtout par:",
+      "options": {
+        "A": "Les bacilles à Gram négatif",
+        "B": "Staphylococeus",
+        "C": "Cocci à Gram négatif",
+        "D": "E coli",
+        "E": "Propionibacterium"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 7,
+      "text": "Les BGN Anaérobies strictes se caractérisent par une forte sensibilité à l'oxygène et une résistance naturelle :",
+      "options": {
+        "A": "Aux bêtalactamines",
+        "B": "Aux aminoglycosides",
+        "C": "A la colistine",
+        "D": "Aux sulfamides",
+        "E": "Aux détergents"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 8,
+      "text": "Parmi les affirmations suivantes concernant les clostridium (C. tetani, C. perfringens), lesquelles se rapportent uniquement à l'espèce perfringens ?",
+      "options": {
+        "A": "Bactérie productrice de gaz",
+        "B": "Germe tellurique et commensal du tube digestif des animaux et de l'homme",
+        "C": "Bactérie sécrétrice d'entérotoxine",
+        "D": "Son diagnostic se fait surtout par la clinique",
+        "E": "La vaccination contre ce germe est obligatoire"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 9,
+      "text": "Parmi les propositions suivantes, laquelle ne s'applique pas aux infections à Clostridium tetani ?",
+      "options": {
+        "A": "Elles peuvent être consécutives à un traumatisme",
+        "B": "Il n'existe pas de prophylaxie vaccinale efficace",
+        "C": "La symptomatologie observée est liée à la production de toxine par la bactérie",
+        "D": "Clostridium tetani fait partie des aérobies strictes",
+        "E": "L'antibiothérapie n'est pas le seul élément de traitement de ces infections"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 10,
+      "text": "Parmi les propositions suivantes concernant Clostridium perfringens, quelle(s) est (sont) celle(s) qui est(sont) exacte(s) ?",
+      "options": {
+        "A": "C'est une bactérie à Gram négatif",
+        "B": "C'est une bactérie aérobie stricte",
+        "C": "Cette bactérie est responsable de toxi-infections alimentaires",
+        "D": "Cette bactérie peut former des spores",
+        "E": "Cette bactérie est très mobile"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 11,
+      "text": "Les espèces appartenant au genre clostridium ont de nombreuses propriétés communes. Lesquelles sont justes ?",
+      "options": {
+        "A": "Pouvant former une spore terminale ou sub-terminale thermosensible",
+        "B": "Métabolisme anaérobie facultatif",
+        "C": "Habitat : sol, eau et végétaux",
+        "D": "Bacilles à Gram négatifs",
+        "E": "Bacilles à Gram positifs"
+      },
+      "correct": "ACE"
+    },
+    {
+      "id": 12,
+      "text": "Clostridium difficile :",
+      "options": {
+        "A": "En gélose profonde, il forme des colonies lenticulaires avec production importante de gaz (H2) d'où fragmentation de la gélose",
+        "B": "Les infections à C. difficile sont les moins fréquentes parmi les infections à Clostridium",
+        "C": "La fréquence de portage influencée par : la prise d'ATB, pathologie digestive et l'hospitalisation",
+        "D": "Production d'acides volatiles : acide isocaproïque",
+        "E": "Le traitement est chirurgical"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 13,
+      "text": "Parmi les propositions suivantes, laquelle ne s'applique pas aux infections à Clostridium tetani ?",
+      "options": {
+        "A": "Elles peuvent être consécutives à un traumatisme",
+        "B": "Il n'existe pas de prophylaxie vaccinale efficace",
+        "C": "La symptomatologie observée est liée à la production de toxine par la bactérie",
+        "D": "Clostridium tetani fait partie des anaérobies strictes",
+        "E": "L'antibiothérapie n'est pas le seul élément de traitement de ces infections"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 14,
+      "text": "Clostridium perfringens :",
+      "options": {
+        "A": "Présent à l'état normal dans le tube digestif",
+        "B": "Est une bactérie aéro-anaérobie",
+        "C": "Peut être à l'origine de gangrène gazeuse",
+        "D": "Ne coagule pas le Lait de tournesol",
+        "E": "Est une bactérie non sporulée très résistante"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 15,
+      "text": "Clostridium difficile :",
+      "options": {
+        "A": "En gélose profonde, il forme des colonies lenticulaires avec production importante de gaz (H2) d'où fragmentation de la gélose",
+        "B": "Les infections à C. difficile sont les moins fréquentes parmi les infections à Clostridium",
+        "C": "La fréquence de portage influencé par la prise d'ATB, pathologie digestive et l'hospitalisation",
+        "D": "Production d'acides volatils : Acide isocaproïque",
+        "E": "Le traitement est chirurgical"
+      },
+      "correct": "ACD"
+    },
+    {
+      "id": 16,
+      "text": "Les espèces appartenant au genre Clostridium ont de nombreuses propriétés communes, quelles sont les propositions justes ?",
+      "options": {
+        "A": "Bacilles à Gram Négatifs",
+        "B": "Bacilles à Gram positifs",
+        "C": "Pouvant former une spore terminale ou sub-terminale thermosensible",
+        "D": "Métabolisme anaérobie facultatif",
+        "E": "Habitat : sol, eau et végétaux"
+      },
+      "correct": "BCE"
+    },
+    {
+      "id": 17,
+      "text": "Clostridium tétani :",
+      "options": {
+        "A": "Est naturellement sensible aux aminosides",
+        "B": "Produit une tétanopapaine responsable de la symptomatologie clinique",
+        "C": "Produit une tétanolysine responsable de la symptomatologie clinique",
+        "D": "Est responsable de trismus",
+        "E": "Peut être transmis suite à des morsures d'animaux"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 18,
+      "text": "Cocher les deux propositions justes :",
+      "options": {
+        "A": "Clostridium botulinum donne des paralysies flasques",
+        "B": "Clostridium botulinum donne une méningite purulente rapidement mortelle",
+        "C": "Clostridium difficile donne des diarrhées post antibiotiques",
+        "D": "Clostridium difficile provoque des bronchites sévères",
+        "E": "Clostridium difficile pousse sur milieu de Chapman"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 19,
+      "text": "Clostridium tétani :",
+      "options": {
+        "A": "Est naturellement sensible aux aminosides",
+        "B": "Produit une tétanopapaine responsable de la symptomatologie clinique",
+        "C": "Produit une tétanolysine responsable de la symptomatologie clinique",
+        "D": "Est responsable de trismus",
+        "E": "Peut être transmis suite à des morsures d'animaux"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 20,
+      "text": "Les bactéries anaérobies strictes :",
+      "options": {
+        "A": "Sont naturellement résistantes aux bêtalactamines",
+        "B": "Sont naturellement résistantes à la clindamycine",
+        "C": "Sont naturellement résistantes au métronidazole",
+        "D": "Sont naturellement résistantes aux aminosides",
+        "E": "Poussent en présence du dioxyde de carbone"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 21,
+      "text": "A propos de Clostridium tetani :",
+      "options": {
+        "A": "Clostridium tetani pousse sur milieu de Chapman",
+        "B": "Clostridium tetani pousse sur milieu de Wilkins-Chalgren additionné de sang de mouton",
+        "C": "La tétanospasmine inhibe la transmission cholinergique au niveau de la jonction neuromusculaire",
+        "D": "La tétanolysine inhibe la transmission cholinergique au niveau de la jonction neuromusculaire",
+        "E": "La clindamycine par voie orale est le traitement antibiotique de référence du tétanos"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 22,
+      "text": "A propos de Clostridium botulinum :",
+      "options": {
+        "A": "Clostridium botulinum se transmet principalement par voie parentérale",
+        "B": "Le diagnostic bactériologique repose principalement sur l'isolement de la bactérie en culture cellulaire",
+        "C": "Le diagnostic bactériologique repose principalement sur la recherche de la toxine botulique dans les selles",
+        "D": "La recherche de la toxine se fait par neutralisation du pouvoir pathogène chez l'animal",
+        "E": "La recherche de la toxine se fait par immunofluorescence directe"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 23,
+      "text": "A propos de Clostridium difficile :",
+      "options": {
+        "A": "Clostridium difficile est naturellement sensible à la vancomycine",
+        "B": "Clostridium difficile est naturellement résistant au métronidazole",
+        "C": "Clostridium difficile est responsable d'infections oculaires graves",
+        "D": "La recherche du tryptophane déshydrogénase à partir des selles permet un diagnostic de dépistage d'une diarrhée post-infectieuse",
+        "E": "La mise en évidence de la toxine se fait en culture cellulaire"
+      },
+      "correct": "AE"
+    },
+    {
+      "id": 24,
+      "text": "A propos du genre Clostridium :",
+      "options": {
+        "A": "Le diagnostic d'une toxi-infection alimentaire à Clostridium botulinum est surtout clinique",
+        "B": "Le diagnostic bactériologique d'une toxi-infection alimentaire à Clostridium botulinum repose principalement sur l'isolement en culture",
+        "C": "La recherche des toxines de Clostridium difficile se fait à partir du LCR",
+        "D": "La recherche des toxines de Clostridium difficile se fait à partir des urines",
+        "E": "Le traitement d'une infection à Clostridium difficile fait appel au métronidazole par voie orale"
+      },
+      "correct": "AE"
+    },
+    {
+      "id": 25,
+      "text": "A propos du genre Clostridium :",
+      "options": {
+        "A": "Clostridium difficile donne des diarrhées post-antibiotiques",
+        "B": "Clostridium difficile se caractérise par une paralysie flasque",
+        "C": "Clostridium botulinum est un bacille à Gram positif non sporulé",
+        "D": "Clostridium botulinum est un bacille à Gram positif non sporulé",
+        "E": "Clostridium botulinum donne des diarrhées post-antibiotiques"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 26,
+      "text": "A propos de Clostridium tetani :",
+      "options": {
+        "A": "Clostridium tetani se transmet par voie respiratoire",
+        "B": "Clostridium tetani se transmet par ingestion d'aliments contaminés",
+        "C": "Le tétanos se caractérise par un syndrome dysentérique aigu",
+        "D": "Le tétanos se caractérise par l'apparition d'un trismus",
+        "E": "La tétanospasmine est une endotoxine neurotoxique"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 27,
+      "text": "Bordetella pertussis est :",
+      "options": {
+        "A": "Une bactérie non exigeante",
+        "B": "Le bacille de Koch",
+        "C": "Le bacille de Bordet et Gengou",
+        "D": "Un coccobacille à Gram positif",
+        "E": "Oxydase (+)"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 28,
+      "text": "A propos de la classification des bactéries anaérobies :",
+      "options": {
+        "A": "Les Bactéroïdes sont des bacilles à Gram négatif sporulés",
+        "B": "Les Bactéroïdes sont des bacilles à Gram négatif non sporulés",
+        "C": "Les Prevotella sont des bacilles à Gram négatif sporulés",
+        "D": "Les Porphyromonas sont des bacilles à Gram négatif non sporulés",
+        "E": "Les Porphyromonas sont des bacilles à Gram positif non sporulés"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 29,
+      "text": "Clostridium botulinum :",
+      "options": {
+        "A": "Le botulisme se transmet par voie respiratoire",
+        "B": "Le botulisme se caractérise par une paralysie flasque",
+        "C": "La toxine botulique est thermolabile",
+        "D": "La toxine botulique est thermostable",
+        "E": "Le traitement spécifique du botulisme repose sur l'administration de la vancomycine par voie orale"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 30,
+      "text": "Clostridium tetani :",
+      "options": {
+        "A": "Clostridium tetani est un bacille à Gram positif sporulé",
+        "B": "Clostridium tetani est un bacille à Gram négatif sporulé",
+        "C": "Le tétanos se transmet à la faveur de piqûres d'épines",
+        "D": "Le tétanos se caractérise par une éruption cutanée rapidement extensive",
+        "E": "La tétanolysine est une exotoxine responsable des symptômes du tétanos"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 31,
+      "text": "Ce qui caractérise les anaérobies c'est :",
+      "options": {
+        "A": "La présence invariable de la spore",
+        "B": "Qu'ils soient tous des bactéries à Grain positif",
+        "C": "Qu'ils soient tous au moins sensibles à la vancomycine",
+        "D": "Qu'ils soient tous au moins résistants à la vancomycine",
+        "E": "Leur présence uniquement dans le sol"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 32,
+      "text": "Les anaérobies sporulés à Gram positif sont retrouvés surtout au niveau du sol alors que les sporulés de la microflore endogène :",
+      "options": {
+        "A": "Colonisent surtout la peau",
+        "B": "Sont dominés par Clostridium perfringens",
+        "C": "Colonisent surtout les muqueuses",
+        "D": "Représentés par Clostridium tetani",
+        "E": "Représentés par Clostridium botulinum"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 33,
+      "text": "Les anaérobies sporulés à Gram positif sont retrouvés surtout au niveau du sol alors que les sporulés de la microflore endogène :",
+      "options": {
+        "A": "Colonisent surtout la peau",
+        "B": "Sont dominés par Clostridium perfringens",
+        "C": "Colonisent surtout les muqueuses",
+        "D": "Représentés par Clostridium tetani",
+        "E": "Représentés par Clostridium botulinum"
+      },
+      "correct": "B"
+    }
+  ]
+}

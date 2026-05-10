@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 5 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-display">
+        Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 5 - QCM Interactif</h1>
+            <p>Antibiotiques</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">La Vancomycine est un antibiotique de la famille des :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Bêtalactamines</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Aminosides</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Glycopéptides</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Céphalosporines</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Macrolides</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question2" data-question="2">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">La pénicillinase est un mécanisme de résistance bactérien aux antibiotiques, qui correspond à :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(2, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Modification des porines</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(2, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Pompes efflux</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(2, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Production d'enzyme bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(2, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Imperméabilité</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(2, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Modification de la cible</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected2">Sélection: <span id="selectionText2">Aucune</span></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="controls">
+                    <button class="btn" id="prev2" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(2)">Vérifier</button>
+                    <button class="btn" id="next2" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question3" data-question="3">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">Les antibiotiques sont des substances :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(3, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">À toxicité sélective</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(3, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Pouvant agir sur la capsule bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(3, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Utilisées à de forte concentration</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(3, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sont à usage externe uniquement</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(3, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sont toxiques par voie générale</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected3">Sélection: <span id="selectionText3">Aucune</span></div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="controls">
+                    <button class="btn" id="prev3" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(3)">Vérifier</button>
+                    <button class="btn" id="next3" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question4" data-question="4">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">Les antibiotiques :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(4, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Ont une action sélective</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(4, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Agissent à forte dose</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(4, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Sont tous d'origine synthétique</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(4, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sont de nature protéique</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(4, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Agissent sur la capsule bactérienne</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected4">Sélection: <span id="selectionText4">Aucune</span></div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="controls">
+                    <button class="btn" id="prev4" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(4)">Vérifier</button>
+                    <button class="btn" id="next4" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question5" data-question="5">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">La Vancomycine est un glycopéptide qui agit sur :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(5, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Les bacilles à Gram positif</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(5, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les cocci à Gram négatif</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(5, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les bacilles à Gram négatif</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(5, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les cocci à Gram positif</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(5, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les mycoplasmes</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected5">Sélection: <span id="selectionText5">Aucune</span></div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="controls">
+                    <button class="btn" id="prev5" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(5)">Vérifier</button>
+                    <button class="btn" id="next5" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question6" data-question="6">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">Les carbapénèmes sont des antibiotiques agissant sur :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(6, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(6, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'ADN bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(6, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le ribosome</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(6, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La capsule</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(6, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La membrane cytoplasmique</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected6">Sélection: <span id="selectionText6">Aucune</span></div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="controls">
+                    <button class="btn" id="prev6" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(6)">Vérifier</button>
+                    <button class="btn" id="next6" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question7" data-question="7">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">La gentamycine est un :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(7, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Aminoside</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(7, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Fluoroquinolone</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(7, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Glycopéptide</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(7, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Céphalosporine</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(7, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Péname</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected7">Sélection: <span id="selectionText7">Aucune</span></div>
+                <div class="feedback" id="feedback7"></div>
+                <div class="controls">
+                    <button class="btn" id="prev7" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(7)">Vérifier</button>
+                    <button class="btn" id="next7" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question8" data-question="8">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">La ciprofloxacine est un antibiotique qui agit sur :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(8, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La membrane</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(8, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La paroi</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(8, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'ADN bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(8, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le ribosome</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(8, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le cytochrome</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected8">Sélection: <span id="selectionText8">Aucune</span></div>
+                <div class="feedback" id="feedback8"></div>
+                <div class="controls">
+                    <button class="btn" id="prev8" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(8)">Vérifier</button>
+                    <button class="btn" id="next8" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question9" data-question="9">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">La Céfalotine est un antibiotique de la famille :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(9, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Aminosides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(9, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Bêtalactamines</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(9, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Macrolides</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(9, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Quinolones</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(9, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sulfamides</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected9">Sélection: <span id="selectionText9">Aucune</span></div>
+                <div class="feedback" id="feedback9"></div>
+                <div class="controls">
+                    <button class="btn" id="prev9" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(9)">Vérifier</button>
+                    <button class="btn" id="next9" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question10" data-question="10">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">La gentamicine est un antibiotique de la famille des :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(10, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">B-lactamines</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(10, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Aminosides</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(10, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Glycopéptides</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(10, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Fluoroquinolones</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(10, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Macrolides</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected10">Sélection: <span id="selectionText10">Aucune</span></div>
+                <div class="feedback" id="feedback10"></div>
+                <div class="controls">
+                    <button class="btn" id="prev10" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(10)">Vérifier</button>
+                    <button class="btn" id="next10" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question11" data-question="11">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">La Céfalotine est un antibiotique qui agit sur :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(11, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La membrane</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(11, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La paroi</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(11, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'ADN bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(11, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le ribosome</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(11, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le cytochrome</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected11">Sélection: <span id="selectionText11">Aucune</span></div>
+                <div class="feedback" id="feedback11"></div>
+                <div class="controls">
+                    <button class="btn" id="prev11" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(11)">Vérifier</button>
+                    <button class="btn" id="next11" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question12" data-question="12">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">Un antibiotique est une substance chimique :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(12, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Agit à de forte concentration</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(12, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">À action spécifique</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(12, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">À usage externe uniquement</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(12, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Naturelle ou synthétique</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(12, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">À toxicité non sélective</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected12">Sélection: <span id="selectionText12">Aucune</span></div>
+                <div class="feedback" id="feedback12"></div>
+                <div class="controls">
+                    <button class="btn" id="prev12" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(12)">Vérifier</button>
+                    <button class="btn" id="next12" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question13" data-question="13">
+                <div class="question-number">Question 13</div>
+                <div class="question-text">Quel est le traitement de choix des infections à SAMR (Staphylocoque aureus Méthicillino-résistant) ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(13, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Aminosides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(13, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Fluoroquinolones</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(13, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Macrolides</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(13, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Bêtalactamines</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(13, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Glycopéptides seule ou en association</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected13">Sélection: <span id="selectionText13">Aucune</span></div>
+                <div class="feedback" id="feedback13"></div>
+                <div class="controls">
+                    <button class="btn" id="prev13" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(13)">Vérifier</button>
+                    <button class="btn" id="next13" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question14" data-question="14">
+                <div class="question-number">Question 14</div>
+                <div class="question-text">Concernant les antibiotiques :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(14, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Sont des substances antibactériennes produites par des micro-organismes tels que les champignons microscopiques</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(14, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Sont des substances antibactériennes produites par synthèse chimique et qui sont capables d'inhiber la multiplication ou de détruire d'autres micro-organismes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(14, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ont la propriété d'interférer directement avec la prolifération des micro-organismes à des concentrations tolérées par l'hôte</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(14, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Agissent de façon physico-chimique non spécifique</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(14, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les antibiotiques agissent à l'échelon moléculaire au niveau d'une ou de plusieurs étapes métaboliques indispensables à la vie de la bactérie</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected14">Sélection: <span id="selectionText14">Aucune</span></div>
+                <div class="feedback" id="feedback14"></div>
+                <div class="controls">
+                    <button class="btn" id="prev14" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(14)">Vérifier</button>
+                    <button class="btn" id="next14" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question15" data-question="15">
+                <div class="question-number">Question 15</div>
+                <div class="question-text">Quel est le mécanisme d'action des antibiotiques de la famille des fluoroquinolones ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(15, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Inhibition de la synthèse du peptidoglycane de la paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(15, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Action initiale sur la membrane cytoplasmique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(15, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Inhibition de la synthèse protéique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(15, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Inhibition de la réplication de l'ADN chromosomique bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(15, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Inhibition compétitive de l'acide para-amino-benzoïque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected15">Sélection: <span id="selectionText15">Aucune</span></div>
+                <div class="feedback" id="feedback15"></div>
+                <div class="controls">
+                    <button class="btn" id="prev15" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(15)">Vérifier</button>
+                    <button class="btn" id="next15" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question16" data-question="16">
+                <div class="question-number">Question 16</div>
+                <div class="question-text">Concernant la mutation chromosomique de la sensibilité à un antibiotique vers la résistance :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(16, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Il s'agit du résultat de l'adaptation de la bactérie à l'antibiotique</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(16, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Elle persiste en l'absence de l'antibiotique qui a servi la sélection</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(16, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Elle ne peut avoir lieu qu'à la suite d'un contact préalable à l'antibiotique</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(16, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Lorsqu'elle apparaît elle se manifeste simultanément dans un grand nombre de cellules bactériennes</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(16, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Lors de la division de la bactérie elle est transmise aux deux cellules filles</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected16">Sélection: <span id="selectionText16">Aucune</span></div>
+                <div class="feedback" id="feedback16"></div>
+                <div class="controls">
+                    <button class="btn" id="prev16" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(16)">Vérifier</button>
+                    <button class="btn" id="next16" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question17" data-question="17">
+                <div class="question-number">Question 17</div>
+                <div class="question-text">La résistance plasmidique aux antibiotiques est :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(17, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le plus souvent une multirésistance</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(17, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Rencontrée chez des rares espèces bactériennes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(17, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Transmissible entre bactéries de la même espèce seulement</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(17, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Transmissible entre bactéries d'espèces différentes</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(17, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Etendue à toutes les familles d'antibiotiques</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected17">Sélection: <span id="selectionText17">Aucune</span></div>
+                <div class="feedback" id="feedback17"></div>
+                <div class="controls">
+                    <button class="btn" id="prev17" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(17)">Vérifier</button>
+                    <button class="btn" id="next17" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question18" data-question="18">
+                <div class="question-number">Question 18</div>
+                <div class="question-text">Les antibiotiques agissant principalement au niveau des ribosomes :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(18, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Les glycopéptides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(18, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les aminosides</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(18, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les Bêtalactamines</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(18, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les Synergistines</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(18, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les Quinolones</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected18">Sélection: <span id="selectionText18">Aucune</span></div>
+                <div class="feedback" id="feedback18"></div>
+                <div class="controls">
+                    <button class="btn" id="prev18" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(18)">Vérifier</button>
+                    <button class="btn" id="next18" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question19" data-question="19">
+                <div class="question-number">Question 19</div>
+                <div class="question-text">Les aminosides :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(19, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Sont des antibiotiques bactéricides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(19, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Sont inactifs sur les bactéries anaérobies strictes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(19, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Sont actifs uniquement sur les bactéries à Gram négatif</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(19, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sont inactifs sur les mycobactéries</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(19, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sont indiqués en première intention au cours des pneumopathies aiguës du sujet âgé</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected19">Sélection: <span id="selectionText19">Aucune</span></div>
+                <div class="feedback" id="feedback19"></div>
+                <div class="controls">
+                    <button class="btn" id="prev19" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(19)">Vérifier</button>
+                    <button class="btn" id="next19" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question20" data-question="20">
+                <div class="question-number">Question 20</div>
+                <div class="question-text">Concernant l'effet bactéricide des antibiotiques :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(20, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Les associations de bêtalactamines aux aminosides sont habituellement bactéricides</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(20, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les associations de bêtalactamines aux aminosides sont habituellement bactériostatiques</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(20, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les aminosides sont habituellement bactéricides</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(20, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les macrolides sont habituellement bactéricides</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(20, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les pénicillines sont habituellement bactériostatiques</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected20">Sélection: <span id="selectionText20">Aucune</span></div>
+                <div class="feedback" id="feedback20"></div>
+                <div class="controls">
+                    <button class="btn" id="prev20" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(20)">Vérifier</button>
+                    <button class="btn" id="next20" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question21" data-question="21">
+                <div class="question-number">Question 21</div>
+                <div class="question-text">Concernant l'étude des antibiotiques :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(21, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La CMB est la plus petite concentration d'antibiotique qui, après 24 heures de culture, ne laisse que 1% de germes survivants</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(21, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La notion de CMI concerne la bactériostase</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(21, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Tout antibiotique peut être, selon sa concentration dans le milieu, bactériostatique ou bactéricide</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(21, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">CMB et CMI sont les concentrations critiques de l'antibiotique concerné</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(21, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La CMI est toujours supérieure à la CMB</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected21">Sélection: <span id="selectionText21">Aucune</span></div>
+                <div class="feedback" id="feedback21"></div>
+                <div class="controls">
+                    <button class="btn" id="prev21" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(21)">Vérifier</button>
+                    <button class="btn" id="next21" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question22" data-question="22">
+                <div class="question-number">Question 22</div>
+                <div class="question-text">Parmi les indicateurs de la résistance bactérienne aux antibiotiques :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(22, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La résistance des entérocoques aux céphalosporines de 3ème génération</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(22, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La résistance des entérobactéries à l'ampicilline</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(22, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La résistance du Staphylococcus aureus à la pénicilline G</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(22, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La résistance du protéus à la Vancomycine</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(22, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La résistance du Pseudomonas aeruginosa à la Ceftazidime</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected22">Sélection: <span id="selectionText22">Aucune</span></div>
+                <div class="feedback" id="feedback22"></div>
+                <div class="controls">
+                    <button class="btn" id="prev22" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(22)">Vérifier</button>
+                    <button class="btn" id="next22" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question23" data-question="23">
+                <div class="question-number">Question 23</div>
+                <div class="question-text">Quel est le mécanisme d'action des antibiotiques de la famille des tétracyclines ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(23, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Inhibition de la synthèse du peptidoglycane de la paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(23, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Action initiale sur la membrane cytoplasmique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(23, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Inhibition de la synthèse protéique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(23, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Inhibition de la réplication de l'ADN chromosomique bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(23, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Inhibition compétitive de l'acide para-amino-benzoïque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected23">Sélection: <span id="selectionText23">Aucune</span></div>
+                <div class="feedback" id="feedback23"></div>
+                <div class="controls">
+                    <button class="btn" id="prev23" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(23)">Vérifier</button>
+                    <button class="btn" id="next23" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question24" data-question="24">
+                <div class="question-number">Question 24</div>
+                <div class="question-text">Quel est le mécanisme d'action des antibiotiques de la famille des aminosides ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(24, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Inhibition de la synthèse du peptidoglycane de la paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(24, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Action initiale sur la membrane cytoplasmique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(24, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Inhibition de la synthèse protéique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(24, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Inhibition de la réplication de l'ADN chromosomique bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(24, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Inhibition compétitive de l'acide para-amino-benzoïque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected24">Sélection: <span id="selectionText24">Aucune</span></div>
+                <div class="feedback" id="feedback24"></div>
+                <div class="controls">
+                    <button class="btn" id="prev24" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(24)">Vérifier</button>
+                    <button class="btn" id="next24" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question25" data-question="25">
+                <div class="question-number">Question 25</div>
+                <div class="question-text">La résistance plasmidique aux antibiotiques est :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(25, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le plus souvent une multirésistance</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(25, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Rencontrée chez des rares espèces bactériennes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(25, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Transmissible entre bactéries de la même espèce seulement</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(25, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Transmissible entre bactéries d'espèces différentes</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(25, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Etendue à toutes les familles d'antibiotiques</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected25">Sélection: <span id="selectionText25">Aucune</span></div>
+                <div class="feedback" id="feedback25"></div>
+                <div class="controls">
+                    <button class="btn" id="prev25" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(25)">Vérifier</button>
+                    <button class="btn" id="next25" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question26" data-question="26">
+                <div class="question-number">Question 26</div>
+                <div class="question-text">Parmi les indicateurs de la résistance bactérienne aux antibiotiques :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(26, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La résistance des entérocoques aux céphalosporines de 3ème génération</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(26, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La résistance des entérobactéries à l'ampicilline</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(26, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La résistance du Staphylococcus aureus à la pénicilline G</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(26, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La résistance du protéus à la Vancomycine</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(26, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La résistance du Pseudomonas aeruginosa à la Ceftazidime</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected26">Sélection: <span id="selectionText26">Aucune</span></div>
+                <div class="feedback" id="feedback26"></div>
+                <div class="controls">
+                    <button class="btn" id="prev26" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(26)">Vérifier</button>
+                    <button class="btn" id="next26" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question27" data-question="27">
+                <div class="question-number">Question 27</div>
+                <div class="question-text">Quel est le mécanisme d'action des antibiotiques de la famille des tétracyclines ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(27, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Inhibition de la synthèse du peptidoglycane de la paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(27, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Action initiale sur la membrane cytoplasmique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(27, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Inhibition de la synthèse protéique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(27, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Inhibition de la réplication de l'ADN chromosomique bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(27, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Inhibition compétitive de l'acide para-amino-benzoïque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected27">Sélection: <span id="selectionText27">Aucune</span></div>
+                <div class="feedback" id="feedback27"></div>
+                <div class="controls">
+                    <button class="btn" id="prev27" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(27)">Vérifier</button>
+                    <button class="btn" id="next27" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question28" data-question="28">
+                <div class="question-number">Question 28</div>
+                <div class="question-text">Quel est le mécanisme d'action des antibiotiques de la famille des aminosides ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(28, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Inhibition de la synthèse du peptidoglycane de la paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(28, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Action initiale sur la membrane cytoplasmique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(28, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Inhibition de la synthèse protéique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(28, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Inhibition de la réplication de l'ADN chromosomique bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(28, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Inhibition compétitive de l'acide para-amino-benzoïque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected28">Sélection: <span id="selectionText28">Aucune</span></div>
+                <div class="feedback" id="feedback28"></div>
+                <div class="controls">
+                    <button class="btn" id="prev28" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(28)">Vérifier</button>
+                    <button class="btn" id="next28" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question29" data-question="29">
+                <div class="question-number">Question 29</div>
+                <div class="question-text">La résistance plasmidique aux antibiotiques est :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(29, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le plus souvent une multirésistance</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(29, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Rencontrée chez des rares espèces bactériennes</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(29, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Transmissible entre bactéries de la même espèce seulement</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(29, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Transmissible entre bactéries d'espèces différentes</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(29, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Etendue à toutes les familles d'antibiotiques</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected29">Sélection: <span id="selectionText29">Aucune</span></div>
+                <div class="feedback" id="feedback29"></div>
+                <div class="controls">
+                    <button class="btn" id="prev29" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(29)">Vérifier</button>
+                    <button class="btn" id="next29" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question30" data-question="30">
+                <div class="question-number">Question 30</div>
+                <div class="question-text">Parmi les indicateurs de la résistance bactérienne aux antibiotiques :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(30, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La résistance d'E. Coli à la vancomycine</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(30, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La résistance des entérocoques aux céphalosporines de 3ème génération</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(30, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La résistance des entérobactéries aux céphalosporines de 3ème génération</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(30, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La résistance du Pseudomonas aeruginosa à la colistine</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(30, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La résistance du Staphylococcus aureus à l'ampicilline</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected30">Sélection: <span id="selectionText30">Aucune</span></div>
+                <div class="feedback" id="feedback30"></div>
+                <div class="controls">
+                    <button class="btn" id="prev30" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(30)">Vérifier</button>
+                    <button class="btn" id="next30" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question31" data-question="31">
+                <div class="question-number">Question 31</div>
+                <div class="question-text">Les mécanismes de la résistance acquise aux antibiotiques :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(31, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Une modification de la cible</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(31, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Une activation enzymatique de l'antibiotique</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(31, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Le système d'efflux</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(31, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Présents chez toutes les souches dites sauvages appartenant à la même espèce</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(31, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sont une conséquence d'une mutation chromosomique uniquement</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected31">Sélection: <span id="selectionText31">Aucune</span></div>
+                <div class="feedback" id="feedback31"></div>
+                <div class="controls">
+                    <button class="btn" id="prev31" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(31)">Vérifier</button>
+                    <button class="btn" id="next31" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question32" data-question="32">
+                <div class="question-number">Question 32</div>
+                <div class="question-text">Quelles sont les affirmations exactes parmi les suivants concernant la CMI :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(32, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est la plus grande concentration d'antibiotique entraînant la bactéricidie</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(32, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Elle nécessite pour sa détermination d'obtenir une culture de 24h</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(32, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Elle est le reflet de la destruction des bactéries provoquée par un antibiotique</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(32, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Elle est déterminée par une mise en contact de la bactérie avec une gamme de concentrations d'un antibiotique donné, en milieu solide ou en milieu liquide</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(32, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toutes les bactéries d'une même espèce possèdent la même CMI d'un antibiotique donné</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected32">Sélection: <span id="selectionText32">Aucune</span></div>
+                <div class="feedback" id="feedback32"></div>
+                <div class="controls">
+                    <button class="btn" id="prev32" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(32)">Vérifier</button>
+                    <button class="btn" id="next32" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question33" data-question="33">
+                <div class="question-number">Question 33</div>
+                <div class="question-text">Parmi ces molécules, lesquelles ne sont pas des Inhibiteurs de la synthèse du peptidoglycane :</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(33, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Acide fusidique</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(33, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les Fosfomycines</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(33, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les Tétracyclines</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(33, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les Bêtalactamines</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(33, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les Rifampicines</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected33">Sélection: <span id="selectionText33">Aucune</span></div>
+                <div class="feedback" id="feedback33"></div>
+                <div class="controls">
+                    <button class="btn" id="prev33" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(33)">Vérifier</button>
+                    <button class="btn" id="next33" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question34" data-question="34">
+                <div class="question-number">Question 34</div>
+                <div class="question-text">Quel est le mécanisme d'action des antibiotiques de la famille des aminosides :</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(34, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Inhibition de la synthèse du peptidoglycane de la paroi</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(34, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Action initiale sur la membrane cytoplasmique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(34, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Inhibition de la synthèse protéique bactérienne</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(34, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Inhibition de la réplication de l'ADN chromosomique bactérien</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(34, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Inhibition compétitive de l'acide para-amino-benzoïque</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected34">Sélection: <span id="selectionText34">Aucune</span></div>
+                <div class="feedback" id="feedback34"></div>
+                <div class="controls">
+                    <button class="btn" id="prev34" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(34)">Vérifier</button>
+                    <button class="btn" id="next34" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" id="question35" data-question="35">
+                <div class="question-number">Question 35</div>
+                <div class="question-text">Parmi les propositions suivantes se rapportant aux mécanismes de résistance des bactéries aux antibiotiques, lesquelles sont justes ?</div>
+                <div class="multi-hint">Cliquez pour sélectionner votre réponse</div>
+                <div class="options">
+
+                    <div class="option" data-option="A" onclick="toggleOption(35, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Disparition de la cible de l'antibiotique</div>
+                    </div>
+
+                    <div class="option" data-option="B" onclick="toggleOption(35, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">La modification de la cible qui déborde les capacités de fixation de l'antibiotique</div>
+                    </div>
+
+                    <div class="option" data-option="C" onclick="toggleOption(35, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La dérégulation de la synthèse d'une enzyme détruisant l'antibiotique qui diminue de façon importante la quantité d'enzyme produite par les souches sauvages</div>
+                    </div>
+
+                    <div class="option" data-option="D" onclick="toggleOption(35, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Des systèmes d'efflux assurent le pompage vers l'extérieur des antibiotiques ayant pénétré dans la cellule</div>
+                    </div>
+
+                    <div class="option" data-option="E" onclick="toggleOption(35, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toutes les réponses sont justes</div>
+                    </div>
+
+                </div>
+                <div class="selected-answers" id="selected35">Sélection: <span id="selectionText35">Aucune</span></div>
+                <div class="feedback" id="feedback35"></div>
+                <div class="controls">
+                    <button class="btn" id="prev35" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(35)">Vérifier</button>
+                    <button class="btn" id="next35" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="results" id="results">
+            <h2>Quiz Terminé !</h2>
+            <div class="final-score" id="finalScore">0/0</div>
+            <div class="message" id="message"></div>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Bonnes réponses</h3>
+                    <p id="correctCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Mauvaises réponses</h3>
+                    <p id="incorrectCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pourcentage</h3>
+                    <p id="percentage">0%</p>
+                </div>
+            </div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "La Vancomycine est un antibiotique de la famille des :", "options": {"A": "Bêtalactamines", "B": "Aminosides", "C": "Glycopéptides", "D": "Céphalosporines", "E": "Macrolides"}, "correct": "C"}, {"id": 2, "text": "La pénicillinase est un mécanisme de résistance bactérien aux antibiotiques, qui correspond à :", "options": {"A": "Modification des porines", "B": "Pompes efflux", "C": "Production d'enzyme bactérienne", "D": "Imperméabilité", "E": "Modification de la cible"}, "correct": "C"}, {"id": 3, "text": "Les antibiotiques sont des substances :", "options": {"A": "À toxicité sélective", "B": "Pouvant agir sur la capsule bactérienne", "C": "Utilisées à de forte concentration", "D": "Sont à usage externe uniquement", "E": "Sont toxiques par voie générale"}, "correct": "A"}, {"id": 4, "text": "Les antibiotiques :", "options": {"A": "Ont une action sélective", "B": "Agissent à forte dose", "C": "Sont tous d'origine synthétique", "D": "Sont de nature protéique", "E": "Agissent sur la capsule bactérienne"}, "correct": "A"}, {"id": 5, "text": "La Vancomycine est un glycopéptide qui agit sur :", "options": {"A": "Les bacilles à Gram positif", "B": "Les cocci à Gram négatif", "C": "Les bacilles à Gram négatif", "D": "Les cocci à Gram positif", "E": "Les mycoplasmes"}, "correct": "AD"}, {"id": 6, "text": "Les carbapénèmes sont des antibiotiques agissant sur :", "options": {"A": "La paroi", "B": "L'ADN bactérien", "C": "Le ribosome", "D": "La capsule", "E": "La membrane cytoplasmique"}, "correct": "A"}, {"id": 7, "text": "La gentamycine est un :", "options": {"A": "Aminoside", "B": "Fluoroquinolone", "C": "Glycopéptide", "D": "Céphalosporine", "E": "Péname"}, "correct": "A"}, {"id": 8, "text": "La ciprofloxacine est un antibiotique qui agit sur :", "options": {"A": "La membrane", "B": "La paroi", "C": "L'ADN bactérien", "D": "Le ribosome", "E": "Le cytochrome"}, "correct": "C"}, {"id": 9, "text": "La Céfalotine est un antibiotique de la famille :", "options": {"A": "Aminosides", "B": "Bêtalactamines", "C": "Macrolides", "D": "Quinolones", "E": "Sulfamides"}, "correct": "B"}, {"id": 10, "text": "La gentamicine est un antibiotique de la famille des :", "options": {"A": "B-lactamines", "B": "Aminosides", "C": "Glycopéptides", "D": "Fluoroquinolones", "E": "Macrolides"}, "correct": "B"}, {"id": 11, "text": "La Céfalotine est un antibiotique qui agit sur :", "options": {"A": "La membrane", "B": "La paroi", "C": "L'ADN bactérien", "D": "Le ribosome", "E": "Le cytochrome"}, "correct": "B"}, {"id": 12, "text": "Un antibiotique est une substance chimique :", "options": {"A": "Agit à de forte concentration", "B": "À action spécifique", "C": "À usage externe uniquement", "D": "Naturelle ou synthétique", "E": "À toxicité non sélective"}, "correct": "BD"}, {"id": 13, "text": "Quel est le traitement de choix des infections à SAMR (Staphylocoque aureus Méthicillino-résistant) ?", "options": {"A": "Aminosides", "B": "Fluoroquinolones", "C": "Macrolides", "D": "Bêtalactamines", "E": "Glycopéptides seule ou en association"}, "correct": "E"}, {"id": 14, "text": "Concernant les antibiotiques :", "options": {"A": "Sont des substances antibactériennes produites par des micro-organismes tels que les champignons microscopiques", "B": "Sont des substances antibactériennes produites par synthèse chimique et qui sont capables d'inhiber la multiplication ou de détruire d'autres micro-organismes", "C": "Ont la propriété d'interférer directement avec la prolifération des micro-organismes à des concentrations tolérées par l'hôte", "D": "Agissent de façon physico-chimique non spécifique", "E": "Les antibiotiques agissent à l'échelon moléculaire au niveau d'une ou de plusieurs étapes métaboliques indispensables à la vie de la bactérie"}, "correct": "CE"}, {"id": 15, "text": "Quel est le mécanisme d'action des antibiotiques de la famille des fluoroquinolones ?", "options": {"A": "Inhibition de la synthèse du peptidoglycane de la paroi", "B": "Action initiale sur la membrane cytoplasmique bactérienne", "C": "Inhibition de la synthèse protéique bactérienne", "D": "Inhibition de la réplication de l'ADN chromosomique bactérien", "E": "Inhibition compétitive de l'acide para-amino-benzoïque"}, "correct": "D"}, {"id": 16, "text": "Concernant la mutation chromosomique de la sensibilité à un antibiotique vers la résistance :", "options": {"A": "Il s'agit du résultat de l'adaptation de la bactérie à l'antibiotique", "B": "Elle persiste en l'absence de l'antibiotique qui a servi la sélection", "C": "Elle ne peut avoir lieu qu'à la suite d'un contact préalable à l'antibiotique", "D": "Lorsqu'elle apparaît elle se manifeste simultanément dans un grand nombre de cellules bactériennes", "E": "Lors de la division de la bactérie elle est transmise aux deux cellules filles"}, "correct": "BE"}, {"id": 17, "text": "La résistance plasmidique aux antibiotiques est :", "options": {"A": "Le plus souvent une multirésistance", "B": "Rencontrée chez des rares espèces bactériennes", "C": "Transmissible entre bactéries de la même espèce seulement", "D": "Transmissible entre bactéries d'espèces différentes", "E": "Etendue à toutes les familles d'antibiotiques"}, "correct": "AD"}, {"id": 18, "text": "Les antibiotiques agissant principalement au niveau des ribosomes :", "options": {"A": "Les glycopéptides", "B": "Les aminosides", "C": "Les Bêtalactamines", "D": "Les Synergistines", "E": "Les Quinolones"}, "correct": "BD"}, {"id": 19, "text": "Les aminosides :", "options": {"A": "Sont des antibiotiques bactéricides", "B": "Sont inactifs sur les bactéries anaérobies strictes", "C": "Sont actifs uniquement sur les bactéries à Gram négatif", "D": "Sont inactifs sur les mycobactéries", "E": "Sont indiqués en première intention au cours des pneumopathies aiguës du sujet âgé"}, "correct": "AB"}, {"id": 20, "text": "Concernant l'effet bactéricide des antibiotiques :", "options": {"A": "Les associations de bêtalactamines aux aminosides sont habituellement bactéricides", "B": "Les associations de bêtalactamines aux aminosides sont habituellement bactériostatiques", "C": "Les aminosides sont habituellement bactéricides", "D": "Les macrolides sont habituellement bactéricides", "E": "Les pénicillines sont habituellement bactériostatiques"}, "correct": "AC"}, {"id": 21, "text": "Concernant l'étude des antibiotiques :", "options": {"A": "La CMB est la plus petite concentration d'antibiotique qui, après 24 heures de culture, ne laisse que 1% de germes survivants", "B": "La notion de CMI concerne la bactériostase", "C": "Tout antibiotique peut être, selon sa concentration dans le milieu, bactériostatique ou bactéricide", "D": "CMB et CMI sont les concentrations critiques de l'antibiotique concerné", "E": "La CMI est toujours supérieure à la CMB"}, "correct": "BC"}, {"id": 22, "text": "Parmi les indicateurs de la résistance bactérienne aux antibiotiques :", "options": {"A": "La résistance des entérocoques aux céphalosporines de 3ème génération", "B": "La résistance des entérobactéries à l'ampicilline", "C": "La résistance du Staphylococcus aureus à la pénicilline G", "D": "La résistance du protéus à la Vancomycine", "E": "La résistance du Pseudomonas aeruginosa à la Ceftazidime"}, "correct": "E"}, {"id": 23, "text": "Quel est le mécanisme d'action des antibiotiques de la famille des tétracyclines ?", "options": {"A": "Inhibition de la synthèse du peptidoglycane de la paroi", "B": "Action initiale sur la membrane cytoplasmique bactérienne", "C": "Inhibition de la synthèse protéique bactérienne", "D": "Inhibition de la réplication de l'ADN chromosomique bactérien", "E": "Inhibition compétitive de l'acide para-amino-benzoïque"}, "correct": "C"}, {"id": 24, "text": "Quel est le mécanisme d'action des antibiotiques de la famille des aminosides ?", "options": {"A": "Inhibition de la synthèse du peptidoglycane de la paroi", "B": "Action initiale sur la membrane cytoplasmique bactérienne", "C": "Inhibition de la synthèse protéique bactérienne", "D": "Inhibition de la réplication de l'ADN chromosomique bactérien", "E": "Inhibition compétitive de l'acide para-amino-benzoïque"}, "correct": "C"}, {"id": 25, "text": "La résistance plasmidique aux antibiotiques est :", "options": {"A": "Le plus souvent une multirésistance", "B": "Rencontrée chez des rares espèces bactériennes", "C": "Transmissible entre bactéries de la même espèce seulement", "D": "Transmissible entre bactéries d'espèces différentes", "E": "Etendue à toutes les familles d'antibiotiques"}, "correct": "AD"}, {"id": 26, "text": "Parmi les indicateurs de la résistance bactérienne aux antibiotiques :", "options": {"A": "La résistance des entérocoques aux céphalosporines de 3ème génération", "B": "La résistance des entérobactéries à l'ampicilline", "C": "La résistance du Staphylococcus aureus à la pénicilline G", "D": "La résistance du protéus à la Vancomycine", "E": "La résistance du Pseudomonas aeruginosa à la Ceftazidime"}, "correct": "E"}, {"id": 27, "text": "Quel est le mécanisme d'action des antibiotiques de la famille des tétracyclines ?", "options": {"A": "Inhibition de la synthèse du peptidoglycane de la paroi", "B": "Action initiale sur la membrane cytoplasmique bactérienne", "C": "Inhibition de la synthèse protéique bactérienne", "D": "Inhibition de la réplication de l'ADN chromosomique bactérien", "E": "Inhibition compétitive de l'acide para-amino-benzoïque"}, "correct": "C"}, {"id": 28, "text": "Quel est le mécanisme d'action des antibiotiques de la famille des aminosides ?", "options": {"A": "Inhibition de la synthèse du peptidoglycane de la paroi", "B": "Action initiale sur la membrane cytoplasmique bactérienne", "C": "Inhibition de la synthèse protéique bactérienne", "D": "Inhibition de la réplication de l'ADN chromosomique bactérien", "E": "Inhibition compétitive de l'acide para-amino-benzoïque"}, "correct": "C"}, {"id": 29, "text": "La résistance plasmidique aux antibiotiques est :", "options": {"A": "Le plus souvent une multirésistance", "B": "Rencontrée chez des rares espèces bactériennes", "C": "Transmissible entre bactéries de la même espèce seulement", "D": "Transmissible entre bactéries d'espèces différentes", "E": "Etendue à toutes les familles d'antibiotiques"}, "correct": "AD"}, {"id": 30, "text": "Parmi les indicateurs de la résistance bactérienne aux antibiotiques :", "options": {"A": "La résistance d'E. Coli à la vancomycine", "B": "La résistance des entérocoques aux céphalosporines de 3ème génération", "C": "La résistance des entérobactéries aux céphalosporines de 3ème génération", "D": "La résistance du Pseudomonas aeruginosa à la colistine", "E": "La résistance du Staphylococcus aureus à l'ampicilline"}, "correct": "C"}, {"id": 31, "text": "Les mécanismes de la résistance acquise aux antibiotiques :", "options": {"A": "Une modification de la cible", "B": "Une activation enzymatique de l'antibiotique", "C": "Le système d'efflux", "D": "Présents chez toutes les souches dites sauvages appartenant à la même espèce", "E": "Sont une conséquence d'une mutation chromosomique uniquement"}, "correct": "BC"}, {"id": 32, "text": "Quelles sont les affirmations exactes parmi les suivants concernant la CMI :", "options": {"A": "C'est la plus grande concentration d'antibiotique entraînant la bactéricidie", "B": "Elle nécessite pour sa détermination d'obtenir une culture de 24h", "C": "Elle est le reflet de la destruction des bactéries provoquée par un antibiotique", "D": "Elle est déterminée par une mise en contact de la bactérie avec une gamme de concentrations d'un antibiotique donné, en milieu solide ou en milieu liquide", "E": "Toutes les bactéries d'une même espèce possèdent la même CMI d'un antibiotique donné"}, "correct": "BD"}, {"id": 33, "text": "Parmi ces molécules, lesquelles ne sont pas des Inhibiteurs de la synthèse du peptidoglycane :", "options": {"A": "Acide fusidique", "B": "Les Fosfomycines", "C": "Les Tétracyclines", "D": "Les Bêtalactamines", "E": "Les Rifampicines"}, "correct": "CE"}, {"id": 34, "text": "Quel est le mécanisme d'action des antibiotiques de la famille des aminosides :", "options": {"A": "Inhibition de la synthèse du peptidoglycane de la paroi", "B": "Action initiale sur la membrane cytoplasmique bactérienne", "C": "Inhibition de la synthèse protéique bactérienne", "D": "Inhibition de la réplication de l'ADN chromosomique bactérien", "E": "Inhibition compétitive de l'acide para-amino-benzoïque"}, "correct": "C"}, {"id": 35, "text": "Parmi les propositions suivantes se rapportant aux mécanismes de résistance des bactéries aux antibiotiques, lesquelles sont justes ?", "options": {"A": "Disparition de la cible de l'antibiotique", "B": "La modification de la cible qui déborde les capacités de fixation de l'antibiotique", "C": "La dérégulation de la synthèse d'une enzyme détruisant l'antibiotique qui diminue de façon importante la quantité d'enzyme produite par les souches sauvages", "D": "Des systèmes d'efflux assurent le pompage vers l'extérieur des antibiotiques ayant pénétré dans la cellule", "E": "Toutes les réponses sont justes"}, "correct": "D"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};  // Stores arrays of selected letters
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            // Hide all questions
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            
+            // Show current
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                
+                // Update button states
+                document.getElementById('prev' + num).disabled = num === 1;
+                document.getElementById('next' + num).disabled = num === totalQuestions;
+                
+                // Restore previous selections
+                updateSelectionDisplay(num);
+                
+                // Show feedback if already checked
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            
+            // Initialize array if needed
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                // Remove if already selected
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                // Add to selection
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            
+            // Update UI
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function calculatePartialScore(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect; // Assuming 5 options max
+            
+            // Calculate partial score: correct/total_correct - wrong/total_wrong
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore); // Don't go below 0
+            
+            return {
+                score: partialScore,
+                correctSelected: correctSelected,
+                totalCorrect: totalCorrect,
+                wrongSelected: wrongSelected,
+                isPerfect: correctSelected === totalCorrect && wrongSelected === 0
+            };
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            
+            const selection = userAnswers[questionNum] || [];
+            
+            checkedQuestions.add(questionNum);
+            
+            if (selection.length === 0) {
+                // Show answer without selecting anything
+                showAnswerOnly(questionNum);
+                return;
+            }
+            
+            const result = calculatePartialScore(questionNum);
+            
+            // Add partial score to total
+            score += result.score;
+            
+            document.getElementById('score').textContent = score.toFixed(1);
+            showFeedback(questionNum, result);
+        }
+        
+        function showAnswerOnly(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            
+            // Highlight correct options in green
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const optLetter = opt.dataset.option;
+                opt.classList.remove('selected');
+                
+                if (correctAnswer.includes(optLetter)) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            feedbackEl.textContent = '↳ Réponse : ' + correctAnswer.split('').join(', ');
+            feedbackEl.className = 'feedback show correct';
+        }
+        
+        function showFeedback(questionNum, result) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const userAnswer = selection.join('');
+            
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            
+            // Highlight options
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const optLetter = opt.dataset.option;
+                opt.classList.remove('selected');
+                
+                if (correctAnswer.includes(optLetter)) {
+                    opt.classList.add('correct');
+                } else if (selection.includes(optLetter) && !correctAnswer.includes(optLetter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show feedback message with partial scoring info
+            let feedbackText = '';
+            if (result.isPerfect) {
+                feedbackText = '✓ Parfait ! La réponse est : ' + correctAnswer.split('').join(', ');
+                feedbackEl.className = 'feedback show correct';
+            } else if (result.score > 0) {
+                const percentage = Math.round(result.score * 100);
+                feedbackText = '↗ Réponse partielle (' + percentage + '%). ' +
+                              'Correct : ' + result.correctSelected + '/' + result.totalCorrect + '. ' +
+                              'La réponse complète est : ' + correctAnswer.split('').join(', ');
+                feedbackEl.className = 'feedback show correct';
+            } else {
+                feedbackText = '✗ Incorrect. La bonne réponse est : ' + correctAnswer.split('').join(', ') + 
+                              '. Votre réponse : ' + (userAnswer || 'Aucune');
+                feedbackEl.className = 'feedback show incorrect';
+            }
+            
+            feedbackEl.textContent = feedbackText;
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgress();
+                
+                if (currentQuestion === totalQuestions && checkedQuestions.size === totalQuestions) {
+                    showResults();
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgress();
+            }
+        }
+        
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.score-display').style.display = 'none';
+            
+            const resultsEl = document.getElementById('results');
+            resultsEl.classList.add('show');
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = score + '/' + totalQuestions;
+            document.getElementById('correctCount').textContent = score;
+            document.getElementById('incorrectCount').textContent = totalQuestions - score;
+            document.getElementById('percentage').textContent = percentage + '%';
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = 'Excellent travail ! 🎉';
+            } else if (percentage >= 60) {
+                message = 'Bon travail ! Continuez à réviser.';
+            } else {
+                message = 'Continuez à réviser, vous allez y arriver !';
+            }
+            document.getElementById('message').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            
+            document.getElementById('score').textContent = '0';
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(f => f.classList.remove('show'));
+            document.querySelectorAll('[id^="selectionText"]').forEach(el => el.textContent = 'Aucune');
+            
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.header').style.display = 'block';
+            document.querySelector('.score-display').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            
+            showQuestion(1);
+            updateProgress();
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextQuestion();
+            if (e.key === 'ArrowLeft') prevQuestion();
+        });
+    </script>
+</body>
+</html>

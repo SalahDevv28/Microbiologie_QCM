@@ -1,0 +1,102 @@
+{
+  "lecture": 17,
+  "title": "Sérums et Vaccins",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Le vaccin inactivé",
+      "options": {
+        "A": "Est préparé d'un microorganisme vivant",
+        "B": "Est une préparation antigénique différente de l'agent infectieux",
+        "C": "Confère une immunisation active",
+        "D": "Est obtenu par inactivation des microorganismes par des procédés chimiques",
+        "E": "Toutes les propositions sont justes"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 2,
+      "text": "Le vaccin",
+      "options": {
+        "A": "Est une préparation antigénique dérivée ou proche de l'agent infectieux",
+        "B": "Doit provoquer chez un sujet réceptif une réaction immunitaire non spécifique",
+        "C": "Atténue les conséquences d'une infection naturelle",
+        "D": "Il s'agit d'une immunoprophylaxie passive",
+        "E": "Toutes les propositions sont fausses"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 3,
+      "text": "Les vaccins vivants atténués",
+      "options": {
+        "A": "Sont proches de l'immunisation naturelle",
+        "B": "Une dose unique est habituellement suffisante",
+        "C": "Sont dépourvus de risques infectieux",
+        "D": "L'immunité anti-infectieuse doit être entretenue par des injections de rappel",
+        "E": "Toutes les réponses sont justes"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 4,
+      "text": "Le vaccin",
+      "options": {
+        "A": "Est une préparation antigénique",
+        "B": "Provoque chez une personne une réaction immunitaire spécifique",
+        "C": "Donne une immunoprophylaxie passive",
+        "D": "Donne une immunisation seulement de type humoral",
+        "E": "Est une suspension d'immunoglobulines IgG"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 5,
+      "text": "Parmi ces pathologies infectieuses, quelles sont celles à vaccination obligatoire en Algérie",
+      "options": {
+        "A": "Rougeole",
+        "B": "Fièvre Jaune",
+        "C": "Varicelle",
+        "D": "Tuberculose",
+        "E": "Poliomyélite"
+      },
+      "correct": "ADE"
+    },
+    {
+      "id": 6,
+      "text": "Les avantages de la sérothérapie",
+      "options": {
+        "A": "Protection rapide",
+        "B": "Relai possible par la vaccination",
+        "C": "Seule immunothérapie applicable en absence de vaccins",
+        "D": "Immunité humorale et non cellulaire",
+        "E": "Confère une protection de longue durée"
+      },
+      "correct": "ABC"
+    },
+    {
+      "id": 7,
+      "text": "Le vaccin inactivé",
+      "options": {
+        "A": "Est préparé d'un microorganisme vivant",
+        "B": "Est une préparation antigénique différente de l'agent infectieux",
+        "C": "Confère une immunisation active",
+        "D": "Est obtenu par inactivation des microorganismes par des procédés chimiques",
+        "E": "Toutes les propositions sont justes"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 8,
+      "text": "Le vaccin",
+      "options": {
+        "A": "Est une préparation antigénique dérivée ou proche de l'agent infectieux",
+        "B": "Doit provoquer chez un sujet réceptif une réaction immunitaire non spécifique",
+        "C": "Atténue les conséquences d'une infection naturelle",
+        "D": "Il s'agit d'une immunoprophylaxie passive",
+        "E": "Toutes les propositions sont fausses"
+      },
+      "correct": "AC"
+    }
+  ]
+}

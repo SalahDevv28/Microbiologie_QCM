@@ -1,0 +1,390 @@
+{
+  "lecture": 10,
+  "title": "Cocci Gram Positif",
+  "questions": [
+    {
+      "id": 1,
+      "text": "La staphylococcie pleuropulmonaire est causée par la bactérie :",
+      "options": {
+        "A": "Staphylococcus aureus",
+        "B": "Staphylococcus epidermidis",
+        "C": "Streptococcus pneumoniae",
+        "D": "Enterococcus faecalis",
+        "E": "Streptococcus pyogenes"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 2,
+      "text": "Le pneumocoque est un :",
+      "options": {
+        "A": "Cocci à Gram négatif",
+        "B": "Bacille à gram positif groupé en petites chaînettes",
+        "C": "Cocci à hémolyse alpha",
+        "D": "Cocci à hémolyse B",
+        "E": "Bacille non hémolytique"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 3,
+      "text": "Staphylocoque aureus est un(e) :",
+      "options": {
+        "A": "Entérobactérie",
+        "B": "Bactérie anaérobie stricte",
+        "C": "Diplocoque à Gram négatif en grains de café",
+        "D": "Cocci à catalase négatif",
+        "E": "Bactérie qui produit des toxines"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 4,
+      "text": "Streptocoque pneumoniae :",
+      "options": {
+        "A": "Est un germe hémolytique de type B",
+        "B": "Produit un pigment jaune doré sur gélose au sang",
+        "C": "Est naturellement résistant aux Céphalosporines de 3ème génération",
+        "D": "Est responsable de pneumonie",
+        "E": "Est responsable d'infection urinaire nosocomiale"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 5,
+      "text": "Le staphylococcus aureus résiste à la méthicilline par :",
+      "options": {
+        "A": "Sécrétion de pénicillinase",
+        "B": "Modification de la PLP",
+        "C": "Production de biofilm",
+        "D": "Mutation de l'ADN gyrase",
+        "E": "Perte de la paroi"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 6,
+      "text": "Le Staphylocoque aureus :",
+      "options": {
+        "A": "Produit une catalase",
+        "B": "Secrète une coagulase",
+        "C": "Produit un pigment blanc en culture",
+        "D": "Est un germe non pathogène",
+        "E": "Ne produit pas de toxines"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 7,
+      "text": "Le Streptocoque agalactiae est :",
+      "options": {
+        "A": "Streptocoque alpha hémolytique",
+        "B": "Streptocoque B hémolytique du groupe A",
+        "C": "Streptocoque B hémolytique du groupe C",
+        "D": "Streptocoque non hémolytique",
+        "E": "Streptocoque B hémolytique du groupe B"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 8,
+      "text": "Le diagnostic sérologique d'une infection par le streptocoque se fait par la recherche des AC :",
+      "options": {
+        "A": "ASLO",
+        "B": "TPHA",
+        "C": "VDRL",
+        "D": "TPI",
+        "E": "IDR"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 9,
+      "text": "Staphylococcus aureus :",
+      "options": {
+        "A": "Bacille à Gram positif",
+        "B": "Responsable d'intoxications alimentaires à incubation longue",
+        "C": "Sa protéine A permet de fixer les immunoglobulines G",
+        "D": "La leucocidine est une toxine pyrogène",
+        "E": "Dans les septicémies et les endocardites à S. aureus la porte d'entrée est souvent un cathéter intra vasculaire"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 10,
+      "text": "Les streptocoques :",
+      "options": {
+        "A": "Les streptocoques B-hémolytiques produisent une hémolyse incomplète",
+        "B": "Une angine streptococcique peut être suivie d'un rhumatisme articulaire aigu",
+        "C": "Causent des infections suivies d'une élévation des anticorps antistreptolysine O (Anti-SLO)",
+        "D": "Streptococcus agalactiae est résistant à la pénicilline G",
+        "E": "Le pneumocoque est souvent présent à l'état commensal dans les voies aériennes supérieures (rhino-pharynx)"
+      },
+      "correct": "BCE"
+    },
+    {
+      "id": 11,
+      "text": "Staphylococcus aureus :",
+      "options": {
+        "A": "N'est un cocci à Gram positif",
+        "B": "Produit une hémolyse alpha",
+        "C": "Cultive sur gélose enrichie",
+        "D": "Produit un pigment doré",
+        "E": "Est responsable d'angine blanche"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 12,
+      "text": "Streptocoque pyogènes est :",
+      "options": {
+        "A": "Streptocoque alpha hémolytique",
+        "B": "Streptocoque B hémolytique du groupe A",
+        "C": "Streptocoque B hémolytique du groupe B",
+        "D": "Streptocoque B hémolytique du groupe C",
+        "E": "Streptocoque non hémolytique"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 13,
+      "text": "L'hémolyse du streptocoque est un caractère :",
+      "options": {
+        "A": "Antigénique",
+        "B": "Morphologique",
+        "C": "De culture",
+        "D": "Biochimique",
+        "E": "Microscopique"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 14,
+      "text": "Staphylococcus aureus :",
+      "options": {
+        "A": "Produit une coagulase",
+        "B": "Est un cocci à Gram positif groupé en chaînettes",
+        "C": "Ne cultive pas sur milieu Chapman",
+        "D": "Produit un pigment blanchâtre sur gélose au sang",
+        "E": "Est une bactérie exigeante en facteurs de croissance"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 15,
+      "text": "Le Pneumocoque :",
+      "options": {
+        "A": "Est germe commensale de l'intestin",
+        "B": "Produit une hémolyse alpha",
+        "C": "Est naturellement résistant aux pénicillines",
+        "D": "Est responsable de pneumonies",
+        "E": "Est transmis par voie urinaire"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 16,
+      "text": "Streptocoque est :",
+      "options": {
+        "A": "Bacille qui cultive sur gélose au sang",
+        "B": "Bacille exigeant",
+        "C": "Coccid Gram négatif exigeant",
+        "D": "De culture facile",
+        "E": "Cocci à Gram positif"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 17,
+      "text": "L'hémolyse du streptocoque est un caractère :",
+      "options": {
+        "A": "Morphologique",
+        "B": "De culture",
+        "C": "Biochimique",
+        "D": "Moléculaire",
+        "E": "Microscopique"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 18,
+      "text": "Parmi ces bactéries, lesquelles sont des cocci à Gram positif ?",
+      "options": {
+        "A": "Streptocoque",
+        "B": "Staphylocoque",
+        "C": "Méningocoque",
+        "D": "Gonocoque",
+        "E": "E.coli"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 19,
+      "text": "Le Staphylococcus aureus appartient à la famille :",
+      "options": {
+        "A": "Entérobactéries",
+        "B": "Anaérobies",
+        "C": "Streptococcaceae",
+        "D": "Staphylococcaceae",
+        "E": "Spirochètes"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 20,
+      "text": "Le streptocoque est responsable de :",
+      "options": {
+        "A": "Angine",
+        "B": "Syphilis",
+        "C": "Sida",
+        "D": "Hépatite",
+        "E": "Fièvre typhoïde"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 21,
+      "text": "On peut détecter l'antigène capsulaire des Streptococcus pneumoniae dans :",
+      "options": {
+        "A": "Le liquide synovial",
+        "B": "Le liquide céphalo-rachidien",
+        "C": "Les selles",
+        "D": "Le sérum",
+        "E": "Les urines"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 22,
+      "text": "Dans les pathologies suivantes, quelle(s) est (sont) celle(s) qui peut (peuvent) être due(s) à Staphylococcus aureus ?",
+      "options": {
+        "A": "Toxi-infection alimentaire",
+        "B": "Syndrome du choc toxique",
+        "C": "Furoncle",
+        "D": "Panaris",
+        "E": "Rhumatisme articulaire aigu"
+      },
+      "correct": "ABCD"
+    },
+    {
+      "id": 23,
+      "text": "Parmi les propositions suivantes concernant les méningites bactériennes à pneumocoque, lesquelles sont exactes ?",
+      "options": {
+        "A": "Elles surviennent uniquement chez le sujet âgé",
+        "B": "Elles s'accompagnent habituellement d'une réaction cellulaire avec prédominance de polynucléaires au niveau du liquide céphalorachidien",
+        "C": "Elles s'accompagnent d'une élévation de la glycorrachie",
+        "D": "L'isolement de la bactérie en cause nécessite l'utilisation d'un milieu de culture enrichi",
+        "E": "Leur traitement repose sur l'utilisation de céphalosporines de troisième génération"
+      },
+      "correct": "BDE"
+    },
+    {
+      "id": 24,
+      "text": "Parmi les propositions suivantes concernant Streptococcus pyogenes, quelle(s) est (sont) celle(s) qui est (sont) exacte(s) ?",
+      "options": {
+        "A": "Il peut provoquer des lésions suppuratives et nécrotiques",
+        "B": "Il peut être responsable de toxi-infections alimentaires",
+        "C": "Certaines souches peuvent provoquer la scarlatine",
+        "D": "Il peut être responsable d'érysipèle",
+        "E": "Il est habituellement sensible aux aminosides"
+      },
+      "correct": "ACD"
+    },
+    {
+      "id": 25,
+      "text": "Dans les pathologies suivantes, quelle(s) est (sont) celle(s) qui peut (peuvent) être due(s) à Staphylococcus aureus ?",
+      "options": {
+        "A": "Toxi-infection alimentaire",
+        "B": "Syndrome du choc toxique",
+        "C": "Furoncle",
+        "D": "Panaris",
+        "E": "Rhumatisme articulaire aigu"
+      },
+      "correct": "ABCD"
+    },
+    {
+      "id": 26,
+      "text": "Parmi les propositions suivantes concernant les méningites bactériennes à pneumocoque, lesquelles sont exactes ?",
+      "options": {
+        "A": "Elles surviennent uniquement chez le sujet âgé",
+        "B": "Elles s'accompagnent habituellement d'une réaction cellulaire avec prédominance de polynucléaires au niveau du liquide céphalorachidien",
+        "C": "Elles s'accompagnent d'une élévation de la glycorrachie",
+        "D": "L'isolement de la bactérie en cause nécessite l'utilisation d'un milieu de culture enrichi",
+        "E": "Leur traitement repose sur l'utilisation de céphalosporines de troisième génération"
+      },
+      "correct": "BDE"
+    },
+    {
+      "id": 27,
+      "text": "Parmi les propositions suivantes concernant Streptococcus pyogenes, quelle(s) est (sont) celle(s) qui est (sont) exacte(s) ?",
+      "options": {
+        "A": "Il peut provoquer des lésions suppuratives et nécrotiques",
+        "B": "Il peut être responsable de toxi-infections alimentaires",
+        "C": "Certaines souches peuvent provoquer la scarlatine",
+        "D": "Il peut être responsable d'érysipèle",
+        "E": "Il est habituellement sensible aux aminosides"
+      },
+      "correct": "ACD"
+    },
+    {
+      "id": 28,
+      "text": "Les Staphylococcus sont :",
+      "options": {
+        "A": "Des cocci à Gram négatif qui tendent à se grouper en flamme de bougie",
+        "B": "Des cocci à Gram positif qui tendent à se grouper en flamme de bougie",
+        "C": "Des cocci à Gram positif qui tendent à se grouper en grain de café",
+        "D": "Des cocci à Gram positif qui tendent à se grouper en amas (grappe de raisin)",
+        "E": "Des cocci à Gram positif qui tendent à se grouper en chainette"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 29,
+      "text": "Les complications post streptococciques sont :",
+      "options": {
+        "A": "Le rhumatisme articulaire aigu",
+        "B": "La glomérulonéphrite aiguë",
+        "C": "L'angine érythémateuse",
+        "D": "L'angine érythémato-pultacée",
+        "E": "L'angine pseudomembraneuse"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 30,
+      "text": "Le pneumocoque est une bactérie :",
+      "options": {
+        "A": "Cocci à Gram positif groupés en amas",
+        "B": "Bacille à Gram positif en palissade",
+        "C": "Sensible à l'optochine",
+        "D": "Diplocoques à Gram positif en flamme de bougie",
+        "E": "Résistant à l'optochine"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 31,
+      "text": "Staphylococcus aureus peut être à l'origine des maladies suivantes :",
+      "options": {
+        "A": "Glomérulonéphrite aiguë",
+        "B": "Impétigo",
+        "C": "Rhumatisme articulaire aigu",
+        "D": "Erysipèle",
+        "E": "Charbon"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 32,
+      "text": "Un staphylocoque résistant à la méticilline ou à l'oxacilline est :",
+      "options": {
+        "A": "Résistant à toutes les B-lactamines",
+        "B": "Résistant aux glycopéptides",
+        "C": "Cette résistance est due à la présence d'une PLP anormale appelée PLP2a",
+        "D": "La détection de la résistance à la méticilline s'effectue par le test de diffusion du disque de céfotaxime",
+        "E": "Cette résistance doit être obligatoirement homogène de haut niveau"
+      },
+      "correct": "CD"
+    }
+  ]
+}

@@ -1,0 +1,473 @@
+{
+  "lecture": 1,
+  "title": "Structure Bactérienne et Taxonomie",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Les bactéries font partie des protistes Procaryotes se caractérisent par",
+      "options": {
+        "A": "Une activité mitotique",
+        "B": "Une structure type des protistes supérieurs",
+        "C": "Un seul chromosome",
+        "D": "Un seul chromosome associé surtout à des mitochondries",
+        "E": "Un seul chromosome avec membrane nucléaire et sans appareil de Golgi"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 2,
+      "text": "Le chromosome bactérien est le support de l'information génétique vitale. C'est une double hélice",
+      "options": {
+        "A": "Linaire",
+        "B": "Linéaire surenroulée",
+        "C": "Linéaire pelotonnée",
+        "D": "Linéaire surenroulée pelotonnée",
+        "E": "Circulaire surenroulée pelotonnée"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 3,
+      "text": "Les plasmides sont des ADN circulaires extra chromosomiques supports de caractères",
+      "options": {
+        "A": "Indispensables dans les conditions habituelles",
+        "B": "De fertilité",
+        "C": "De résistance",
+        "D": "De virulence",
+        "E": "De multiplication"
+      },
+      "correct": "BCD"
+    },
+    {
+      "id": 4,
+      "text": "La membrane interne est la limitante externe du cytoplasme. Chez les bactéries elle",
+      "options": {
+        "A": "Se caractérise par l'absence de stérols",
+        "B": "Se caractérise par la présence de stérols",
+        "C": "Ne renferme pas des protéines",
+        "D": "Renferme les protéines de liaisons de la pénicilline",
+        "E": "Est résistante aux bêtalactamines"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 5,
+      "text": "La paroi est un polymère complexe présent chez toutes les bactéries sauf les Mycoplasmes",
+      "options": {
+        "A": "Rigide constituée essentiellement de peptidoglycane chez les bactéries à Gram négatif",
+        "B": "Rigide constituée essentiellement de peptidoglycane chez les bactéries à Gram positif",
+        "C": "Lâche et fine chez les bactéries à Gram négatif",
+        "D": "Lâche et fine chez les bactéries à Gram négatif",
+        "E": "Réticulée"
+      },
+      "correct": "BCDE"
+    },
+    {
+      "id": 6,
+      "text": "Le nucléoïde bactérien est représenté par",
+      "options": {
+        "A": "Un ADN bicaténaire linaire",
+        "B": "Un ADN circulaire",
+        "C": "Un ADN et un ARN",
+        "D": "Un ADN organisé sous forme de pelote",
+        "E": "Un noyau avec membrane nucléaire et centrioles"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 7,
+      "text": "Le génome bactérien peut comprendre",
+      "options": {
+        "A": "Un chromosome, un ou plusieurs plasmides, des transposons et des intégrons",
+        "B": "Plusieurs chromosomes",
+        "C": "Des plasmides",
+        "D": "Un noyau et des plasmides",
+        "E": "Un noyau et des transposons"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 8,
+      "text": "La capsule bactérienne est une structure de nature polysaccharidique",
+      "options": {
+        "A": "Retrouvée chez toutes les bactéries",
+        "B": "Détermine la forme",
+        "C": "Permet la résistance à la phagocytose",
+        "D": "Elément de la respiration",
+        "E": "Pouvant servir de critère d'identification"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 9,
+      "text": "La paroi est une structure rigide assurant l'intégrité bactérienne",
+      "options": {
+        "A": "Faite de protéines",
+        "B": "Constituée essentiellement de peptidoglycane",
+        "C": "Existe chez toutes les bactéries",
+        "D": "Absente chez les Mycoplasmes",
+        "E": "Le peptidoglycane représente plus de 30% du poids sec chez les Gram négatif"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 10,
+      "text": "Certaines bactéries sont capables de se transformer en spore",
+      "options": {
+        "A": "C'est un stade habituel du développement",
+        "B": "C'est une forme d'adaptation",
+        "C": "Phénomène observé chez les bactéries à Gram négatif",
+        "D": "Phénomène observé chez les bactéries à Gram positif",
+        "E": "Observées uniquement chez les aérobies"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 11,
+      "text": "La paroi bactérienne est une structure",
+      "options": {
+        "A": "Présente chez toutes les bactéries",
+        "B": "Spécifique des mycoplasmes",
+        "C": "Absente chez les mycoplasmes",
+        "D": "Absente chez les bactéries mobiles",
+        "E": "Présente chez les sporulées"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 12,
+      "text": "L'élément déterminant de la paroi bactérienne est le peptidoglycane",
+      "options": {
+        "A": "Représente plus de 30% du poids sec de la bactérie à Gram positif",
+        "B": "Il est dominant chez les Mycoplasmes",
+        "C": "C'est une macromolécule",
+        "D": "Représente moins de 15% du poids sec de la bactérie à Gram négatif",
+        "E": "Enveloppe le cytoplasme"
+      },
+      "correct": "ACD"
+    },
+    {
+      "id": 13,
+      "text": "La membrane cytoplasmique est de type habituel",
+      "options": {
+        "A": "Contient le cytoplasme",
+        "B": "Renferme les enzymes respiratoires",
+        "C": "Absente chez les bacilles",
+        "D": "Participe à la sporulation",
+        "E": "Renferme les antigènes spécifiques chez les Mycoplasmes"
+      },
+      "correct": "ABE"
+    },
+    {
+      "id": 14,
+      "text": "Toutes les bactéries possèdent",
+      "options": {
+        "A": "Pili communs",
+        "B": "Plasmides",
+        "C": "Membrane cytoplasmique",
+        "D": "Noyau",
+        "E": "Capsule"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 15,
+      "text": "La membrane représente la première barrière osmotique bactérienne. Elle est faite essentiellement de",
+      "options": {
+        "A": "Protéines",
+        "B": "Phospholipides",
+        "C": "Peptidoglycane",
+        "D": "Polysaccharides",
+        "E": "Glycoprotéines"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 16,
+      "text": "La paroi caractérise toutes les espèces bactériennes sauf les",
+      "options": {
+        "A": "Entérobactéries",
+        "B": "Anaérobies",
+        "C": "Sporulés",
+        "D": "Mycoplasmes",
+        "E": "Staphylocoques"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 17,
+      "text": "La membrane cytoplasmique est un élément de régulation des échanges avec le milieu extérieur",
+      "options": {
+        "A": "Elle est tri-lamellaire",
+        "B": "Hydrophile uniquement",
+        "C": "Renferme l'antigène des Mycoplasmes",
+        "D": "Hydrophobe uniquement",
+        "E": "Amphiphile"
+      },
+      "correct": "ACE"
+    },
+    {
+      "id": 18,
+      "text": "Le chromosome est filamenteux et renferme l'ADN vital pour la cellule bactérienne",
+      "options": {
+        "A": "ADN bicaténaire lié aux histones",
+        "B": "ADN monocaténaire non lié aux histones",
+        "C": "ADN bicaténaire non lié aux histones",
+        "D": "ADN monocaténaire non lié aux histones",
+        "E": "ADN segmenté"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 19,
+      "text": "Le plasmide est un ADN circulaire extra-chromosomique",
+      "options": {
+        "A": "Existant chez toutes les bactéries",
+        "B": "Propre aux bactéries à Gram négatif",
+        "C": "Propre aux bactéries à Gram positif",
+        "D": "Support d'information de résistance et d'adaptation",
+        "E": "Transmis par conjugaison"
+      },
+      "correct": "DE"
+    },
+    {
+      "id": 20,
+      "text": "La paroi des bactéries à Gram négatif",
+      "options": {
+        "A": "Est riche en peptidoglycane comparativement aux bactéries à Gram positif",
+        "B": "Est relativement pauvre en peptidoglycane, complexe mince et flasque",
+        "C": "Rigide renfermant plus de 30% de peptidoglycane",
+        "D": "Faite uniquement de lipopolysaccharides",
+        "E": "Ne renferme que des phospholipides"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 21,
+      "text": "Le nucléoïde bactérien se distingue par",
+      "options": {
+        "A": "Des chromosomes non liés aux histones",
+        "B": "Un ADN unique lié aux histones",
+        "C": "Plusieurs chromosomes liés aux histones",
+        "D": "Une séquence bicaténaire unique assez longue non liée aux histones",
+        "E": "Une séquence monocaténaire très longue"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 22,
+      "text": "Le plasmide est aussi un support d'informations génétiques",
+      "options": {
+        "A": "Vitales pour la cellule bactérienne",
+        "B": "Existant chez toutes les bactéries",
+        "C": "Facultatives existant chez certaines bactéries",
+        "D": "Responsables de la multiplication des cellules végétatives",
+        "E": "Nécessaires au déplacement"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 23,
+      "text": "La membrane cytoplasmique est une structure tri-lamellaire qui contient le cytoplasme",
+      "options": {
+        "A": "Intervenant dans les échanges, la synthèse d'énergie et le métabolisme respiratoire",
+        "B": "Le déplacement uniquement",
+        "C": "La synthèse du peptidoglycane uniquement",
+        "D": "La multiplication uniquement",
+        "E": "La formation de la spore"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 24,
+      "text": "La paroi bactérienne est une structure bactérienne composée essentiellement",
+      "options": {
+        "A": "De peptidoglycane",
+        "B": "De phospholipides",
+        "C": "De polysaccharides",
+        "D": "De protéines",
+        "E": "De lipides"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 25,
+      "text": "La paroi chez les bactéries à Gram négatif est complexe formée de",
+      "options": {
+        "A": "Peptidoglycane et d'un espace péri-plasmique",
+        "B": "Peptidoglycane, espace péri-plasmique et d'une membrane externe",
+        "C": "Espace péri-plasmique et d'une membrane externe",
+        "D": "Peptidoglycane et protéines",
+        "E": "Peptidoglycane et d'un espace péri-plasmique"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 26,
+      "text": "Les bactéries sont des procaryotes pourvues de",
+      "options": {
+        "A": "Système vacuolaire",
+        "B": "Mitochondries",
+        "C": "Chloroplastes pour les synthèses énergétiques",
+        "D": "Nucléoïde renfermant un seul chromosome",
+        "E": "Noyau, réticulum endoplasmique et appareil de Golgi"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 27,
+      "text": "Le peptidoglycane est un élément fondamental pour les bactéries",
+      "options": {
+        "A": "Complexe, il est constitué de molécules organisées sous forme de couche réticulée",
+        "B": "C'est une seule macromolécule réticulée",
+        "C": "Intervient dans les synthèses énergétiques de la bactérie",
+        "D": "Dans la synthèse protéique",
+        "E": "Sert au déterminisme antigénique chez les mycoplasmes"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 28,
+      "text": "La paroi bactérienne est un élément clé de la cellule bactérienne intervient dans",
+      "options": {
+        "A": "La coloration différentielle de Gram",
+        "B": "Les processus de déplacement",
+        "C": "Les phénomènes de multiplication",
+        "D": "La reproduction",
+        "E": "Le transfert d'information génétique"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 29,
+      "text": "La membrane cytoplasmique est semblable à toutes les autres est se caractérise par",
+      "options": {
+        "A": "Son intervention dans la division cellulaire et la respiration",
+        "B": "Son rôle dans la coloration différentielle de Gram",
+        "C": "Son rôle dans la fertilité",
+        "D": "Sa multiplication dans la sporulation"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 30,
+      "text": "Concernant les transposons",
+      "options": {
+        "A": "Un transposon est toujours localisé sur un plasmide",
+        "B": "Un transposon code uniquement pour la résistance aux antibiotiques",
+        "C": "Les transposons sont rencontrés uniquement chez les staphylocoques",
+        "D": "Un transposon est un fragment d'ADN",
+        "E": "Doués d'autoréplication"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 31,
+      "text": "La paroi bactérienne est une structure caractérisant les organismes Procaryotes, constituée essentiellement de",
+      "options": {
+        "A": "Phospholipides",
+        "B": "Protéines",
+        "C": "Peptidoglycane",
+        "D": "Glycopeptides",
+        "E": "Polysaccharides"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 32,
+      "text": "La membrane externe des bactéries à Gram négatif est",
+      "options": {
+        "A": "L'élément déterminant du pouvoir pathogène de ce type de microorganisme",
+        "B": "L'élément de résistance aux antibiotiques",
+        "C": "De constitution similaire aux autres membranes cellulaires",
+        "D": "De différente constitution",
+        "E": "La deuxième barrière osmotique"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 33,
+      "text": "Le patrimoine génétique vital des bactéries est représenté par",
+      "options": {
+        "A": "Le plasmide",
+        "B": "Les transposons",
+        "C": "Les intégrons",
+        "D": "Le plasmide, transposons, intégrons et chromosomes",
+        "E": "Le chromosome"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 34,
+      "text": "Le phénomène de sporulation caractérise les bactéries",
+      "options": {
+        "A": "Du genre Clostridium",
+        "B": "Permettant une meilleure adaptation aux conditions défavorables",
+        "C": "Et constitue une étape du cycle vital",
+        "D": "Et témoigne de lyse bactérienne",
+        "E": "De tout genre"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 35,
+      "text": "La paroi bactérienne existe chez toutes les bactéries à l'exception des Mollicutes. Elle représente",
+      "options": {
+        "A": "La première barrière osmotique de la bactérie",
+        "B": "L'endotoxine des bactéries à Gram négatif",
+        "C": "L'endotoxine des bactéries à Gram positif",
+        "D": "Le lipopolysaccharide des bactéries",
+        "E": "Le phospholipide"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 36,
+      "text": "Le génome bactérien est représenté par le chromosome essentiellement. Le Plasmide est",
+      "options": {
+        "A": "Une réserve facultative de gènes surtout de résistance aux conditions défavorables",
+        "B": "Présent chez toutes les bactéries",
+        "C": "Un élément des bactéries à Gram positif",
+        "D": "Un élément vital indispensable à la cellule bactérienne",
+        "E": "Présent chez les cellules au repos"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 37,
+      "text": "La formation de spore est un phénomène observé chez certaines bactéries",
+      "options": {
+        "A": "C'est une étape du cycle vital",
+        "B": "C'est un élément de réponse à l'infection",
+        "C": "C'est une forme de résistance",
+        "D": "Elle renferme une très grande quantité de toxine",
+        "E": "Elle est faite essentiellement de protéines"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 38,
+      "text": "Structures périphériques de la bactérie responsables de sa fixation à la surface des cellules",
+      "options": {
+        "A": "La capsule",
+        "B": "Les flagelles",
+        "C": "Les mésosomes",
+        "D": "Les pili",
+        "E": "Les plasmides"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 39,
+      "text": "La taxonomie bactérienne basée sur l'étude de l'ARN 16S comme matériel de choix pour",
+      "options": {
+        "A": "Sa taille relativement réduite",
+        "B": "Sa structure",
+        "C": "Son évolution relativement lente",
+        "D": "Sa configuration",
+        "E": "Son universalité"
+      },
+      "correct": "ACE"
+    }
+  ]
+}

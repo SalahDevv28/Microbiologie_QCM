@@ -1,0 +1,186 @@
+{
+  "lecture": 11,
+  "title": "Bacilles Gram Positif",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Corynebacterium diphtheriae est :",
+      "options": {
+        "A": "Une bactérie strictement humaine qui colonise surtout le rhinopharynx",
+        "B": "Une bactérie transmise par voie sexuelle",
+        "C": "Une bactérie anaérobie stricte",
+        "D": "Une bactérie à Gram négatif",
+        "E": "Une bactérie sporulée"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 2,
+      "text": "La transmission de C. diphtheriae se fait par :",
+      "options": {
+        "A": "Les gouttelettes de salive (malades ou porteurs sains)",
+        "B": "Voie sexuelle",
+        "C": "Voie digestive",
+        "D": "Voie cutanée",
+        "E": "Voie sanguine"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 3,
+      "text": "Chez le C. diphtheriae :",
+      "options": {
+        "A": "Les manifestations cliniques locales causées par le Corynebactérium sont liées à son pouvoir toxinogène",
+        "B": "Les manifestations sont dues à l'invasion bactérienne",
+        "C": "Il ne produit pas de toxine",
+        "D": "Le vaccin n'est pas efficace",
+        "E": "La maladie est immunisante"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 4,
+      "text": "Le vaccin contre la diphtérie :",
+      "options": {
+        "A": "Est le seul moyen de prévention contre la diphtérie",
+        "B": "La maladie n'est pas immunisante",
+        "C": "N'est pas obligatoire",
+        "D": "Ne protège pas contre la toxine",
+        "E": "Est un vaccin vivant atténué"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 5,
+      "text": "Listeria monocytogenes :",
+      "options": {
+        "A": "Très résistante dans le milieu extérieur (survie de 1 à 2 ans)",
+        "B": "Responsables d'infections d'origine alimentaire",
+        "C": "Responsable d'infections nosocomiales : transmission par des incubateurs, des couveuses ou des thermomètres",
+        "D": "La prévention contre la listériose concerne uniquement l'immunodéprimé",
+        "E": "Est un cocci à Gram négatif"
+      },
+      "correct": "ACD"
+    },
+    {
+      "id": 6,
+      "text": "Bacillus anthracis est une bactérie sporulante :",
+      "options": {
+        "A": "La spore est une forme de vie très résistante",
+        "B": "Si le diamètre de la spore est supérieur à celui de la cellule végétative, elle est qualifiée de déformante",
+        "C": "Le Charbon cutané est caractérisé par des pustules cutanées noirâtres entourées d'un bourrelet rouge",
+        "D": "La toxine charbonneuse est composée de trois facteurs qui séparément sont très toxiques",
+        "E": "Les facteurs I et II réunis provoquent un œdème chez le lapin dû à l'augmentation de l'AMPc"
+      },
+      "correct": "ABCE"
+    },
+    {
+      "id": 7,
+      "text": "Listeria monocytogenes :",
+      "options": {
+        "A": "Est un cocci à Gram positif opportuniste responsable de la listériose",
+        "B": "Donne des atteintes neurologiques",
+        "C": "Cultive à une température de 4°C",
+        "D": "Est transmis par voie sexuelle",
+        "E": "Ne possède pas de paroi"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 8,
+      "text": "Corynebacterium diphtheriae :",
+      "options": {
+        "A": "Produit une toxine qui peut être détectée par l'IDR",
+        "B": "N'est jamais observé au microscope optique",
+        "C": "Est responsable d'angine à fausses membranes",
+        "D": "Est bacille à Gram négatif en tige de bambou",
+        "E": "Possède des spores terminales déformantes"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 9,
+      "text": "Listéria monocytogenes est une bactérie qui résiste naturellement :",
+      "options": {
+        "A": "Céphalosporine de 1ère génération",
+        "B": "Pénicilline G",
+        "C": "Pénicilline M",
+        "D": "Pénicilline A",
+        "E": "Céphalosporine de 3ème génération"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 10,
+      "text": "La contamination par Listéria monocytogenes se fait par voie :",
+      "options": {
+        "A": "Sexuelle",
+        "B": "Urinaire",
+        "C": "Cutanée",
+        "D": "Digestive",
+        "E": "Conjonctivale"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 11,
+      "text": "La transmission de la Listeria monocytogenes s'effectue :",
+      "options": {
+        "A": "Par l'intermédiaire des gouttelettes de salive",
+        "B": "Par l'intermédiaire d'objets souillés",
+        "C": "Par ingestion d'aliments contaminés",
+        "D": "Par voie materno-fœtale",
+        "E": "Par voie sexuelle"
+      },
+      "correct": "CD"
+    },
+    {
+      "id": 12,
+      "text": "La diphtérie est :",
+      "options": {
+        "A": "Une zoonose",
+        "B": "Une infection sexuellement transmissible",
+        "C": "Une angine pseudomembraneuse",
+        "D": "Une ostéoarthrite",
+        "E": "Une toxi-infection"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 13,
+      "text": "L'agent de la diphtérie :",
+      "options": {
+        "A": "Est un coccus à Gram positif groupé en amas",
+        "B": "Est un coccus à Gram positif groupé en chainette",
+        "C": "Est un bacille à Gram positif groupé en chiffres romains",
+        "D": "Est un bacille à Gram négatif groupé en caractères chinois",
+        "E": "Se transmet par voie aérienne"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 14,
+      "text": "L'agent de la diphtérie est :",
+      "options": {
+        "A": "Une bactérie aéro-anaérobie facultative",
+        "B": "Une bactérie anaérobie stricte",
+        "C": "Une bactérie non exigeante",
+        "D": "Streptococcus diphteriae",
+        "E": "Neisseria diphteriae"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 15,
+      "text": "La maladie du charbon ou le charbon est :",
+      "options": {
+        "A": "Due à Bacillus cereus",
+        "B": "Due à Bacillus anthracis",
+        "C": "Due à Bacillus subtilis",
+        "D": "Due à Listeria subtilis",
+        "E": "Une zoonose"
+      },
+      "correct": "BE"
+    }
+  ]
+}

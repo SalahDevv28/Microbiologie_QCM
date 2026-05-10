@@ -1,0 +1,426 @@
+{
+  "lecture": 5,
+  "title": "Antibiotiques",
+  "questions": [
+    {
+      "id": 1,
+      "text": "La Vancomycine est un antibiotique de la famille des :",
+      "options": {
+        "A": "Bêtalactamines",
+        "B": "Aminosides",
+        "C": "Glycopéptides",
+        "D": "Céphalosporines",
+        "E": "Macrolides"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 2,
+      "text": "La pénicillinase est un mécanisme de résistance bactérien aux antibiotiques, qui correspond à :",
+      "options": {
+        "A": "Modification des porines",
+        "B": "Pompes efflux",
+        "C": "Production d'enzyme bactérienne",
+        "D": "Imperméabilité",
+        "E": "Modification de la cible"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 3,
+      "text": "Les antibiotiques sont des substances :",
+      "options": {
+        "A": "À toxicité sélective",
+        "B": "Pouvant agir sur la capsule bactérienne",
+        "C": "Utilisées à de forte concentration",
+        "D": "Sont à usage externe uniquement",
+        "E": "Sont toxiques par voie générale"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 4,
+      "text": "Les antibiotiques :",
+      "options": {
+        "A": "Ont une action sélective",
+        "B": "Agissent à forte dose",
+        "C": "Sont tous d'origine synthétique",
+        "D": "Sont de nature protéique",
+        "E": "Agissent sur la capsule bactérienne"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 5,
+      "text": "La Vancomycine est un glycopéptide qui agit sur :",
+      "options": {
+        "A": "Les bacilles à Gram positif",
+        "B": "Les cocci à Gram négatif",
+        "C": "Les bacilles à Gram négatif",
+        "D": "Les cocci à Gram positif",
+        "E": "Les mycoplasmes"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 6,
+      "text": "Les carbapénèmes sont des antibiotiques agissant sur :",
+      "options": {
+        "A": "La paroi",
+        "B": "L'ADN bactérien",
+        "C": "Le ribosome",
+        "D": "La capsule",
+        "E": "La membrane cytoplasmique"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 7,
+      "text": "La gentamycine est un :",
+      "options": {
+        "A": "Aminoside",
+        "B": "Fluoroquinolone",
+        "C": "Glycopéptide",
+        "D": "Céphalosporine",
+        "E": "Péname"
+      },
+      "correct": "A"
+    },
+    {
+      "id": 8,
+      "text": "La ciprofloxacine est un antibiotique qui agit sur :",
+      "options": {
+        "A": "La membrane",
+        "B": "La paroi",
+        "C": "L'ADN bactérien",
+        "D": "Le ribosome",
+        "E": "Le cytochrome"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 9,
+      "text": "La Céfalotine est un antibiotique de la famille :",
+      "options": {
+        "A": "Aminosides",
+        "B": "Bêtalactamines",
+        "C": "Macrolides",
+        "D": "Quinolones",
+        "E": "Sulfamides"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 10,
+      "text": "La gentamicine est un antibiotique de la famille des :",
+      "options": {
+        "A": "B-lactamines",
+        "B": "Aminosides",
+        "C": "Glycopéptides",
+        "D": "Fluoroquinolones",
+        "E": "Macrolides"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 11,
+      "text": "La Céfalotine est un antibiotique qui agit sur :",
+      "options": {
+        "A": "La membrane",
+        "B": "La paroi",
+        "C": "L'ADN bactérien",
+        "D": "Le ribosome",
+        "E": "Le cytochrome"
+      },
+      "correct": "B"
+    },
+    {
+      "id": 12,
+      "text": "Un antibiotique est une substance chimique :",
+      "options": {
+        "A": "Agit à de forte concentration",
+        "B": "À action spécifique",
+        "C": "À usage externe uniquement",
+        "D": "Naturelle ou synthétique",
+        "E": "À toxicité non sélective"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 13,
+      "text": "Quel est le traitement de choix des infections à SAMR (Staphylocoque aureus Méthicillino-résistant) ?",
+      "options": {
+        "A": "Aminosides",
+        "B": "Fluoroquinolones",
+        "C": "Macrolides",
+        "D": "Bêtalactamines",
+        "E": "Glycopéptides seule ou en association"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 14,
+      "text": "Concernant les antibiotiques :",
+      "options": {
+        "A": "Sont des substances antibactériennes produites par des micro-organismes tels que les champignons microscopiques",
+        "B": "Sont des substances antibactériennes produites par synthèse chimique et qui sont capables d'inhiber la multiplication ou de détruire d'autres micro-organismes",
+        "C": "Ont la propriété d'interférer directement avec la prolifération des micro-organismes à des concentrations tolérées par l'hôte",
+        "D": "Agissent de façon physico-chimique non spécifique",
+        "E": "Les antibiotiques agissent à l'échelon moléculaire au niveau d'une ou de plusieurs étapes métaboliques indispensables à la vie de la bactérie"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 15,
+      "text": "Quel est le mécanisme d'action des antibiotiques de la famille des fluoroquinolones ?",
+      "options": {
+        "A": "Inhibition de la synthèse du peptidoglycane de la paroi",
+        "B": "Action initiale sur la membrane cytoplasmique bactérienne",
+        "C": "Inhibition de la synthèse protéique bactérienne",
+        "D": "Inhibition de la réplication de l'ADN chromosomique bactérien",
+        "E": "Inhibition compétitive de l'acide para-amino-benzoïque"
+      },
+      "correct": "D"
+    },
+    {
+      "id": 16,
+      "text": "Concernant la mutation chromosomique de la sensibilité à un antibiotique vers la résistance :",
+      "options": {
+        "A": "Il s'agit du résultat de l'adaptation de la bactérie à l'antibiotique",
+        "B": "Elle persiste en l'absence de l'antibiotique qui a servi la sélection",
+        "C": "Elle ne peut avoir lieu qu'à la suite d'un contact préalable à l'antibiotique",
+        "D": "Lorsqu'elle apparaît elle se manifeste simultanément dans un grand nombre de cellules bactériennes",
+        "E": "Lors de la division de la bactérie elle est transmise aux deux cellules filles"
+      },
+      "correct": "BE"
+    },
+    {
+      "id": 17,
+      "text": "La résistance plasmidique aux antibiotiques est :",
+      "options": {
+        "A": "Le plus souvent une multirésistance",
+        "B": "Rencontrée chez des rares espèces bactériennes",
+        "C": "Transmissible entre bactéries de la même espèce seulement",
+        "D": "Transmissible entre bactéries d'espèces différentes",
+        "E": "Etendue à toutes les familles d'antibiotiques"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 18,
+      "text": "Les antibiotiques agissant principalement au niveau des ribosomes :",
+      "options": {
+        "A": "Les glycopéptides",
+        "B": "Les aminosides",
+        "C": "Les Bêtalactamines",
+        "D": "Les Synergistines",
+        "E": "Les Quinolones"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 19,
+      "text": "Les aminosides :",
+      "options": {
+        "A": "Sont des antibiotiques bactéricides",
+        "B": "Sont inactifs sur les bactéries anaérobies strictes",
+        "C": "Sont actifs uniquement sur les bactéries à Gram négatif",
+        "D": "Sont inactifs sur les mycobactéries",
+        "E": "Sont indiqués en première intention au cours des pneumopathies aiguës du sujet âgé"
+      },
+      "correct": "AB"
+    },
+    {
+      "id": 20,
+      "text": "Concernant l'effet bactéricide des antibiotiques :",
+      "options": {
+        "A": "Les associations de bêtalactamines aux aminosides sont habituellement bactéricides",
+        "B": "Les associations de bêtalactamines aux aminosides sont habituellement bactériostatiques",
+        "C": "Les aminosides sont habituellement bactéricides",
+        "D": "Les macrolides sont habituellement bactéricides",
+        "E": "Les pénicillines sont habituellement bactériostatiques"
+      },
+      "correct": "AC"
+    },
+    {
+      "id": 21,
+      "text": "Concernant l'étude des antibiotiques :",
+      "options": {
+        "A": "La CMB est la plus petite concentration d'antibiotique qui, après 24 heures de culture, ne laisse que 1% de germes survivants",
+        "B": "La notion de CMI concerne la bactériostase",
+        "C": "Tout antibiotique peut être, selon sa concentration dans le milieu, bactériostatique ou bactéricide",
+        "D": "CMB et CMI sont les concentrations critiques de l'antibiotique concerné",
+        "E": "La CMI est toujours supérieure à la CMB"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 22,
+      "text": "Parmi les indicateurs de la résistance bactérienne aux antibiotiques :",
+      "options": {
+        "A": "La résistance des entérocoques aux céphalosporines de 3ème génération",
+        "B": "La résistance des entérobactéries à l'ampicilline",
+        "C": "La résistance du Staphylococcus aureus à la pénicilline G",
+        "D": "La résistance du protéus à la Vancomycine",
+        "E": "La résistance du Pseudomonas aeruginosa à la Ceftazidime"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 23,
+      "text": "Quel est le mécanisme d'action des antibiotiques de la famille des tétracyclines ?",
+      "options": {
+        "A": "Inhibition de la synthèse du peptidoglycane de la paroi",
+        "B": "Action initiale sur la membrane cytoplasmique bactérienne",
+        "C": "Inhibition de la synthèse protéique bactérienne",
+        "D": "Inhibition de la réplication de l'ADN chromosomique bactérien",
+        "E": "Inhibition compétitive de l'acide para-amino-benzoïque"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 24,
+      "text": "Quel est le mécanisme d'action des antibiotiques de la famille des aminosides ?",
+      "options": {
+        "A": "Inhibition de la synthèse du peptidoglycane de la paroi",
+        "B": "Action initiale sur la membrane cytoplasmique bactérienne",
+        "C": "Inhibition de la synthèse protéique bactérienne",
+        "D": "Inhibition de la réplication de l'ADN chromosomique bactérien",
+        "E": "Inhibition compétitive de l'acide para-amino-benzoïque"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 25,
+      "text": "La résistance plasmidique aux antibiotiques est :",
+      "options": {
+        "A": "Le plus souvent une multirésistance",
+        "B": "Rencontrée chez des rares espèces bactériennes",
+        "C": "Transmissible entre bactéries de la même espèce seulement",
+        "D": "Transmissible entre bactéries d'espèces différentes",
+        "E": "Etendue à toutes les familles d'antibiotiques"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 26,
+      "text": "Parmi les indicateurs de la résistance bactérienne aux antibiotiques :",
+      "options": {
+        "A": "La résistance des entérocoques aux céphalosporines de 3ème génération",
+        "B": "La résistance des entérobactéries à l'ampicilline",
+        "C": "La résistance du Staphylococcus aureus à la pénicilline G",
+        "D": "La résistance du protéus à la Vancomycine",
+        "E": "La résistance du Pseudomonas aeruginosa à la Ceftazidime"
+      },
+      "correct": "E"
+    },
+    {
+      "id": 27,
+      "text": "Quel est le mécanisme d'action des antibiotiques de la famille des tétracyclines ?",
+      "options": {
+        "A": "Inhibition de la synthèse du peptidoglycane de la paroi",
+        "B": "Action initiale sur la membrane cytoplasmique bactérienne",
+        "C": "Inhibition de la synthèse protéique bactérienne",
+        "D": "Inhibition de la réplication de l'ADN chromosomique bactérien",
+        "E": "Inhibition compétitive de l'acide para-amino-benzoïque"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 28,
+      "text": "Quel est le mécanisme d'action des antibiotiques de la famille des aminosides ?",
+      "options": {
+        "A": "Inhibition de la synthèse du peptidoglycane de la paroi",
+        "B": "Action initiale sur la membrane cytoplasmique bactérienne",
+        "C": "Inhibition de la synthèse protéique bactérienne",
+        "D": "Inhibition de la réplication de l'ADN chromosomique bactérien",
+        "E": "Inhibition compétitive de l'acide para-amino-benzoïque"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 29,
+      "text": "La résistance plasmidique aux antibiotiques est :",
+      "options": {
+        "A": "Le plus souvent une multirésistance",
+        "B": "Rencontrée chez des rares espèces bactériennes",
+        "C": "Transmissible entre bactéries de la même espèce seulement",
+        "D": "Transmissible entre bactéries d'espèces différentes",
+        "E": "Etendue à toutes les familles d'antibiotiques"
+      },
+      "correct": "AD"
+    },
+    {
+      "id": 30,
+      "text": "Parmi les indicateurs de la résistance bactérienne aux antibiotiques :",
+      "options": {
+        "A": "La résistance d'E. Coli à la vancomycine",
+        "B": "La résistance des entérocoques aux céphalosporines de 3ème génération",
+        "C": "La résistance des entérobactéries aux céphalosporines de 3ème génération",
+        "D": "La résistance du Pseudomonas aeruginosa à la colistine",
+        "E": "La résistance du Staphylococcus aureus à l'ampicilline"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 31,
+      "text": "Les mécanismes de la résistance acquise aux antibiotiques :",
+      "options": {
+        "A": "Une modification de la cible",
+        "B": "Une activation enzymatique de l'antibiotique",
+        "C": "Le système d'efflux",
+        "D": "Présents chez toutes les souches dites sauvages appartenant à la même espèce",
+        "E": "Sont une conséquence d'une mutation chromosomique uniquement"
+      },
+      "correct": "BC"
+    },
+    {
+      "id": 32,
+      "text": "Quelles sont les affirmations exactes parmi les suivants concernant la CMI :",
+      "options": {
+        "A": "C'est la plus grande concentration d'antibiotique entraînant la bactéricidie",
+        "B": "Elle nécessite pour sa détermination d'obtenir une culture de 24h",
+        "C": "Elle est le reflet de la destruction des bactéries provoquée par un antibiotique",
+        "D": "Elle est déterminée par une mise en contact de la bactérie avec une gamme de concentrations d'un antibiotique donné, en milieu solide ou en milieu liquide",
+        "E": "Toutes les bactéries d'une même espèce possèdent la même CMI d'un antibiotique donné"
+      },
+      "correct": "BD"
+    },
+    {
+      "id": 33,
+      "text": "Parmi ces molécules, lesquelles ne sont pas des Inhibiteurs de la synthèse du peptidoglycane :",
+      "options": {
+        "A": "Acide fusidique",
+        "B": "Les Fosfomycines",
+        "C": "Les Tétracyclines",
+        "D": "Les Bêtalactamines",
+        "E": "Les Rifampicines"
+      },
+      "correct": "CE"
+    },
+    {
+      "id": 34,
+      "text": "Quel est le mécanisme d'action des antibiotiques de la famille des aminosides :",
+      "options": {
+        "A": "Inhibition de la synthèse du peptidoglycane de la paroi",
+        "B": "Action initiale sur la membrane cytoplasmique bactérienne",
+        "C": "Inhibition de la synthèse protéique bactérienne",
+        "D": "Inhibition de la réplication de l'ADN chromosomique bactérien",
+        "E": "Inhibition compétitive de l'acide para-amino-benzoïque"
+      },
+      "correct": "C"
+    },
+    {
+      "id": 35,
+      "text": "Parmi les propositions suivantes se rapportant aux mécanismes de résistance des bactéries aux antibiotiques, lesquelles sont justes ?",
+      "options": {
+        "A": "Disparition de la cible de l'antibiotique",
+        "B": "La modification de la cible qui déborde les capacités de fixation de l'antibiotique",
+        "C": "La dérégulation de la synthèse d'une enzyme détruisant l'antibiotique qui diminue de façon importante la quantité d'enzyme produite par les souches sauvages",
+        "D": "Des systèmes d'efflux assurent le pompage vers l'extérieur des antibiotiques ayant pénétré dans la cellule",
+        "E": "Toutes les réponses sont justes"
+      },
+      "correct": "D"
+    }
+  ]
+}

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 15 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 15 - Désinfection - Stérilisation</h1>
+            <p>QCM Interactif - Collection MDM</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">La désinfection</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Donne un état de stérilité durable dans le temps</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est un procédé appliqué sur la peau lésée</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Utilise la chaleur sèche</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Est obtenue par filtration</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est utilisée pour les surfaces inertes</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question2" data-question="2">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">La stérilisation peut être obtenue par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(2, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">L'autoclavage</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(2, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'utilisation des antiseptiques</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(2, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'application de l'alcool</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(2, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">L'application de la Bétadine</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(2, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">L'utilisation de l'eau de javel</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected2">Sélection: <span id="selectionText2">Aucune</span></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="controls">
+                    <button class="btn" id="prev2" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(2)">Vérifier</button>
+                    <button class="btn" id="next2" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question3" data-question="3">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">Les indications de l'hygiène des mains par solution hydro-alcoolique sont</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(3, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Avant d'entrer dans les toilettes</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(3, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Après contact avec le patient</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(3, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Après avoir discuté avec le patient</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(3, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Après contact avec le LCR</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(3, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">À la sortie du service</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected3">Sélection: <span id="selectionText3">Aucune</span></div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="controls">
+                    <button class="btn" id="prev3" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(3)">Vérifier</button>
+                    <button class="btn" id="next3" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question4" data-question="4">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">Les antiseptiques se caractérisent par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(4, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Action spécifique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(4, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Usage externe</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(4, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Action indépendante des concentrations</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(4, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Spectre large</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(4, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toxicité faible</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected4">Sélection: <span id="selectionText4">Aucune</span></div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="controls">
+                    <button class="btn" id="prev4" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(4)">Vérifier</button>
+                    <button class="btn" id="next4" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question5" data-question="5">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">Les antiseptiques se caractérisent par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(5, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Action spécifique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(5, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Usage externe</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(5, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Action indépendante des concentrations</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(5, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Spectre large</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(5, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toxicité faible</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected5">Sélection: <span id="selectionText5">Aucune</span></div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="controls">
+                    <button class="btn" id="prev5" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(5)">Vérifier</button>
+                    <button class="btn" id="next5" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question6" data-question="6">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">Les antiseptiques se caractérisent par leur</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(6, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Action non spécifique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(6, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Usage en intraveineux</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(6, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Action indépendante des concentrations</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(6, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Spectre étroit</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(6, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toxicité faible</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected6">Sélection: <span id="selectionText6">Aucune</span></div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="controls">
+                    <button class="btn" id="prev6" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(6)">Vérifier</button>
+                    <button class="btn" id="next6" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question7" data-question="7">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">Les indications de l'hygiène des mains par solution hydro-alcoolique sont</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(7, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Après sortie des toilettes</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(7, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Après avoir discuté avec le patient</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(7, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Après contact avec environnement du patient</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(7, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Avant contact avec le patient</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(7, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">À l'entrée du service</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected7">Sélection: <span id="selectionText7">Aucune</span></div>
+                <div class="feedback" id="feedback7"></div>
+                <div class="controls">
+                    <button class="btn" id="prev7" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(7)">Vérifier</button>
+                    <button class="btn" id="next7" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question8" data-question="8">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">Les indications de l'hygiène des mains par solution hydro-alcoolique sont</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(8, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Avant d'entrer dans les toilettes</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(8, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Après contact avec le patient</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(8, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Après avoir discuté avec le patient</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(8, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Après contact avec le LCR</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(8, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">À la sortie du service</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected8">Sélection: <span id="selectionText8">Aucune</span></div>
+                <div class="feedback" id="feedback8"></div>
+                <div class="controls">
+                    <button class="btn" id="prev8" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(8)">Vérifier</button>
+                    <button class="btn" id="next8" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question9" data-question="9">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">Les antiseptiques se caractérisent par leur</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(9, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Action spécifique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(9, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Usage externe</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(9, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Action à des concentrations faibles</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(9, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Spectre étroit</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(9, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Toxicité faible par voie parentérale</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected9">Sélection: <span id="selectionText9">Aucune</span></div>
+                <div class="feedback" id="feedback9"></div>
+                <div class="controls">
+                    <button class="btn" id="prev9" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(9)">Vérifier</button>
+                    <button class="btn" id="next9" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question10" data-question="10">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">Les indications de l'hygiène des mains par solution hydro-alcoolique sont</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(10, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">À la sortie des toilettes</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(10, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">À la prise de fonction le matin au service</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(10, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Après contact avec l'environnement du patient</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(10, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Après contact avec un liquide biologique</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(10, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Avant geste aseptique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected10">Sélection: <span id="selectionText10">Aucune</span></div>
+                <div class="feedback" id="feedback10"></div>
+                <div class="controls">
+                    <button class="btn" id="prev10" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(10)">Vérifier</button>
+                    <button class="btn" id="next10" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question11" data-question="11">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">Le mode de transmission des germes au cours des hétéro-infections est</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(11, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Cutanée</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(11, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Manuportée</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(11, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Respiratoire</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(11, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Digestive</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(11, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sexuelle</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected11">Sélection: <span id="selectionText11">Aucune</span></div>
+                <div class="feedback" id="feedback11"></div>
+                <div class="controls">
+                    <button class="btn" id="prev11" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(11)">Vérifier</button>
+                    <button class="btn" id="next11" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question12" data-question="12">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">Les règles d'utilisation d'un désinfectant sont</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(12, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Ne jamais mélanger</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(12, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Désinfecter puis nettoyer</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(12, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Utiliser même à des concentrations très faibles</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(12, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Utiliser sans protection</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(12, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Utiliser même après la date de péremption</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected12">Sélection: <span id="selectionText12">Aucune</span></div>
+                <div class="feedback" id="feedback12"></div>
+                <div class="controls">
+                    <button class="btn" id="prev12" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(12)">Vérifier</button>
+                    <button class="btn" id="next12" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-card" id="resultCard">
+            <div class="result-icon">🎉</div>
+            <div class="result-title">Quiz Terminé!</div>
+            <div class="result-score">
+                Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+            </div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "La désinfection", "options": {"A": "Donne un état de stérilité durable dans le temps", "B": "Est un procédé appliqué sur la peau lésée", "C": "Utilise la chaleur sèche", "D": "Est obtenue par filtration", "E": "Est utilisée pour les surfaces inertes"}, "correct": "E"}, {"id": 2, "text": "La stérilisation peut être obtenue par", "options": {"A": "L'autoclavage", "B": "L'utilisation des antiseptiques", "C": "L'application de l'alcool", "D": "L'application de la Bétadine", "E": "L'utilisation de l'eau de javel"}, "correct": "A"}, {"id": 3, "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont", "options": {"A": "Avant d'entrer dans les toilettes", "B": "Après contact avec le patient", "C": "Après avoir discuté avec le patient", "D": "Après contact avec le LCR", "E": "À la sortie du service"}, "correct": "B"}, {"id": 4, "text": "Les antiseptiques se caractérisent par", "options": {"A": "Action spécifique", "B": "Usage externe", "C": "Action indépendante des concentrations", "D": "Spectre large", "E": "Toxicité faible"}, "correct": "BD"}, {"id": 5, "text": "Les antiseptiques se caractérisent par", "options": {"A": "Action spécifique", "B": "Usage externe", "C": "Action indépendante des concentrations", "D": "Spectre large", "E": "Toxicité faible"}, "correct": "BD"}, {"id": 6, "text": "Les antiseptiques se caractérisent par leur", "options": {"A": "Action non spécifique", "B": "Usage en intraveineux", "C": "Action indépendante des concentrations", "D": "Spectre étroit", "E": "Toxicité faible"}, "correct": "A"}, {"id": 7, "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont", "options": {"A": "Après sortie des toilettes", "B": "Après avoir discuté avec le patient", "C": "Après contact avec environnement du patient", "D": "Avant contact avec le patient", "E": "À l'entrée du service"}, "correct": "CD"}, {"id": 8, "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont", "options": {"A": "Avant d'entrer dans les toilettes", "B": "Après contact avec le patient", "C": "Après avoir discuté avec le patient", "D": "Après contact avec le LCR", "E": "À la sortie du service"}, "correct": "B"}, {"id": 9, "text": "Les antiseptiques se caractérisent par leur", "options": {"A": "Action spécifique", "B": "Usage externe", "C": "Action à des concentrations faibles", "D": "Spectre étroit", "E": "Toxicité faible par voie parentérale"}, "correct": "B"}, {"id": 10, "text": "Les indications de l'hygiène des mains par solution hydro-alcoolique sont", "options": {"A": "À la sortie des toilettes", "B": "À la prise de fonction le matin au service", "C": "Après contact avec l'environnement du patient", "D": "Après contact avec un liquide biologique", "E": "Avant geste aseptique"}, "correct": "CE"}, {"id": 11, "text": "Le mode de transmission des germes au cours des hétéro-infections est", "options": {"A": "Cutanée", "B": "Manuportée", "C": "Respiratoire", "D": "Digestive", "E": "Sexuelle"}, "correct": "B"}, {"id": 12, "text": "Les règles d'utilisation d'un désinfectant sont", "options": {"A": "Ne jamais mélanger", "B": "Désinfecter puis nettoyer", "C": "Utiliser même à des concentrations très faibles", "D": "Utiliser sans protection", "E": "Utiliser même après la date de péremption"}, "correct": "A"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                updateSelectionDisplay(num);
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect;
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore);
+            score += partialScore;
+            checkedQuestions.add(questionNum);
+            showFeedback(questionNum);
+            updateProgress();
+            if (checkedQuestions.size === totalQuestions) {
+                showResults();
+            }
+        }
+        
+        function showFeedback(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            const isCorrect = selection.join('') === correctAnswer;
+            if (isCorrect) {
+                feedbackEl.innerHTML = '<span style="color: #16c79a;">✓ Correct!</span>';
+            } else {
+                feedbackEl.innerHTML = '<span style="color: #e94560;">✗ Incorrect. Réponse: ' + correctAnswer.split('').join(', ') + '</span>';
+            }
+            feedbackEl.style.display = 'block';
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const letter = opt.dataset.option;
+                if (correctAnswer.includes(letter)) {
+                    opt.classList.add('correct');
+                } else if (userAnswers[questionNum] && userAnswers[questionNum].includes(letter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const progress = (checkedQuestions.size / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            const resultCard = document.getElementById('resultCard');
+            resultCard.style.display = 'block';
+            document.getElementById('score').textContent = score.toFixed(2);
+            const percentage = (score / totalQuestions) * 100;
+            let message = '';
+            if (percentage >= 80) message = 'Excellent travail! 🌟';
+            else if (percentage >= 60) message = 'Bon travail! 👍';
+            else if (percentage >= 40) message = 'Continuez à réviser! 📚';
+            else message = 'Encore un peu de travail! 💪';
+            document.getElementById('resultMessage').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.style.display = 'none';
+                fb.innerHTML = '';
+            });
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            showQuestion(1);
+            updateProgress();
+        }
+    </script>
+</body>
+</html>

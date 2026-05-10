@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1 - QCM Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #16c79a);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            color: #e94560;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .multi-hint {
+            color: #16c79a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #e94560;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border-color: #16c79a;
+        }
+        
+        .option.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+        }
+        
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: #e94560;
+        }
+        
+        .option.correct .option-letter {
+            background: #16c79a;
+        }
+        
+        .option-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-check {
+            background: #16c79a;
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+        
+        .btn-check:hover {
+            background: #13b386;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .feedback.correct {
+            background: rgba(22, 199, 154, 0.2);
+            border: 1px solid #16c79a;
+            color: #16c79a;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 52, 96, 0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+        
+        .score-display .score {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .results .final-score {
+            font-size: 3rem;
+            color: #16c79a;
+            margin: 20px 0;
+        }
+        
+        .results .message {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .selected-answers {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .selected-answers span {
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { max-width: 100%; }
+            .header { padding: 15px; margin-bottom: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .header p { font-size: 0.9rem; }
+            .question-card { padding: 20px 15px; }
+            .question-text { font-size: 1rem; line-height: 1.5; }
+            .option { padding: 18px 15px; gap: 12px; min-height: 60px; }
+            .option-letter { width: 40px; height: 40px; font-size: 1.1rem; }
+            .option-text { font-size: 0.95rem; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; min-height: 50px; }
+            .btn-check { padding: 18px; font-size: 1.1rem; }
+            .score-display { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin-bottom: 15px; 
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .results { padding: 20px; }
+            .results h2 { font-size: 1.5rem; }
+            .results .final-score { font-size: 2.2rem; }
+            .progress-container { margin-bottom: 15px; }
+            .multi-hint { font-size: 0.8rem; }
+            .feedback { font-size: 1rem; padding: 12px; }
+            .selected-answers { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .question-text { font-size: 0.95rem; }
+            .option { padding: 15px 12px; }
+            .option-letter { width: 36px; height: 36px; }
+            .option-text { font-size: 0.9rem; }
+            .btn { padding: 14px; font-size: 1rem; }
+            .results h2 { font-size: 1.3rem; }
+            .results .final-score { font-size: 2rem; }
+            .stat-card p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lecture 1 - Structure Bactérienne et Taxonomie</h1>
+            <p>QCM Interactif - Collection MDM</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p>Question <span id="currentQ">1</span> sur <span id="totalQ">0</span></p>
+        </div>
+        
+        <div id="quizContainer">
+            <div class="question-card" id="question1" data-question="1">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">Les bactéries font partie des protistes Procaryotes se caractérisent par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(1, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Une activité mitotique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(1, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Une structure type des protistes supérieurs</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(1, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Un seul chromosome</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(1, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Un seul chromosome associé surtout à des mitochondries</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(1, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Un seul chromosome avec membrane nucléaire et sans appareil de Golgi</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected1">Sélection: <span id="selectionText1">Aucune</span></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="controls">
+                    <button class="btn" id="prev1" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(1)">Vérifier</button>
+                    <button class="btn" id="next1" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question2" data-question="2">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">Le chromosome bactérien est le support de l'information génétique vitale. C'est une double hélice</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(2, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Linaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(2, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Linéaire surenroulée</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(2, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Linéaire pelotonnée</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(2, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Linéaire surenroulée pelotonnée</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(2, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Circulaire surenroulée pelotonnée</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected2">Sélection: <span id="selectionText2">Aucune</span></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="controls">
+                    <button class="btn" id="prev2" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(2)">Vérifier</button>
+                    <button class="btn" id="next2" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question3" data-question="3">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">Les plasmides sont des ADN circulaires extra chromosomiques supports de caractères</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(3, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Indispensables dans les conditions habituelles</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(3, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">De fertilité</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(3, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">De résistance</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(3, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">De virulence</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(3, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">De multiplication</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected3">Sélection: <span id="selectionText3">Aucune</span></div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="controls">
+                    <button class="btn" id="prev3" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(3)">Vérifier</button>
+                    <button class="btn" id="next3" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question4" data-question="4">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">La membrane interne est la limitante externe du cytoplasme. Chez les bactéries elle</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(4, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Se caractérise par l'absence de stérols</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(4, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Se caractérise par la présence de stérols</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(4, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Ne renferme pas des protéines</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(4, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Renferme les protéines de liaisons de la pénicilline</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(4, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Est résistante aux bêtalactamines</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected4">Sélection: <span id="selectionText4">Aucune</span></div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="controls">
+                    <button class="btn" id="prev4" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(4)">Vérifier</button>
+                    <button class="btn" id="next4" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question5" data-question="5">
+                <div class="question-number">Question 5</div>
+                <div class="question-text">La paroi est un polymère complexe présent chez toutes les bactéries sauf les Mycoplasmes</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(5, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Rigide constituée essentiellement de peptidoglycane chez les bactéries à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(5, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Rigide constituée essentiellement de peptidoglycane chez les bactéries à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(5, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Lâche et fine chez les bactéries à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(5, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Lâche et fine chez les bactéries à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(5, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Réticulée</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected5">Sélection: <span id="selectionText5">Aucune</span></div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="controls">
+                    <button class="btn" id="prev5" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(5)">Vérifier</button>
+                    <button class="btn" id="next5" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question6" data-question="6">
+                <div class="question-number">Question 6</div>
+                <div class="question-text">Le nucléoïde bactérien est représenté par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(6, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Un ADN bicaténaire linaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(6, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Un ADN circulaire</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(6, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Un ADN et un ARN</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(6, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Un ADN organisé sous forme de pelote</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(6, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Un noyau avec membrane nucléaire et centrioles</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected6">Sélection: <span id="selectionText6">Aucune</span></div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="controls">
+                    <button class="btn" id="prev6" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(6)">Vérifier</button>
+                    <button class="btn" id="next6" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question7" data-question="7">
+                <div class="question-number">Question 7</div>
+                <div class="question-text">Le génome bactérien peut comprendre</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(7, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Un chromosome, un ou plusieurs plasmides, des transposons et des intégrons</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(7, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Plusieurs chromosomes</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(7, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Des plasmides</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(7, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Un noyau et des plasmides</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(7, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Un noyau et des transposons</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected7">Sélection: <span id="selectionText7">Aucune</span></div>
+                <div class="feedback" id="feedback7"></div>
+                <div class="controls">
+                    <button class="btn" id="prev7" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(7)">Vérifier</button>
+                    <button class="btn" id="next7" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question8" data-question="8">
+                <div class="question-number">Question 8</div>
+                <div class="question-text">La capsule bactérienne est une structure de nature polysaccharidique</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(8, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Retrouvée chez toutes les bactéries</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(8, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Détermine la forme</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(8, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Permet la résistance à la phagocytose</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(8, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Elément de la respiration</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(8, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Pouvant servir de critère d'identification</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected8">Sélection: <span id="selectionText8">Aucune</span></div>
+                <div class="feedback" id="feedback8"></div>
+                <div class="controls">
+                    <button class="btn" id="prev8" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(8)">Vérifier</button>
+                    <button class="btn" id="next8" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question9" data-question="9">
+                <div class="question-number">Question 9</div>
+                <div class="question-text">La paroi est une structure rigide assurant l'intégrité bactérienne</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(9, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Faite de protéines</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(9, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Constituée essentiellement de peptidoglycane</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(9, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Existe chez toutes les bactéries</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(9, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Absente chez les Mycoplasmes</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(9, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le peptidoglycane représente plus de 30% du poids sec chez les Gram négatif</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected9">Sélection: <span id="selectionText9">Aucune</span></div>
+                <div class="feedback" id="feedback9"></div>
+                <div class="controls">
+                    <button class="btn" id="prev9" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(9)">Vérifier</button>
+                    <button class="btn" id="next9" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question10" data-question="10">
+                <div class="question-number">Question 10</div>
+                <div class="question-text">Certaines bactéries sont capables de se transformer en spore</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(10, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est un stade habituel du développement</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(10, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">C'est une forme d'adaptation</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(10, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Phénomène observé chez les bactéries à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(10, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Phénomène observé chez les bactéries à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(10, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Observées uniquement chez les aérobies</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected10">Sélection: <span id="selectionText10">Aucune</span></div>
+                <div class="feedback" id="feedback10"></div>
+                <div class="controls">
+                    <button class="btn" id="prev10" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(10)">Vérifier</button>
+                    <button class="btn" id="next10" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question11" data-question="11">
+                <div class="question-number">Question 11</div>
+                <div class="question-text">La paroi bactérienne est une structure</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(11, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Présente chez toutes les bactéries</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(11, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Spécifique des mycoplasmes</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(11, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Absente chez les mycoplasmes</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(11, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Absente chez les bactéries mobiles</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(11, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Présente chez les sporulées</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected11">Sélection: <span id="selectionText11">Aucune</span></div>
+                <div class="feedback" id="feedback11"></div>
+                <div class="controls">
+                    <button class="btn" id="prev11" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(11)">Vérifier</button>
+                    <button class="btn" id="next11" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question12" data-question="12">
+                <div class="question-number">Question 12</div>
+                <div class="question-text">L'élément déterminant de la paroi bactérienne est le peptidoglycane</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(12, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Représente plus de 30% du poids sec de la bactérie à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(12, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Il est dominant chez les Mycoplasmes</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(12, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">C'est une macromolécule</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(12, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Représente moins de 15% du poids sec de la bactérie à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(12, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Enveloppe le cytoplasme</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected12">Sélection: <span id="selectionText12">Aucune</span></div>
+                <div class="feedback" id="feedback12"></div>
+                <div class="controls">
+                    <button class="btn" id="prev12" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(12)">Vérifier</button>
+                    <button class="btn" id="next12" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question13" data-question="13">
+                <div class="question-number">Question 13</div>
+                <div class="question-text">La membrane cytoplasmique est de type habituel</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(13, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Contient le cytoplasme</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(13, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Renferme les enzymes respiratoires</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(13, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Absente chez les bacilles</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(13, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Participe à la sporulation</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(13, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Renferme les antigènes spécifiques chez les Mycoplasmes</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected13">Sélection: <span id="selectionText13">Aucune</span></div>
+                <div class="feedback" id="feedback13"></div>
+                <div class="controls">
+                    <button class="btn" id="prev13" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(13)">Vérifier</button>
+                    <button class="btn" id="next13" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question14" data-question="14">
+                <div class="question-number">Question 14</div>
+                <div class="question-text">Toutes les bactéries possèdent</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(14, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Pili communs</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(14, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Plasmides</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(14, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Membrane cytoplasmique</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(14, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Noyau</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(14, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Capsule</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected14">Sélection: <span id="selectionText14">Aucune</span></div>
+                <div class="feedback" id="feedback14"></div>
+                <div class="controls">
+                    <button class="btn" id="prev14" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(14)">Vérifier</button>
+                    <button class="btn" id="next14" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question15" data-question="15">
+                <div class="question-number">Question 15</div>
+                <div class="question-text">La membrane représente la première barrière osmotique bactérienne. Elle est faite essentiellement de</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(15, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Protéines</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(15, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Phospholipides</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(15, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Peptidoglycane</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(15, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Polysaccharides</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(15, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Glycoprotéines</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected15">Sélection: <span id="selectionText15">Aucune</span></div>
+                <div class="feedback" id="feedback15"></div>
+                <div class="controls">
+                    <button class="btn" id="prev15" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(15)">Vérifier</button>
+                    <button class="btn" id="next15" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question16" data-question="16">
+                <div class="question-number">Question 16</div>
+                <div class="question-text">La paroi caractérise toutes les espèces bactériennes sauf les</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(16, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Entérobactéries</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(16, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Anaérobies</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(16, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Sporulés</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(16, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Mycoplasmes</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(16, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Staphylocoques</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected16">Sélection: <span id="selectionText16">Aucune</span></div>
+                <div class="feedback" id="feedback16"></div>
+                <div class="controls">
+                    <button class="btn" id="prev16" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(16)">Vérifier</button>
+                    <button class="btn" id="next16" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question17" data-question="17">
+                <div class="question-number">Question 17</div>
+                <div class="question-text">La membrane cytoplasmique est un élément de régulation des échanges avec le milieu extérieur</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(17, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Elle est tri-lamellaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(17, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Hydrophile uniquement</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(17, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Renferme l'antigène des Mycoplasmes</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(17, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Hydrophobe uniquement</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(17, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Amphiphile</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected17">Sélection: <span id="selectionText17">Aucune</span></div>
+                <div class="feedback" id="feedback17"></div>
+                <div class="controls">
+                    <button class="btn" id="prev17" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(17)">Vérifier</button>
+                    <button class="btn" id="next17" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question18" data-question="18">
+                <div class="question-number">Question 18</div>
+                <div class="question-text">Le chromosome est filamenteux et renferme l'ADN vital pour la cellule bactérienne</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(18, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">ADN bicaténaire lié aux histones</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(18, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">ADN monocaténaire non lié aux histones</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(18, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">ADN bicaténaire non lié aux histones</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(18, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">ADN monocaténaire non lié aux histones</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(18, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">ADN segmenté</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected18">Sélection: <span id="selectionText18">Aucune</span></div>
+                <div class="feedback" id="feedback18"></div>
+                <div class="controls">
+                    <button class="btn" id="prev18" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(18)">Vérifier</button>
+                    <button class="btn" id="next18" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question19" data-question="19">
+                <div class="question-number">Question 19</div>
+                <div class="question-text">Le plasmide est un ADN circulaire extra-chromosomique</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(19, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Existant chez toutes les bactéries</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(19, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Propre aux bactéries à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(19, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Propre aux bactéries à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(19, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Support d'information de résistance et d'adaptation</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(19, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Transmis par conjugaison</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected19">Sélection: <span id="selectionText19">Aucune</span></div>
+                <div class="feedback" id="feedback19"></div>
+                <div class="controls">
+                    <button class="btn" id="prev19" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(19)">Vérifier</button>
+                    <button class="btn" id="next19" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question20" data-question="20">
+                <div class="question-number">Question 20</div>
+                <div class="question-text">La paroi des bactéries à Gram négatif</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(20, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Est riche en peptidoglycane comparativement aux bactéries à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(20, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Est relativement pauvre en peptidoglycane, complexe mince et flasque</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(20, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Rigide renfermant plus de 30% de peptidoglycane</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(20, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Faite uniquement de lipopolysaccharides</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(20, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Ne renferme que des phospholipides</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected20">Sélection: <span id="selectionText20">Aucune</span></div>
+                <div class="feedback" id="feedback20"></div>
+                <div class="controls">
+                    <button class="btn" id="prev20" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(20)">Vérifier</button>
+                    <button class="btn" id="next20" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question21" data-question="21">
+                <div class="question-number">Question 21</div>
+                <div class="question-text">Le nucléoïde bactérien se distingue par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(21, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Des chromosomes non liés aux histones</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(21, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Un ADN unique lié aux histones</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(21, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Plusieurs chromosomes liés aux histones</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(21, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Une séquence bicaténaire unique assez longue non liée aux histones</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(21, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Une séquence monocaténaire très longue</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected21">Sélection: <span id="selectionText21">Aucune</span></div>
+                <div class="feedback" id="feedback21"></div>
+                <div class="controls">
+                    <button class="btn" id="prev21" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(21)">Vérifier</button>
+                    <button class="btn" id="next21" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question22" data-question="22">
+                <div class="question-number">Question 22</div>
+                <div class="question-text">Le plasmide est aussi un support d'informations génétiques</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(22, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Vitales pour la cellule bactérienne</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(22, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Existant chez toutes les bactéries</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(22, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Facultatives existant chez certaines bactéries</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(22, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Responsables de la multiplication des cellules végétatives</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(22, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Nécessaires au déplacement</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected22">Sélection: <span id="selectionText22">Aucune</span></div>
+                <div class="feedback" id="feedback22"></div>
+                <div class="controls">
+                    <button class="btn" id="prev22" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(22)">Vérifier</button>
+                    <button class="btn" id="next22" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question23" data-question="23">
+                <div class="question-number">Question 23</div>
+                <div class="question-text">La membrane cytoplasmique est une structure tri-lamellaire qui contient le cytoplasme</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(23, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Intervenant dans les échanges, la synthèse d'énergie et le métabolisme respiratoire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(23, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Le déplacement uniquement</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(23, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">La synthèse du peptidoglycane uniquement</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(23, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La multiplication uniquement</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(23, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La formation de la spore</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected23">Sélection: <span id="selectionText23">Aucune</span></div>
+                <div class="feedback" id="feedback23"></div>
+                <div class="controls">
+                    <button class="btn" id="prev23" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(23)">Vérifier</button>
+                    <button class="btn" id="next23" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question24" data-question="24">
+                <div class="question-number">Question 24</div>
+                <div class="question-text">La paroi bactérienne est une structure bactérienne composée essentiellement</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(24, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">De peptidoglycane</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(24, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">De phospholipides</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(24, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">De polysaccharides</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(24, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">De protéines</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(24, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">De lipides</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected24">Sélection: <span id="selectionText24">Aucune</span></div>
+                <div class="feedback" id="feedback24"></div>
+                <div class="controls">
+                    <button class="btn" id="prev24" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(24)">Vérifier</button>
+                    <button class="btn" id="next24" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question25" data-question="25">
+                <div class="question-number">Question 25</div>
+                <div class="question-text">La paroi chez les bactéries à Gram négatif est complexe formée de</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(25, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Peptidoglycane et d'un espace péri-plasmique</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(25, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Peptidoglycane, espace péri-plasmique et d'une membrane externe</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(25, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Espace péri-plasmique et d'une membrane externe</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(25, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Peptidoglycane et protéines</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(25, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Peptidoglycane et d'un espace péri-plasmique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected25">Sélection: <span id="selectionText25">Aucune</span></div>
+                <div class="feedback" id="feedback25"></div>
+                <div class="controls">
+                    <button class="btn" id="prev25" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(25)">Vérifier</button>
+                    <button class="btn" id="next25" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question26" data-question="26">
+                <div class="question-number">Question 26</div>
+                <div class="question-text">Les bactéries sont des procaryotes pourvues de</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(26, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Système vacuolaire</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(26, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Mitochondries</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(26, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Chloroplastes pour les synthèses énergétiques</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(26, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Nucléoïde renfermant un seul chromosome</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(26, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Noyau, réticulum endoplasmique et appareil de Golgi</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected26">Sélection: <span id="selectionText26">Aucune</span></div>
+                <div class="feedback" id="feedback26"></div>
+                <div class="controls">
+                    <button class="btn" id="prev26" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(26)">Vérifier</button>
+                    <button class="btn" id="next26" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question27" data-question="27">
+                <div class="question-number">Question 27</div>
+                <div class="question-text">Le peptidoglycane est un élément fondamental pour les bactéries</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(27, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Complexe, il est constitué de molécules organisées sous forme de couche réticulée</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(27, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">C'est une seule macromolécule réticulée</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(27, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Intervient dans les synthèses énergétiques de la bactérie</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(27, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Dans la synthèse protéique</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(27, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Sert au déterminisme antigénique chez les mycoplasmes</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected27">Sélection: <span id="selectionText27">Aucune</span></div>
+                <div class="feedback" id="feedback27"></div>
+                <div class="controls">
+                    <button class="btn" id="prev27" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(27)">Vérifier</button>
+                    <button class="btn" id="next27" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question28" data-question="28">
+                <div class="question-number">Question 28</div>
+                <div class="question-text">La paroi bactérienne est un élément clé de la cellule bactérienne intervient dans</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(28, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La coloration différentielle de Gram</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(28, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les processus de déplacement</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(28, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les phénomènes de multiplication</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(28, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">La reproduction</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(28, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le transfert d'information génétique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected28">Sélection: <span id="selectionText28">Aucune</span></div>
+                <div class="feedback" id="feedback28"></div>
+                <div class="controls">
+                    <button class="btn" id="prev28" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(28)">Vérifier</button>
+                    <button class="btn" id="next28" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question29" data-question="29">
+                <div class="question-number">Question 29</div>
+                <div class="question-text">La membrane cytoplasmique est semblable à toutes les autres est se caractérise par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(29, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Son intervention dans la division cellulaire et la respiration</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(29, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Son rôle dans la coloration différentielle de Gram</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(29, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Son rôle dans la fertilité</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(29, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sa multiplication dans la sporulation</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected29">Sélection: <span id="selectionText29">Aucune</span></div>
+                <div class="feedback" id="feedback29"></div>
+                <div class="controls">
+                    <button class="btn" id="prev29" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(29)">Vérifier</button>
+                    <button class="btn" id="next29" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question30" data-question="30">
+                <div class="question-number">Question 30</div>
+                <div class="question-text">Concernant les transposons</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(30, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Un transposon est toujours localisé sur un plasmide</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(30, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Un transposon code uniquement pour la résistance aux antibiotiques</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(30, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les transposons sont rencontrés uniquement chez les staphylocoques</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(30, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Un transposon est un fragment d'ADN</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(30, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Doués d'autoréplication</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected30">Sélection: <span id="selectionText30">Aucune</span></div>
+                <div class="feedback" id="feedback30"></div>
+                <div class="controls">
+                    <button class="btn" id="prev30" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(30)">Vérifier</button>
+                    <button class="btn" id="next30" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question31" data-question="31">
+                <div class="question-number">Question 31</div>
+                <div class="question-text">La paroi bactérienne est une structure caractérisant les organismes Procaryotes, constituée essentiellement de</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(31, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Phospholipides</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(31, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Protéines</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(31, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Peptidoglycane</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(31, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Glycopeptides</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(31, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Polysaccharides</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected31">Sélection: <span id="selectionText31">Aucune</span></div>
+                <div class="feedback" id="feedback31"></div>
+                <div class="controls">
+                    <button class="btn" id="prev31" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(31)">Vérifier</button>
+                    <button class="btn" id="next31" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question32" data-question="32">
+                <div class="question-number">Question 32</div>
+                <div class="question-text">La membrane externe des bactéries à Gram négatif est</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(32, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">L'élément déterminant du pouvoir pathogène de ce type de microorganisme</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(32, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'élément de résistance aux antibiotiques</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(32, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">De constitution similaire aux autres membranes cellulaires</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(32, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">De différente constitution</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(32, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">La deuxième barrière osmotique</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected32">Sélection: <span id="selectionText32">Aucune</span></div>
+                <div class="feedback" id="feedback32"></div>
+                <div class="controls">
+                    <button class="btn" id="prev32" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(32)">Vérifier</button>
+                    <button class="btn" id="next32" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question33" data-question="33">
+                <div class="question-number">Question 33</div>
+                <div class="question-text">Le patrimoine génétique vital des bactéries est représenté par</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(33, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Le plasmide</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(33, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les transposons</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(33, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les intégrons</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(33, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le plasmide, transposons, intégrons et chromosomes</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(33, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le chromosome</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected33">Sélection: <span id="selectionText33">Aucune</span></div>
+                <div class="feedback" id="feedback33"></div>
+                <div class="controls">
+                    <button class="btn" id="prev33" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(33)">Vérifier</button>
+                    <button class="btn" id="next33" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question34" data-question="34">
+                <div class="question-number">Question 34</div>
+                <div class="question-text">Le phénomène de sporulation caractérise les bactéries</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(34, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Du genre Clostridium</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(34, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Permettant une meilleure adaptation aux conditions défavorables</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(34, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Et constitue une étape du cycle vital</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(34, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Et témoigne de lyse bactérienne</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(34, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">De tout genre</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected34">Sélection: <span id="selectionText34">Aucune</span></div>
+                <div class="feedback" id="feedback34"></div>
+                <div class="controls">
+                    <button class="btn" id="prev34" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(34)">Vérifier</button>
+                    <button class="btn" id="next34" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question35" data-question="35">
+                <div class="question-number">Question 35</div>
+                <div class="question-text">La paroi bactérienne existe chez toutes les bactéries à l'exception des Mollicutes. Elle représente</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(35, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La première barrière osmotique de la bactérie</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(35, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">L'endotoxine des bactéries à Gram négatif</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(35, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">L'endotoxine des bactéries à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(35, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Le lipopolysaccharide des bactéries</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(35, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Le phospholipide</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected35">Sélection: <span id="selectionText35">Aucune</span></div>
+                <div class="feedback" id="feedback35"></div>
+                <div class="controls">
+                    <button class="btn" id="prev35" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(35)">Vérifier</button>
+                    <button class="btn" id="next35" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question36" data-question="36">
+                <div class="question-number">Question 36</div>
+                <div class="question-text">Le génome bactérien est représenté par le chromosome essentiellement. Le Plasmide est</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(36, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Une réserve facultative de gènes surtout de résistance aux conditions défavorables</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(36, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Présent chez toutes les bactéries</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(36, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Un élément des bactéries à Gram positif</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(36, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Un élément vital indispensable à la cellule bactérienne</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(36, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Présent chez les cellules au repos</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected36">Sélection: <span id="selectionText36">Aucune</span></div>
+                <div class="feedback" id="feedback36"></div>
+                <div class="controls">
+                    <button class="btn" id="prev36" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(36)">Vérifier</button>
+                    <button class="btn" id="next36" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question37" data-question="37">
+                <div class="question-number">Question 37</div>
+                <div class="question-text">La formation de spore est un phénomène observé chez certaines bactéries</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(37, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">C'est une étape du cycle vital</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(37, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">C'est un élément de réponse à l'infection</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(37, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">C'est une forme de résistance</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(37, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Elle renferme une très grande quantité de toxine</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(37, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Elle est faite essentiellement de protéines</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected37">Sélection: <span id="selectionText37">Aucune</span></div>
+                <div class="feedback" id="feedback37"></div>
+                <div class="controls">
+                    <button class="btn" id="prev37" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(37)">Vérifier</button>
+                    <button class="btn" id="next37" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question38" data-question="38">
+                <div class="question-number">Question 38</div>
+                <div class="question-text">Structures périphériques de la bactérie responsables de sa fixation à la surface des cellules</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(38, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">La capsule</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(38, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Les flagelles</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(38, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Les mésosomes</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(38, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Les pili</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(38, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Les plasmides</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected38">Sélection: <span id="selectionText38">Aucune</span></div>
+                <div class="feedback" id="feedback38"></div>
+                <div class="controls">
+                    <button class="btn" id="prev38" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(38)">Vérifier</button>
+                    <button class="btn" id="next38" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            <div class="question-card" id="question39" data-question="39">
+                <div class="question-number">Question 39</div>
+                <div class="question-text">La taxonomie bactérienne basée sur l'étude de l'ARN 16S comme matériel de choix pour</div>
+                <div class="multi-hint">Plusieurs réponses possibles - Cliquez pour sélectionner/désélectionner</div>
+                <div class="options">
+                    <div class="option" data-option="A" onclick="toggleOption(39, 'A')">
+                        <div class="option-letter">A</div>
+                        <div class="option-text">Sa taille relativement réduite</div>
+                    </div>
+                    <div class="option" data-option="B" onclick="toggleOption(39, 'B')">
+                        <div class="option-letter">B</div>
+                        <div class="option-text">Sa structure</div>
+                    </div>
+                    <div class="option" data-option="C" onclick="toggleOption(39, 'C')">
+                        <div class="option-letter">C</div>
+                        <div class="option-text">Son évolution relativement lente</div>
+                    </div>
+                    <div class="option" data-option="D" onclick="toggleOption(39, 'D')">
+                        <div class="option-letter">D</div>
+                        <div class="option-text">Sa configuration</div>
+                    </div>
+                    <div class="option" data-option="E" onclick="toggleOption(39, 'E')">
+                        <div class="option-letter">E</div>
+                        <div class="option-text">Son universalité</div>
+                    </div>
+                </div>
+                <div class="selected-answers" id="selected39">Sélection: <span id="selectionText39">Aucune</span></div>
+                <div class="feedback" id="feedback39"></div>
+                <div class="controls">
+                    <button class="btn" id="prev39" onclick="prevQuestion()">Précédent</button>
+                    <button class="btn btn-check" onclick="checkAnswer(39)">Vérifier</button>
+                    <button class="btn" id="next39" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-card" id="resultCard">
+            <div class="result-icon">🎉</div>
+            <div class="result-title">Quiz Terminé!</div>
+            <div class="result-score">
+                Score: <span class="score" id="score">0</span> / <span id="totalQuestions">0</span>
+            </div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn btn-check" onclick="restartQuiz()" style="margin-top: 20px;">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const questions = [{"id": 1, "text": "Les bactéries font partie des protistes Procaryotes se caractérisent par", "options": {"A": "Une activité mitotique", "B": "Une structure type des protistes supérieurs", "C": "Un seul chromosome", "D": "Un seul chromosome associé surtout à des mitochondries", "E": "Un seul chromosome avec membrane nucléaire et sans appareil de Golgi"}, "correct": "C"}, {"id": 2, "text": "Le chromosome bactérien est le support de l'information génétique vitale. C'est une double hélice", "options": {"A": "Linaire", "B": "Linéaire surenroulée", "C": "Linéaire pelotonnée", "D": "Linéaire surenroulée pelotonnée", "E": "Circulaire surenroulée pelotonnée"}, "correct": "D"}, {"id": 3, "text": "Les plasmides sont des ADN circulaires extra chromosomiques supports de caractères", "options": {"A": "Indispensables dans les conditions habituelles", "B": "De fertilité", "C": "De résistance", "D": "De virulence", "E": "De multiplication"}, "correct": "BCD"}, {"id": 4, "text": "La membrane interne est la limitante externe du cytoplasme. Chez les bactéries elle", "options": {"A": "Se caractérise par l'absence de stérols", "B": "Se caractérise par la présence de stérols", "C": "Ne renferme pas des protéines", "D": "Renferme les protéines de liaisons de la pénicilline", "E": "Est résistante aux bêtalactamines"}, "correct": "AD"}, {"id": 5, "text": "La paroi est un polymère complexe présent chez toutes les bactéries sauf les Mycoplasmes", "options": {"A": "Rigide constituée essentiellement de peptidoglycane chez les bactéries à Gram négatif", "B": "Rigide constituée essentiellement de peptidoglycane chez les bactéries à Gram positif", "C": "Lâche et fine chez les bactéries à Gram négatif", "D": "Lâche et fine chez les bactéries à Gram négatif", "E": "Réticulée"}, "correct": "BCDE"}, {"id": 6, "text": "Le nucléoïde bactérien est représenté par", "options": {"A": "Un ADN bicaténaire linaire", "B": "Un ADN circulaire", "C": "Un ADN et un ARN", "D": "Un ADN organisé sous forme de pelote", "E": "Un noyau avec membrane nucléaire et centrioles"}, "correct": "D"}, {"id": 7, "text": "Le génome bactérien peut comprendre", "options": {"A": "Un chromosome, un ou plusieurs plasmides, des transposons et des intégrons", "B": "Plusieurs chromosomes", "C": "Des plasmides", "D": "Un noyau et des plasmides", "E": "Un noyau et des transposons"}, "correct": "A"}, {"id": 8, "text": "La capsule bactérienne est une structure de nature polysaccharidique", "options": {"A": "Retrouvée chez toutes les bactéries", "B": "Détermine la forme", "C": "Permet la résistance à la phagocytose", "D": "Elément de la respiration", "E": "Pouvant servir de critère d'identification"}, "correct": "C"}, {"id": 9, "text": "La paroi est une structure rigide assurant l'intégrité bactérienne", "options": {"A": "Faite de protéines", "B": "Constituée essentiellement de peptidoglycane", "C": "Existe chez toutes les bactéries", "D": "Absente chez les Mycoplasmes", "E": "Le peptidoglycane représente plus de 30% du poids sec chez les Gram négatif"}, "correct": "BD"}, {"id": 10, "text": "Certaines bactéries sont capables de se transformer en spore", "options": {"A": "C'est un stade habituel du développement", "B": "C'est une forme d'adaptation", "C": "Phénomène observé chez les bactéries à Gram négatif", "D": "Phénomène observé chez les bactéries à Gram positif", "E": "Observées uniquement chez les aérobies"}, "correct": "B"}, {"id": 11, "text": "La paroi bactérienne est une structure", "options": {"A": "Présente chez toutes les bactéries", "B": "Spécifique des mycoplasmes", "C": "Absente chez les mycoplasmes", "D": "Absente chez les bactéries mobiles", "E": "Présente chez les sporulées"}, "correct": "C"}, {"id": 12, "text": "L'élément déterminant de la paroi bactérienne est le peptidoglycane", "options": {"A": "Représente plus de 30% du poids sec de la bactérie à Gram positif", "B": "Il est dominant chez les Mycoplasmes", "C": "C'est une macromolécule", "D": "Représente moins de 15% du poids sec de la bactérie à Gram négatif", "E": "Enveloppe le cytoplasme"}, "correct": "ACD"}, {"id": 13, "text": "La membrane cytoplasmique est de type habituel", "options": {"A": "Contient le cytoplasme", "B": "Renferme les enzymes respiratoires", "C": "Absente chez les bacilles", "D": "Participe à la sporulation", "E": "Renferme les antigènes spécifiques chez les Mycoplasmes"}, "correct": "ABE"}, {"id": 14, "text": "Toutes les bactéries possèdent", "options": {"A": "Pili communs", "B": "Plasmides", "C": "Membrane cytoplasmique", "D": "Noyau", "E": "Capsule"}, "correct": "C"}, {"id": 15, "text": "La membrane représente la première barrière osmotique bactérienne. Elle est faite essentiellement de", "options": {"A": "Protéines", "B": "Phospholipides", "C": "Peptidoglycane", "D": "Polysaccharides", "E": "Glycoprotéines"}, "correct": "C"}, {"id": 16, "text": "La paroi caractérise toutes les espèces bactériennes sauf les", "options": {"A": "Entérobactéries", "B": "Anaérobies", "C": "Sporulés", "D": "Mycoplasmes", "E": "Staphylocoques"}, "correct": "D"}, {"id": 17, "text": "La membrane cytoplasmique est un élément de régulation des échanges avec le milieu extérieur", "options": {"A": "Elle est tri-lamellaire", "B": "Hydrophile uniquement", "C": "Renferme l'antigène des Mycoplasmes", "D": "Hydrophobe uniquement", "E": "Amphiphile"}, "correct": "ACE"}, {"id": 18, "text": "Le chromosome est filamenteux et renferme l'ADN vital pour la cellule bactérienne", "options": {"A": "ADN bicaténaire lié aux histones", "B": "ADN monocaténaire non lié aux histones", "C": "ADN bicaténaire non lié aux histones", "D": "ADN monocaténaire non lié aux histones", "E": "ADN segmenté"}, "correct": "C"}, {"id": 19, "text": "Le plasmide est un ADN circulaire extra-chromosomique", "options": {"A": "Existant chez toutes les bactéries", "B": "Propre aux bactéries à Gram négatif", "C": "Propre aux bactéries à Gram positif", "D": "Support d'information de résistance et d'adaptation", "E": "Transmis par conjugaison"}, "correct": "DE"}, {"id": 20, "text": "La paroi des bactéries à Gram négatif", "options": {"A": "Est riche en peptidoglycane comparativement aux bactéries à Gram positif", "B": "Est relativement pauvre en peptidoglycane, complexe mince et flasque", "C": "Rigide renfermant plus de 30% de peptidoglycane", "D": "Faite uniquement de lipopolysaccharides", "E": "Ne renferme que des phospholipides"}, "correct": "B"}, {"id": 21, "text": "Le nucléoïde bactérien se distingue par", "options": {"A": "Des chromosomes non liés aux histones", "B": "Un ADN unique lié aux histones", "C": "Plusieurs chromosomes liés aux histones", "D": "Une séquence bicaténaire unique assez longue non liée aux histones", "E": "Une séquence monocaténaire très longue"}, "correct": "D"}, {"id": 22, "text": "Le plasmide est aussi un support d'informations génétiques", "options": {"A": "Vitales pour la cellule bactérienne", "B": "Existant chez toutes les bactéries", "C": "Facultatives existant chez certaines bactéries", "D": "Responsables de la multiplication des cellules végétatives", "E": "Nécessaires au déplacement"}, "correct": "C"}, {"id": 23, "text": "La membrane cytoplasmique est une structure tri-lamellaire qui contient le cytoplasme", "options": {"A": "Intervenant dans les échanges, la synthèse d'énergie et le métabolisme respiratoire", "B": "Le déplacement uniquement", "C": "La synthèse du peptidoglycane uniquement", "D": "La multiplication uniquement", "E": "La formation de la spore"}, "correct": "A"}, {"id": 24, "text": "La paroi bactérienne est une structure bactérienne composée essentiellement", "options": {"A": "De peptidoglycane", "B": "De phospholipides", "C": "De polysaccharides", "D": "De protéines", "E": "De lipides"}, "correct": "A"}, {"id": 25, "text": "La paroi chez les bactéries à Gram négatif est complexe formée de", "options": {"A": "Peptidoglycane et d'un espace péri-plasmique", "B": "Peptidoglycane, espace péri-plasmique et d'une membrane externe", "C": "Espace péri-plasmique et d'une membrane externe", "D": "Peptidoglycane et protéines", "E": "Peptidoglycane et d'un espace péri-plasmique"}, "correct": "B"}, {"id": 26, "text": "Les bactéries sont des procaryotes pourvues de", "options": {"A": "Système vacuolaire", "B": "Mitochondries", "C": "Chloroplastes pour les synthèses énergétiques", "D": "Nucléoïde renfermant un seul chromosome", "E": "Noyau, réticulum endoplasmique et appareil de Golgi"}, "correct": "D"}, {"id": 27, "text": "Le peptidoglycane est un élément fondamental pour les bactéries", "options": {"A": "Complexe, il est constitué de molécules organisées sous forme de couche réticulée", "B": "C'est une seule macromolécule réticulée", "C": "Intervient dans les synthèses énergétiques de la bactérie", "D": "Dans la synthèse protéique", "E": "Sert au déterminisme antigénique chez les mycoplasmes"}, "correct": "B"}, {"id": 28, "text": "La paroi bactérienne est un élément clé de la cellule bactérienne intervient dans", "options": {"A": "La coloration différentielle de Gram", "B": "Les processus de déplacement", "C": "Les phénomènes de multiplication", "D": "La reproduction", "E": "Le transfert d'information génétique"}, "correct": "A"}, {"id": 29, "text": "La membrane cytoplasmique est semblable à toutes les autres est se caractérise par", "options": {"A": "Son intervention dans la division cellulaire et la respiration", "B": "Son rôle dans la coloration différentielle de Gram", "C": "Son rôle dans la fertilité", "D": "Sa multiplication dans la sporulation"}, "correct": "A"}, {"id": 30, "text": "Concernant les transposons", "options": {"A": "Un transposon est toujours localisé sur un plasmide", "B": "Un transposon code uniquement pour la résistance aux antibiotiques", "C": "Les transposons sont rencontrés uniquement chez les staphylocoques", "D": "Un transposon est un fragment d'ADN", "E": "Doués d'autoréplication"}, "correct": "D"}, {"id": 31, "text": "La paroi bactérienne est une structure caractérisant les organismes Procaryotes, constituée essentiellement de", "options": {"A": "Phospholipides", "B": "Protéines", "C": "Peptidoglycane", "D": "Glycopeptides", "E": "Polysaccharides"}, "correct": "C"}, {"id": 32, "text": "La membrane externe des bactéries à Gram négatif est", "options": {"A": "L'élément déterminant du pouvoir pathogène de ce type de microorganisme", "B": "L'élément de résistance aux antibiotiques", "C": "De constitution similaire aux autres membranes cellulaires", "D": "De différente constitution", "E": "La deuxième barrière osmotique"}, "correct": "A"}, {"id": 33, "text": "Le patrimoine génétique vital des bactéries est représenté par", "options": {"A": "Le plasmide", "B": "Les transposons", "C": "Les intégrons", "D": "Le plasmide, transposons, intégrons et chromosomes", "E": "Le chromosome"}, "correct": "E"}, {"id": 34, "text": "Le phénomène de sporulation caractérise les bactéries", "options": {"A": "Du genre Clostridium", "B": "Permettant une meilleure adaptation aux conditions défavorables", "C": "Et constitue une étape du cycle vital", "D": "Et témoigne de lyse bactérienne", "E": "De tout genre"}, "correct": "AB"}, {"id": 35, "text": "La paroi bactérienne existe chez toutes les bactéries à l'exception des Mollicutes. Elle représente", "options": {"A": "La première barrière osmotique de la bactérie", "B": "L'endotoxine des bactéries à Gram négatif", "C": "L'endotoxine des bactéries à Gram positif", "D": "Le lipopolysaccharide des bactéries", "E": "Le phospholipide"}, "correct": "B"}, {"id": 36, "text": "Le génome bactérien est représenté par le chromosome essentiellement. Le Plasmide est", "options": {"A": "Une réserve facultative de gènes surtout de résistance aux conditions défavorables", "B": "Présent chez toutes les bactéries", "C": "Un élément des bactéries à Gram positif", "D": "Un élément vital indispensable à la cellule bactérienne", "E": "Présent chez les cellules au repos"}, "correct": "A"}, {"id": 37, "text": "La formation de spore est un phénomène observé chez certaines bactéries", "options": {"A": "C'est une étape du cycle vital", "B": "C'est un élément de réponse à l'infection", "C": "C'est une forme de résistance", "D": "Elle renferme une très grande quantité de toxine", "E": "Elle est faite essentiellement de protéines"}, "correct": "C"}, {"id": 38, "text": "Structures périphériques de la bactérie responsables de sa fixation à la surface des cellules", "options": {"A": "La capsule", "B": "Les flagelles", "C": "Les mésosomes", "D": "Les pili", "E": "Les plasmides"}, "correct": "D"}, {"id": 39, "text": "La taxonomie bactérienne basée sur l'étude de l'ARN 16S comme matériel de choix pour", "options": {"A": "Sa taille relativement réduite", "B": "Sa structure", "C": "Son évolution relativement lente", "D": "Sa configuration", "E": "Son universalité"}, "correct": "ACE"}];
+        let currentQuestion = 1;
+        let score = 0;
+        let userAnswers = {};
+        let checkedQuestions = new Set();
+        const totalQuestions = questions.length;
+        
+        // Initialize
+        document.getElementById('totalQuestions').textContent = totalQuestions;
+        document.getElementById('totalQ').textContent = totalQuestions;
+        showQuestion(1);
+        updateProgress();
+        
+        function showQuestion(num) {
+            document.querySelectorAll('.question-card').forEach(q => q.classList.remove('active'));
+            const questionEl = document.getElementById('question' + num);
+            if (questionEl) {
+                questionEl.classList.add('active');
+                document.getElementById('currentQ').textContent = num;
+                updateSelectionDisplay(num);
+                if (checkedQuestions.has(num)) {
+                    showFeedback(num);
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function toggleOption(questionNum, option) {
+            if (checkedQuestions.has(questionNum)) return;
+            if (!userAnswers[questionNum]) {
+                userAnswers[questionNum] = [];
+            }
+            const idx = userAnswers[questionNum].indexOf(option);
+            if (idx > -1) {
+                userAnswers[questionNum].splice(idx, 1);
+            } else {
+                userAnswers[questionNum].push(option);
+                userAnswers[questionNum].sort();
+            }
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                opt.classList.toggle('selected', userAnswers[questionNum].includes(opt.dataset.option));
+            });
+            updateSelectionDisplay(questionNum);
+        }
+        
+        function updateSelectionDisplay(questionNum) {
+            const selection = userAnswers[questionNum] || [];
+            const text = selection.length > 0 ? selection.join(', ') : 'Aucune';
+            document.getElementById('selectionText' + questionNum).textContent = text;
+        }
+        
+        function checkAnswer(questionNum) {
+            if (checkedQuestions.has(questionNum)) return;
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const correctSet = new Set(correctAnswer.split(''));
+            const userSet = new Set(selection);
+            let correctSelected = 0;
+            let wrongSelected = 0;
+            userSet.forEach(letter => {
+                if (correctSet.has(letter)) {
+                    correctSelected++;
+                } else {
+                    wrongSelected++;
+                }
+            });
+            const totalCorrect = correctSet.size;
+            const totalWrong = 5 - totalCorrect;
+            let partialScore = (correctSelected / totalCorrect) - (wrongSelected / totalWrong);
+            partialScore = Math.max(0, partialScore);
+            score += partialScore;
+            checkedQuestions.add(questionNum);
+            showFeedback(questionNum);
+            updateProgress();
+            if (checkedQuestions.size === totalQuestions) {
+                showResults();
+            }
+        }
+        
+        function showFeedback(questionNum) {
+            const correctAnswer = questions[questionNum - 1].correct;
+            const selection = userAnswers[questionNum] || [];
+            const feedbackEl = document.getElementById('feedback' + questionNum);
+            const isCorrect = selection.join('') === correctAnswer;
+            if (isCorrect) {
+                feedbackEl.innerHTML = '<span style="color: #16c79a;">✓ Correct!</span>';
+            } else {
+                feedbackEl.innerHTML = '<span style="color: #e94560;">✗ Incorrect. Réponse: ' + correctAnswer.split('').join(', ') + '</span>';
+            }
+            feedbackEl.style.display = 'block';
+            document.querySelectorAll('#question' + questionNum + ' .option').forEach(opt => {
+                const letter = opt.dataset.option;
+                if (correctAnswer.includes(letter)) {
+                    opt.classList.add('correct');
+                } else if (userAnswers[questionNum] && userAnswers[questionNum].includes(letter)) {
+                    opt.classList.add('incorrect');
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const progress = (checkedQuestions.size / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        function showResults() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            const resultCard = document.getElementById('resultCard');
+            resultCard.style.display = 'block';
+            document.getElementById('score').textContent = score.toFixed(2);
+            const percentage = (score / totalQuestions) * 100;
+            let message = '';
+            if (percentage >= 80) message = 'Excellent travail! 🌟';
+            else if (percentage >= 60) message = 'Bon travail! 👍';
+            else if (percentage >= 40) message = 'Continuez à réviser! 📚';
+            else message = 'Encore un peu de travail! 💪';
+            document.getElementById('resultMessage').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers = {};
+            checkedQuestions = new Set();
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.style.display = 'none';
+                fb.innerHTML = '';
+            });
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.progress-container').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            showQuestion(1);
+            updateProgress();
+        }
+    </script>
+</body>
+</html>
